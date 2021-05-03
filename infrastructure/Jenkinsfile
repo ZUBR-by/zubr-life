@@ -12,9 +12,10 @@ pipeline {
         steps {
             sh 'yarn'
             sh 'yarn run deploy'
+            sh 'make compose-up-ci'
+            sh 'make compose-composer-ci'
             dir('api'){
-                sh 'composer install --no-dev -a'
-            writeFile file: 'hosts', text: """
+            writeFile file: '.env', text: """
 LOCALITY_BOT_TOKEN=${LOCALITY_BOT_TOKEN}
 LOCALITY_GROUP_ID=${LOCALITY_GROUP_ID}
 APP_ENV=prod
@@ -41,6 +42,7 @@ $FRONTEND_HOST
   }
   post {
     always {
+      sh 'make compose-down-ci'
       notifyBuild(currentBuild.result)
     }
   }

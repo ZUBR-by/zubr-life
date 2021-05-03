@@ -11,7 +11,7 @@ use Telegram\Bot\Api;
 
 require __DIR__ . '/vendor/autoload.php';
 
-(new Dotenv())->load(__DIR__ . '/.env');
+(new Dotenv())->load('.env');
 
 class Kernel extends BaseKernel
 {

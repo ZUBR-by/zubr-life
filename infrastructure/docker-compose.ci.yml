@@ -1,0 +1,27 @@
+version: '3.4'
+
+services:
+  nginx:
+    image: nginx:1.19-alpine
+    ports:
+      - "9030:80"
+    volumes:
+      - ./nginx/conf.d:/etc/nginx/conf.d:ro
+      - ./../:/app:ro
+    networks:
+      - backend
+
+  php:
+    build:
+      context: './../'
+      dockerfile: 'infrastructure/php/Dockerfile'
+    networks:
+      - backend
+    user: ${HOST_UID}
+    command: ["php-fpm", "--allow-to-run-as-root"]
+    volumes:
+      - "../.:/app"
+
+networks:
+  backend:
+    driver: bridge

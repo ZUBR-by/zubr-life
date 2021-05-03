@@ -14,13 +14,12 @@ RUN docker-php-ext-install \
 
 RUN yes | pecl install xdebug
 
-WORKDIR /app
+WORKDIR /app/api
 
 ENV COMPOSER_ALLOW_SUPERUSER 1
 
 RUN curl --silent --show-error https://getcomposer.org/installer | \
     php -- --install-dir=/usr/bin/ --filename=composer && \
-    composer global require hirak/prestissimo && \
     composer clear-cache
 
 COPY infrastructure/php/config/www.conf /usr/local/etc/php-fpm.d/www.conf
