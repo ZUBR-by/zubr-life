@@ -5,9 +5,21 @@ pipeline {
   }
   stages {
     stage('Build') {
+        environment {
+            LOCALITY_BOT_TOKEN  = credentials('LOCALITY_BOT_TOKEN')
+            LOCALITY_GROUP_ID   = credentials('LOCALITY_GROUP_ID')
+        }
         steps {
             sh 'yarn'
             sh 'yarn run deploy'
+            dir('api'){
+                sh 'composer install --no-dev -a'
+            writeFile file: 'hosts', text: """
+LOCALITY_BOT_TOKEN=${LOCALITY_BOT_TOKEN}
+LOCALITY_GROUP_ID=${LOCALITY_GROUP_ID}
+APP_ENV=prod
+"""
+            }
         }
     }
     stage('Deploy') {
@@ -35,7 +47,6 @@ $FRONTEND_HOST
 }
 
 def notifyBuild(def buildStatus) {
-    // set default of build status
     buildStatus =  buildStatus ?: 'SUCCESS'
     GIT_COMMIT_MSG = sh (
         script: "git log --format=format:%s -1 ${GIT_COMMIT}",
