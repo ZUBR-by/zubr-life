@@ -58,6 +58,7 @@ class Kernel extends BaseKernel
 
         $check_hash = $auth_data['hash'];
         unset($auth_data['hash']);
+        unset($auth_data['/login']);
         $data_check_arr = [];
         foreach ($auth_data as $key => $value) {
             $data_check_arr[] = $key . '=' . $value;
