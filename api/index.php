@@ -76,6 +76,8 @@ class Kernel extends BaseKernel
                 'error' => 'Data is outdated',
             ]);
         }
+
+        return new \Symfony\Component\HttpFoundation\RedirectResponse('/');
         try {
             $info = $telegram->getChatMember(
                 ['chat_id' => $_ENV['LOCALITY_GROUP_ID'], 'user_id' => 1307520449]
