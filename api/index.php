@@ -40,7 +40,7 @@ class Kernel extends BaseKernel
         return new JsonResponse([]);
     }
 
-    public function login(Request $request) : JsonResponse
+    public function login(Request $request) : \Symfony\Component\HttpFoundation\Response
     {
         syslog(
             LOG_INFO,
