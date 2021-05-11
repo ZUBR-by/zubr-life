@@ -22,7 +22,11 @@ class DisplayWidget extends AbstractController
                 json_encode($request->query->all()),
                 time() + 86400 * 30,
                 '/',
-                '.zubr.life'
+                '.zubr.life',
+                true,
+                true,
+                false,
+                'strict'
             )
         );
 
