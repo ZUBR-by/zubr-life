@@ -20,9 +20,9 @@ class DisplayWidget extends AbstractController
             new Cookie(
                 'token',
                 json_encode($request->query->all()),
-                36000,
+                time() + 86400 * 30,
                 '/',
-                'new.zubr.life'
+                '.zubr.life'
             )
         );
 
