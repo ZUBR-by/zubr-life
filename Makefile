@@ -10,7 +10,7 @@ compose-down:
  	down
 
 compose-composer-ci:
-	docker exec --user "$$(id -u):$$(id -g)" locality_php_1 composer install -a --no-dev --no-interaction
+	docker exec --user "$$(id -u):$$(id -g)" locality_php_1 composer install -a --no-dev --no-interaction --no-scripts
 
 compose-up-ci:
 	COMPOSE_PROJECT_NAME=locality \

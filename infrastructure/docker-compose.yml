@@ -4,7 +4,8 @@ services:
   nginx:
     image: nginx:1.19-alpine
     ports:
-      - "9030:80"
+      - "9031:80"
+      - "9030:81"
     volumes:
       - ./nginx/conf.d:/etc/nginx/conf.d:ro
       - ./../:/app:ro

@@ -1,55 +1,19 @@
 <?php
 
-use Symfony\Bundle\FrameworkBundle\Kernel\MicroKernelTrait;
-use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
-use Symfony\Component\Dotenv\Dotenv;
-use Symfony\Component\HttpFoundation\JsonResponse;
-use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpKernel\Kernel as BaseKernel;
-use Symfony\Component\Routing\Loader\Configurator\RoutingConfigurator;
-use Telegram\Bot\Api;
+namespace App;
 
-require __DIR__ . '/vendor/autoload.php';
-
-(new Dotenv())->load('.env');
-
-class Kernel extends BaseKernel
+class LoginAction
 {
-    use MicroKernelTrait;
-
-    public function registerBundles() : array
-    {
-        return [
-            new Symfony\Bundle\FrameworkBundle\FrameworkBundle(),
-        ];
-    }
-
-    protected function configureContainer(ContainerConfigurator $c) : void
-    {
-        $c->extension('framework', ['secret' => 'S0ME_SECRET']);
-    }
-
-    protected function configureRoutes(RoutingConfigurator $routes) : void
-    {
-        $routes->add('login', '/login')->controller([$this, 'login']);
-        $routes->add('index', '/')->controller([$this, 'index']);
-    }
-
-    public function index() : JsonResponse
-    {
-        return new JsonResponse([]);
-    }
-
-    public function login(Request $request) : \Symfony\Component\HttpFoundation\Response
+    public function __invoke()
     {
         syslog(
             LOG_INFO,
             json_encode(
                 [
-                'r' => $request->request->all(),
-                'q' => $request->query->all(),
-                'c' => $request->getContent()
-            ],
+                    'r' => $request->request->all(),
+                    'q' => $request->query->all(),
+                    'c' => $request->getContent()
+                ],
                 JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES
             )
         );
@@ -96,9 +60,3 @@ class Kernel extends BaseKernel
         return $response;
     }
 }
-
-$kernel   = new Kernel($_ENV['APP_ENV'], $_ENV['APP_ENV'] === 'dev');
-$request  = Request::createFromGlobals();
-$response = $kernel->handle($request);
-$response->send();
-$kernel->terminate($request, $response);
