@@ -14,8 +14,7 @@ class DisplayWidget extends AbstractController
     {
         $response = new RedirectResponse(
             'https://new.zubr.life',
-            Response::HTTP_FOUND,
-            ['Access-Control-Allow-Origin' => '*']
+            Response::HTTP_FOUND
         );
         $response->headers->setCookie(
             new Cookie(
@@ -23,7 +22,7 @@ class DisplayWidget extends AbstractController
                 json_encode($request->query->all()),
                 36000,
                 '/',
-                '.zubr.life'
+                'new.zubr.life'
             )
         );
 
