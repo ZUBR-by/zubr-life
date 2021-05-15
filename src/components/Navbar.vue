@@ -2,7 +2,9 @@
     <div class="box is-radiusless zbr-hdr">
         <div class="columns is-align-items-center	">
             <div class="column pl-6">
-                <img class="zbr-h-logo" src="/imgs/icons/svg/zubr-h-logo.svg">
+                <a href="/">
+                    <img class="zbr-h-logo" src="/imgs/icons/svg/zubr-h-logo.svg">
+                </a>
                 <div class="has-text-weight-medium pr-6 is-hidden-desktop">
                     <input id="brgrbtn" class="is-hidden-desktop" type="checkbox">
                     <label for="brgrbtn" class="burger-button is-hidden-desktop mr-5">
