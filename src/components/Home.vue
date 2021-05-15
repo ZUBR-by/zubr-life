@@ -144,10 +144,67 @@
             </div>
             <div class="column is-three-quarters">
                 <div style="position:relative;overflow:hidden;">
-                    <a href="https://yandex.by/maps/157/minsk/?utm_medium=mapframe&utm_source=maps" style="color:#eee;font-size:12px;position:absolute;top:0px;">Минск</a><a href="https://yandex.by/maps/157/minsk/?ll=27.561481%2C53.902496&utm_medium=mapframe&utm_source=maps&z=12" style="color:#eee;font-size:12px;position:absolute;top:14px;">Яндекс.Карты — поиск мест и адресов, городской транспорт</a>
-                    <iframe src="https://yandex.by/map-widget/v1/-/CBRwfTX5XB" width="100%" height="600" frameborder="1" allowfullscreen="true" style="position:relative;"></iframe>
+                    <div id="map" style="width: 100%;height: 600px"></div>
                 </div>
             </div>
         </div>
     </div>
 </template>
+
+<script>
+import 'ol/ol.css';
+import Map            from 'ol/Map';
+import OSM            from 'ol/source/OSM';
+import TileLayer      from 'ol/layer/Tile';
+import View           from 'ol/View';
+import MouseWheelZoom from 'ol/interaction/MouseWheelZoom';
+import {defaults}     from 'ol/interaction';
+
+export default {
+    methods: {
+        center() {
+            console.log(this.map.getView().getCenter())
+        }
+    },
+    data() {
+        return {
+            map: null
+        }
+    },
+    mounted() {
+        let i = new MouseWheelZoom();
+
+        var oldFn     = i.handleEvent;
+        i.handleEvent = function (e) {
+            var type = e.type;
+            if (type !== "wheel" && type !== "wheel") {
+                return true;
+            }
+
+            if (!e.originalEvent.ctrlKey) {
+                return true
+            }
+
+            oldFn.call(this, e);
+        }
+
+        this.map = new Map({
+            interactions: defaults({mouseWheelZoom: false}).extend([i]),
+            layers      : [
+                new TileLayer({
+                    source: new OSM(),
+                })],
+            target      : 'map',
+            view        : new View({
+                center    : [
+                    3069707.4297911962,
+                    7140262.185605532
+                ],
+                zoom      : 14.7,
+                projection: 'EPSG:3857'
+            }),
+        });
+
+    }
+}
+</script>
