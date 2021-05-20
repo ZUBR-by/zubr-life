@@ -6,8 +6,9 @@ pipeline {
   stages {
     stage('Build') {
         environment {
-            LOCALITY_BOT_TOKEN  = credentials('LOCALITY_BOT_TOKEN')
-            LOCALITY_GROUP_ID   = credentials('LOCALITY_GROUP_ID')
+            LOCALITY_BOT_TOKEN = credentials('LOCALITY_BOT_TOKEN')
+            LOCALITY_GROUP_ID  = credentials('LOCALITY_GROUP_ID')
+            DATABASE_URL       = credentials('LIFE_DATABASE_URL')
         }
         steps {
             sh 'yarn'
@@ -18,6 +19,7 @@ pipeline {
             writeFile file: '.env', text: """
 LOCALITY_BOT_TOKEN=${LOCALITY_BOT_TOKEN}
 LOCALITY_GROUP_ID=${LOCALITY_GROUP_ID}
+DATABASE_URL="${DATABASE_URL}"
 APP_ENV=prod
 """
             }
