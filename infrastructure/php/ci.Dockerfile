@@ -1,4 +1,4 @@
-FROM php:7.4-fpm
+FROM php:7.4-cli
 
 RUN apt-get update \
     && apt-get install -y libpq-dev libgmp-dev libonig-dev libpng-dev libicu-dev zlib1g-dev libzip-dev git zip \
@@ -22,11 +22,4 @@ RUN curl --silent --show-error https://getcomposer.org/installer | \
     php -- --install-dir=/usr/bin/ --filename=composer && \
     composer clear-cache
 
-COPY infrastructure/php/config/www.conf /usr/local/etc/php-fpm.d/www.conf
-CMD ["php-fpm", "--allow-to-run-as-root"]
-
-ADD api/composer.json api/composer.lock ./
-RUN composer install --no-scripts --no-autoloader --no-suggest && \
-    composer clear-cache
 COPY . /app/
-RUN composer dump-autoload --optimize

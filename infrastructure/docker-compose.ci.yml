@@ -14,7 +14,7 @@ services:
   php:
     build:
       context: './../'
-      dockerfile: 'infrastructure/php/Dockerfile'
+      dockerfile: 'infrastructure/php/ci.Dockerfile'
     networks:
       - backend
     user: ${HOST_UID}

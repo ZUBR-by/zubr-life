@@ -10,7 +10,7 @@ pipeline {
             LOCALITY_GROUP_ID      = credentials('LOCALITY_GROUP_ID')
             DATABASE_URL           = credentials('LIFE_DATABASE_URL')
             VITE_BOT_NAME          = credentials('LIFE_BOT_NAME')
-            VITE_TELEGRAM_AUTH_URL = 'https://api.zubr.life/widget'
+            VITE_TELEGRAM_AUTH_URL = 'https://api.zubr.life/login'
         }
         steps {
             sh 'yarn'

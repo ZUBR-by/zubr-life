@@ -1,3 +1,6 @@
 index:
     path: /widget
     controller: App\DisplayWidget
+
+api_login:
+    path: /login
