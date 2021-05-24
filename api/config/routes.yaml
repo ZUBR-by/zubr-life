@@ -1,5 +1,9 @@
+widget:
+    path: /private/widget
+    controller: App\DisplayWidget
+
 index:
-    path: /widget
+    path: /
     controller: App\DisplayWidget
 
 api_login:

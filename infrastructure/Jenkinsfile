@@ -4,6 +4,21 @@ pipeline {
     disableConcurrentBuilds()
   }
   stages {
+
+    stage('Test') {
+        steps {
+            sh 'rm -rf api/.env'
+            sh 'touch api/.env'
+            withCredentials([file(credentialsId: 'LIFE_PRIVATE_KEY', variable: 'privkey'),
+                             file(credentialsId: 'LIFE_PUBLIC_KEY', variable: 'pubkey')]) {
+                writeFile file: 'api/config/jwt/private.pem', text: readFile(privkey)
+                writeFile file: 'api/config/jwt/public.pem', text: readFile(pubkey)
+            }
+            sh 'make compose-up-ci'
+            sh 'make compose-composer-dev'
+            sh 'make compose-phpunit'
+        }
+    }
     stage('Build') {
         environment {
             LOCALITY_BOT_TOKEN     = credentials('LOCALITY_BOT_TOKEN')
@@ -15,14 +30,16 @@ pipeline {
         steps {
             sh 'yarn'
             sh 'yarn build'
-            sh 'make compose-up-ci'
             sh 'make compose-composer-ci'
             dir('api'){
-            writeFile file: '.env', text: """
+                writeFile file: '.env', text: """
 LOCALITY_BOT_TOKEN=${LOCALITY_BOT_TOKEN}
 LOCALITY_GROUP_ID=${LOCALITY_GROUP_ID}
 DATABASE_URL="${DATABASE_URL}"
+DOMAIN=new.zubr.life
 APP_ENV=prod
+JWT_SECRET_KEY=%kernel.project_dir%/config/jwt/private.pem
+JWT_PUBLIC_KEY=%kernel.project_dir%/config/jwt/public.pem
 """
             }
         }

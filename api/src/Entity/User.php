@@ -28,6 +28,11 @@ class User implements UserInterface
      */
     private array $params;
 
+    public function __construct(int $id)
+    {
+        $this->id = $id;
+    }
+
     public function getRoles(): array
     {
         return ['ROLE_USER'];

@@ -4,3 +4,4 @@ api/.env
 api/var
 dist
 dist-ssr
+api/config/jwt/*.pem

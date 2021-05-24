@@ -18,6 +18,8 @@ WORKDIR /app/api
 
 ENV COMPOSER_ALLOW_SUPERUSER 1
 
+RUN sed -i 's/variables_order = "GPCS"/variables_order = "EGPCS"/g' $PHP_INI_DIR/php.ini
+
 RUN curl --silent --show-error https://getcomposer.org/installer | \
     php -- --install-dir=/usr/bin/ --filename=composer && \
     composer clear-cache

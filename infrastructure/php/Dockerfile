@@ -12,7 +12,7 @@ RUN docker-php-ext-install \
         bcmath \
         intl zip gd
 
-RUN yes | pecl install xdebug
+RUN yes | pecl install xdebug-3.0.4
 
 WORKDIR /app/api
 

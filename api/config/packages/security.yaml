@@ -10,9 +10,8 @@ security:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
             security: false
         main:
-            lazy: true
+            pattern: ^/private/*
             logout: ~
-            anonymous: false
             guard:
                 authenticators:
                     - App\TelegramAuthentication

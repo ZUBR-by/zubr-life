@@ -24,7 +24,7 @@ services:
     environment:
       XDEBUG_CONFIG: client_host=host.docker.internal
       PHP_IDE_CONFIG: serverName=symfony-life
-    command: ["php-fpm", "--allow-to-run-as-root", "-d", "zend_extension=xdebug.so"]
+    command: ["php-fpm", "--allow-to-run-as-root", "-d", "zend_extension=xdebug.so", "-d", "xdebug.mode=develop,debug"]
     volumes:
       - "../.:/app"
 
