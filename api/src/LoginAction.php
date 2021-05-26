@@ -67,9 +67,14 @@ class LoginAction extends AbstractController
             $data[] = $key . '=' . $value;
         }
         sort($data);
-        $secretKey = \Psl\Hash\hash($botToken, 'sha256');
-        if (strcmp(\Psl\Hash\Hmac\hash(implode("\n", $data), 'sha256', $secretKey), $checkHash) !== 0) {
-            return new InvalidCredentials('Data is NOT from Telegram');
+        $data_check_string = implode("\n", $data);
+
+        $secretKey = hash('sha256', $botToken, true);
+        $hash      = hash_hmac('sha256', $data_check_string, $secretKey);
+        if (strcmp($hash, $checkHash) !== 0) {
+            return new InvalidCredentials(
+                sprintf('Data is NOT from Telegram expected: %s, actual %s', $checkHash, $hash)
+            );
         }
         if ((time() - $credentials['auth_date']) > 86400) {
             return new InvalidCredentials('Data is outdated');
