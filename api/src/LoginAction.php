@@ -2,61 +2,76 @@
 
 namespace App;
 
-class LoginAction
+use App\Entity\User;
+use App\Errors\InvalidCredentials;
+use Doctrine\ORM\EntityManagerInterface;
+use Firebase\JWT\JWT;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Cookie;
+use Symfony\Component\HttpFoundation\RedirectResponse;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
+use Throwable;
+
+class LoginAction extends AbstractController
 {
-    public function __invoke()
-    {
-        syslog(
-            LOG_INFO,
-            json_encode(
-                [
-                    'r' => $request->request->all(),
-                    'q' => $request->query->all(),
-                    'c' => $request->getContent()
-                ],
-                JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES
+    public function __invoke(
+        Request $request,
+        string $botToken,
+        string $domain,
+        EntityManagerInterface $em,
+        string $privateKey
+    ): Response {
+        $credentials = $request->query->all();
+        $response    = new RedirectResponse('https://' . $domain, Response::HTTP_FOUND);
+        $error       = $this->checkCredentials($credentials, $botToken);
+        if ($error) {
+            $response->setTargetUrl('https://' . $domain . '?error=auth');
+            return $response;
+        }
+        $user = $em->getRepository(User::class)->find($credentials['id']);
+        if (! $user) {
+            $user = new User($credentials['id']);
+            $em->persist($user);
+            $em->flush();
+        }
+        $response->headers->setCookie(
+            new Cookie(
+                'AUTH_TOKEN',
+                JWT::encode($credentials, file_get_contents($privateKey), 'RS256'),
+                time() + 86400 * 30,
+                '/',
+                '.zubr.life',
+                true,
+                true,
+                false,
+                'strict'
             )
         );
-        $auth_data = $request->query->all();
-        $telegram  = new Api($_ENV['LOCALITY_BOT_TOKEN']);
-
-        $check_hash = $auth_data['hash'];
-        unset($auth_data['hash']);
-        unset($auth_data['/login']);
-        $data_check_arr = [];
-        foreach ($auth_data as $key => $value) {
-            $data_check_arr[] = $key . '=' . $value;
-        }
-        sort($data_check_arr);
-        $data_check_string = implode("\n", $data_check_arr);
-        $secret_key        = hash('sha256', $_ENV['LOCALITY_BOT_TOKEN'], true);
-        $hash              = hash_hmac('sha256', $data_check_string, $secret_key);
-        if (strcmp($hash, $check_hash) !== 0) {
-            return new JsonResponse([
-                'error' => 'Data is NOT from Telegram',
-            ]);
-        }
-        if ((time() - $auth_data['auth_date']) > 86400) {
-            return new JsonResponse([
-                'error' => 'Data is outdated',
-            ]);
-        }
-
-        return new \Symfony\Component\HttpFoundation\RedirectResponse('/');
-        try {
-            $info = $telegram->getChatMember(
-                ['chat_id' => $_ENV['LOCALITY_GROUP_ID'], 'user_id' => 1307520449]
-            );
-        } catch (Throwable $e) {
-            return new JsonResponse([
-                'error' => $e->getMessage(),
-            ]);
-        }
-        $response = new JsonResponse([
-            'auth' => $auth_data,
-            'chat' => $info,
-        ]);
 
         return $response;
+    }
+
+    public function checkCredentials(array $credentials, string $botToken): ?Throwable
+    {
+        if (! isset($credentials['hash'], $credentials['id'])) {
+            return new InvalidCredentials();
+        }
+        $checkHash = $credentials['hash'];
+        unset($credentials['hash']);
+        $data = [];
+        foreach ($credentials as $key => $value) {
+            $data[] = $key . '=' . $value;
+        }
+        sort($data);
+        $secretKey = \Psl\Hash\hash($botToken, 'sha256');
+        if (strcmp(\Psl\Hash\Hmac\hash(implode("\n", $data), 'sha256', $secretKey), $checkHash) !== 0) {
+            return new InvalidCredentials('Data is NOT from Telegram');
+        }
+        if ((time() - $credentials['auth_date']) > 86400) {
+            return new InvalidCredentials('Data is outdated');
+        }
+
+        return null;
     }
 }

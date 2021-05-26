@@ -31,3 +31,6 @@ compose-dev-build:
 	COMPOSE_PROJECT_NAME=locality \
 	HOST_UID=$$(id -u $${USER}):$$(id -g $${USER}) \
 	docker-compose -f infrastructure/docker-compose.yml build
+
+phpunit:
+	api/vendor/bin/phpunit --configuration api/phpunit.xml

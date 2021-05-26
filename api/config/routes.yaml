@@ -8,3 +8,9 @@ index:
 
 api_login:
     path: /login
+    controller: App\LoginAction
+
+add_comment:
+    path: /comment
+    controller: App\AddComment
+    methods: [POST]
