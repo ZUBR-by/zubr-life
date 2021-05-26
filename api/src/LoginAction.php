@@ -6,6 +6,7 @@ use App\Entity\User;
 use App\Errors\InvalidCredentials;
 use Doctrine\ORM\EntityManagerInterface;
 use Firebase\JWT\JWT;
+use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Cookie;
 use Symfony\Component\HttpFoundation\RedirectResponse;
@@ -20,12 +21,14 @@ class LoginAction extends AbstractController
         string $botToken,
         string $domain,
         EntityManagerInterface $em,
+        LoggerInterface $logger,
         string $privateKey
     ): Response {
         $credentials = $request->query->all();
         $response    = new RedirectResponse('https://' . $domain, Response::HTTP_FOUND);
         $error       = $this->checkCredentials($credentials, $botToken);
         if ($error) {
+            $logger->error($error->__toString());
             $response->setTargetUrl('https://' . $domain . '?error=auth');
             return $response;
         }
