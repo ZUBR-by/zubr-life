@@ -15,6 +15,7 @@ class Ad
      * @ORM\Column(name="id", type="integer", nullable=false)
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
+     * @psalm-suppress PropertyNotSetInConstructor
      */
     private int $id;
 
@@ -31,22 +32,22 @@ class Ad
     /**
      * @ORM\Column(type="decimal", nullable=true, precision=11, scale=8)
      */
-    private ?float $longitude;
+    private ?float $longitude = null;
 
     /**
      * @ORM\Column(type="decimal", nullable=true, precision=11, scale=8)
      */
-    private ?float $latitude;
+    private ?float $latitude = null;
 
     /**
      * @ORM\Column(type="json", options={"default" : "[]"})
      */
-    private array $attachments;
+    private array $attachments = [];
 
     /**
      * @ORM\Column(type="json", options={"default" : "{}"})
      */
-    private array $params;
+    private array $params = [];
 
     /**
      * @ORM\ManyToOne(targetEntity="User")
@@ -64,6 +65,13 @@ class Ad
     /**
      * @ORM\Column(type="datetime", nullable=true)
      */
-    private ?DateTime $hiddenAt;
+    private ?DateTime $hiddenAt = null;
 
+    public function __construct(User $user, string $name, string $description)
+    {
+        $this->user        = $user;
+        $this->name        = $name;
+        $this->description = $description;
+        $this->createdAt   = new DateTime();
+    }
 }

@@ -1,6 +1,6 @@
 <template>
     <div class="box is-radiusless zbr-hdr">
-        <div class="columns is-align-items-center	">
+        <div class="columns is-align-items-center">
             <div class="column pl-6">
                 <a href="/">
                     <img class="zbr-h-logo" src="/imgs/icons/svg/zubr-h-logo.svg">
@@ -19,7 +19,9 @@
                                 Разделы сайта
                             </p>
                             <ul class="menu-list">
-                                <li><a href="/help">Нужна помощь</a></li>
+                                <li>
+                                    <router-link :to="'/ad'">Объявления</router-link>
+                                </li>
                                 <li><a href="">Готовы помочь</a></li>
                                 <li><a href="">О проекте</a></li>
                             </ul>
@@ -29,7 +31,8 @@
             </div>
             <div class="column has-text-right has-text-weight-medium pr-6 is-hidden-mobile">
                 <a id="widget"></a>
-                <a href="/help">Нужна помощь</a>
+                <router-link class="ml-5" :to="'/'">Главная</router-link>
+                <router-link class="ml-5" :to="'/ad'">Объявления</router-link>
                 <a class="ml-5" href="#">Готовы помочь</a>
                 <a class="ml-5" href="#">О проекте</a>
             </div>

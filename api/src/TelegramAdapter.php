@@ -2,6 +2,7 @@
 
 namespace App;
 
+use Psr\Log\LoggerInterface;
 use Telegram\Bot\Api;
 use Telegram\Bot\Exceptions\TelegramResponseException;
 
@@ -9,11 +10,16 @@ class TelegramAdapter
 {
     private Api $api;
     private array $allowedGroups;
+    /**
+     * @var LoggerInterface
+     */
+    private LoggerInterface $logger;
 
-    public function __construct(string $botToken, array $allowedGroups)
+    public function __construct(string $botToken, array $allowedGroups, LoggerInterface $logger)
     {
         $this->api           = new Api($botToken);
         $this->allowedGroups = $allowedGroups;
+        $this->logger        = $logger;
     }
 
     public function isUserInAllowedGroups(int $userId): bool
@@ -25,6 +31,7 @@ class TelegramAdapter
                 );
                 return true;
             } catch (TelegramResponseException $e) {
+                $this->logger->error($e->__toString(), ['id' => $userId, 'group' => $group]);
                 continue;
             }
         }

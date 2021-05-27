@@ -14,3 +14,13 @@ add_comment:
     path: /comment
     controller: App\AddComment
     methods: [POST]
+
+ad_add:
+    path: /ad
+    controller: App\Ad\AddAdAction
+    methods: [POST, OPTIONS]
+
+ad_list:
+    path: /ad
+    controller: App\Ad\GetListAction
+    methods: [GET]

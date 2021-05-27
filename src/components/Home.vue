@@ -1,10 +1,10 @@
 <template>
-    <div class="section zbr-promo ">
+    <div class="section zbr-promo">
         <div class="columns">
             <div class="column is-three-fifths">
                 <div class="content is-medium">
                     <h1 class="pl-5 pb-5 has-text-weight-bold">
-                        Гражданская платформа поддержки частных инициатив и взаимопомощи
+                        Экран местного самоуправления
                     </h1>
                     <ul class="pr-6">
                         <li class="pb-3">
@@ -28,7 +28,7 @@
             <div class="column">
                 <div class="content">
                     <h1>
-                        Объявления
+                        Последние объявления
                     </h1>
                     <div class="announcements">
                         <a href="#" class="box">
@@ -48,7 +48,7 @@
                         </a>
                     </div>
                     <div class="pt-5">
-                        <a class="button is-fullwidth">Еще</a>
+                        <router-link class="button is-fullwidth" :to="'/ad'">Еще</router-link>
                     </div>
                 </div>
             </div>
@@ -142,9 +142,9 @@
                     </div>
                 </div>
             </div>
-            <div class="column is-three-quarters">
+            <div class="column is-four-fifths">
                 <div style="position:relative;overflow:hidden;">
-                    <div id="map" style="width: 100%;height: 600px"></div>
+                    <div id="map" style="width: 100%;height: 700px"></div>
                 </div>
             </div>
         </div>
