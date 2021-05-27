@@ -40,7 +40,7 @@ DOMAIN=new.zubr.life
 APP_ENV=prod
 JWT_SECRET_KEY=%kernel.project_dir%/config/jwt/private.pem
 JWT_PUBLIC_KEY=%kernel.project_dir%/config/jwt/public.pem
-CORS_ALLOW_ORIGIN='^https?://(new.zubr.life)?$'
+CORS_ALLOW_ORIGIN='^https?://(new.zubr.life)'
 """
             }
         }
@@ -50,12 +50,9 @@ CORS_ALLOW_ORIGIN='^https?://(new.zubr.life)?$'
             FRONTEND_HOST  = credentials('FRONTEND_HOST')
         }
         steps {
-            writeFile file: 'hosts', text: """
-$FRONTEND_HOST
-"""
             ansiblePlaybook(
                   playbook: 'infrastructure/deploy.yml',
-                  inventory: "hosts",
+                  inventory: "$FRONTEND_HOST,",
                   credentialsId: "SSH_PRIVATE_KEY",
                   hostKeyChecking: false
             )
