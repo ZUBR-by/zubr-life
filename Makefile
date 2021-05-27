@@ -34,3 +34,6 @@ compose-dev-build:
 
 phpunit:
 	api/vendor/bin/phpunit --configuration api/phpunit.xml
+
+psalm:
+	api/vendor/bin/psalm --show-info=true -c infrastructure/psalm.xml

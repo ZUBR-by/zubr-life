@@ -41,7 +41,8 @@
         "doctrine/doctrine-fixtures-bundle": "^3.4",
         "phpunit/phpunit": "^9.5",
         "symfony/phpunit-bridge": "^5.2",
-        "symfony/stopwatch": "^5.2"
+        "symfony/stopwatch": "^5.2",
+        "vimeo/psalm": "^4.0"
     },
     "config": {
         "optimize-autoloader": true,

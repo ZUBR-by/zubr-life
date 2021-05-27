@@ -34,7 +34,7 @@ class GetUser implements ArgumentValueResolverInterface
     public function resolve(Request $request, ArgumentMetadata $argument): iterable
     {
         $decoded = (array) JWT::decode(
-            $request->cookies->get('AUTH_TOKEN'),
+            (string) $request->cookies->get('AUTH_TOKEN'),
             $this->publicKey,
             ['RS256']
         );

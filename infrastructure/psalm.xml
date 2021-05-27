@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<psalm
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        totallyTyped="false"
+        xmlns="https://getpsalm.org/schema/config"
+        xsi:schemaLocation="https://getpsalm.org/schema/config ../vendor/vimeo/psalm/config.xsd"
+>
+    <projectFiles>
+        <directory name="./../api/src"/>
+        <file name="./../api/bin/console"/>
+        <ignoreFiles>
+            <directory name="./../api/vendor"/>
+        </ignoreFiles>
+    </projectFiles>
+    <issueHandlers>
+        <MissingConstructor errorLevel="suppress"/>
+    </issueHandlers>
+</psalm>

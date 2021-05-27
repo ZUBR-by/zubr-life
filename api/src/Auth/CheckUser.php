@@ -38,7 +38,7 @@ class CheckUser implements EventSubscriberInterface
             }
             try {
                 $decoded = (array) JWT::decode(
-                    $request->cookies->get('AUTH_TOKEN'),
+                    (string) $request->cookies->get('AUTH_TOKEN'),
                     $this->publicKey,
                     ['RS256']
                 );

@@ -38,6 +38,7 @@ class Person
     private array $attachments;
 
     /**
+     * @var Organization[]
      * @ORM\ManyToMany(targetEntity="Organization")
      * @ORM\JoinTable(name="persons_organizations",
      *      joinColumns={@ORM\JoinColumn(name="person_id", referencedColumnName="id")},

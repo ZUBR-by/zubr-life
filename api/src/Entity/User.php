@@ -27,9 +27,10 @@ class User
      */
     private array $params;
 
-    public function __construct(int $id, array $params = [])
+    public function __construct(int $id, array $params = [], ?DateTime $bannedAt = null)
     {
-        $this->id     = $id;
-        $this->params = $params;
+        $this->id       = $id;
+        $this->params   = $params;
+        $this->bannedAt = $bannedAt;
     }
 }
