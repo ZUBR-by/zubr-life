@@ -34,7 +34,7 @@ pipeline {
             dir('api'){
                 writeFile file: '.env', text: """
 LOCALITY_BOT_TOKEN=${LOCALITY_BOT_TOKEN}
-LOCALITY_GROUP_ID=${LOCALITY_GROUP_ID}
+GROUPS="${LOCALITY_GROUP_ID}"
 DATABASE_URL="${DATABASE_URL}"
 DOMAIN=new.zubr.life
 APP_ENV=prod

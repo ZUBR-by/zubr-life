@@ -9,8 +9,8 @@ use Symfony\Component\HttpFoundation\Response;
 
 class DisplayWidget extends AbstractController
 {
-    public function __invoke(Request $request): Response
+    public function __invoke(Request $request, $allowedGroups): Response
     {
-        return new JsonResponse(['test' => 1]);
+        return new JsonResponse([$allowedGroups]);
     }
 }

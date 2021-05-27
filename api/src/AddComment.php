@@ -2,13 +2,14 @@
 
 namespace App;
 
+use App\Auth\ActionNeedAuthorization;
 use App\Entity\User;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 
-class AddComment
+class AddComment implements ActionNeedAuthorization
 {
-    public function __invoke(User $user, Request $request) : JsonResponse
+    public function __invoke(User $user, Request $request): JsonResponse
     {
         return new JsonResponse([]);
     }

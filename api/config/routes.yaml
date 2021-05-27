@@ -8,7 +8,7 @@ index:
 
 api_login:
     path: /login
-    controller: App\LoginAction
+    controller: App\Auth\LoginAction
 
 add_comment:
     path: /comment

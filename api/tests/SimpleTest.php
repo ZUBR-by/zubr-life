@@ -2,7 +2,9 @@
 
 namespace Tests;
 
-use App\Errors\NotAuthenticated;
+use App\Auth\NotAuthorized;
+use App\Auth\NotInGroups;
+use App\TelegramAdapter;
 use Firebase\JWT\JWT;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\BrowserKit\Cookie;
@@ -16,7 +18,7 @@ class SimpleTest extends WebTestCase
         $client->request('POST', '/comment');
         $response = $client->getResponse();
         $this->assertEquals(
-            encode(['error' => NotAuthenticated::MESSAGE]),
+            encode(['error' => (new NotAuthorized())->getMessage()]),
             $response->getContent(),
             $response->getContent()
         );
@@ -26,7 +28,18 @@ class SimpleTest extends WebTestCase
     {
         $client = static::createClient();
         $param  = self::$container->getParameter('private_key');
-        $cookie = new Cookie('AUTH_TOKEN', JWT::encode(['id' => 1], file_get_contents($param), 'RS256'));
+        $cookie = new Cookie(
+            'AUTH_TOKEN',
+            JWT::encode(
+                ['id' => 1],
+                file_get_contents($param),
+                'RS256'
+            )
+        );
+        $mock   = $this->createMock(TelegramAdapter::class);
+        $mock->expects(static::any())->method('isUserInAllowedGroups')->willReturn(true);
+
+        self::$container->set(TelegramAdapter::class, $mock);
         $client->getCookieJar()->set($cookie);
 
         $client->request('POST', '/comment', [], [], []);
@@ -35,17 +48,25 @@ class SimpleTest extends WebTestCase
         $this->assertEquals('[]', $response->getContent(), $response->getContent());
     }
 
-    public function testNotFoundUser(): void
+    public function testUserNotInGroups(): void
     {
         $client = static::createClient();
         $param  = self::$container->getParameter('private_key');
         $cookie = new Cookie('AUTH_TOKEN', JWT::encode(['id' => 2], file_get_contents($param), 'RS256'));
+        $mock   = $this->createMock(TelegramAdapter::class);
+        $mock->expects(static::any())->method('isUserInAllowedGroups')->willReturn(false);
+
+        self::$container->set(TelegramAdapter::class, $mock);
         $client->getCookieJar()->set($cookie);
 
         $client->request('POST', '/comment', [], [], []);
 
         $response = $client->getResponse();
-        $this->assertEquals('[]', $response->getContent(), $response->getContent());
+        $this->assertEquals(
+            encode(['error' => (new NotInGroups())->getMessage()]),
+            $response->getContent(),
+            $response->getContent()
+        );
     }
 
     public function testInvalidJWT(): void
@@ -57,7 +78,11 @@ class SimpleTest extends WebTestCase
         $client->request('POST', '/comment', [], [], []);
 
         $response = $client->getResponse();
-        $this->assertEquals('{"error":"Ошибка"}', $response->getContent(), $response->getContent());
+        $this->assertEquals(
+            encode(['error' => (new NotAuthorized())->getMessage()]),
+            $response->getContent(),
+            $response->getContent()
+        );
     }
 
     public function testAuth(): void

@@ -1,9 +1,8 @@
 <?php
 
-namespace App;
+namespace App\Auth;
 
 use App\Entity\User;
-use App\Errors\InvalidCredentials;
 use Doctrine\ORM\EntityManagerInterface;
 use Firebase\JWT\JWT;
 use Psr\Log\LoggerInterface;
