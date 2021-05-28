@@ -7,7 +7,7 @@
                         Test
                     </el-col>
                     <el-col :span="12">
-                        Never
+                        <button @click="test">Click</button>
                     </el-col>
                 </el-card>
             </el-row>
@@ -34,6 +34,11 @@ export default {
         ElCard,
         ElRow,
         ElCol
+    },
+    methods: {
+        test() {
+            throw 'test exception'
+        }
     }
 }
 </script>
