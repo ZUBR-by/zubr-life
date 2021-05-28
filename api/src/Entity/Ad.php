@@ -2,8 +2,10 @@
 
 namespace App\Entity;
 
+use App\EmptyField;
 use DateTime;
 use Doctrine\ORM\Mapping as ORM;
+use function Psl\Str\length;
 
 /**
  * @ORM\Entity
@@ -69,6 +71,9 @@ class Ad
 
     public function __construct(User $user, string $name, string $description)
     {
+        if (length($name) === 0) {
+            throw new EmptyField('Название');
+        }
         $this->user        = $user;
         $this->name        = $name;
         $this->description = $description;

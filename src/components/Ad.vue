@@ -33,11 +33,19 @@
         <div class="modal-content">
             <div class="box">
                 <form @submit.prevent="save">
+                    <article class="message is-danger" v-show="error">
+                        <div class="message-header">
+                            <p>Ошибка</p>
+                        </div>
+                        <div class="message-body">
+                            {{ error }}
+                        </div>
+                    </article>
                     <h3 class="pb-5 has-text-weight-bold">Добавить объявление</h3>
                     <div class="field">
                         <label class="label">Название</label>
                         <div class="control">
-                            <input class="input" type="text" v-model="ad.name">
+                            <input class="input" type="text" v-model="ad.name" required>
                         </div>
                     </div>
                     <div class="field">
@@ -67,6 +75,8 @@
 
 <script>
 
+import {ElMessage} from 'element-plus';
+
 let emptyAd = {name: '', description: ''};
 
 export default {
@@ -82,7 +92,8 @@ export default {
     },
     data() {
         return {
-            ads      : [{id: 1, name: 'Test'}],
+            ads      : [],
+            error    : null,
             showModal: false,
             ad       : Object.assign({}, emptyAd)
         }
@@ -98,6 +109,7 @@ export default {
                 )
         },
         save() {
+            this.error = null;
             fetch(import.meta.env.VITE_TELEGRAM_API_URL + '/ad', {
                 method : 'POST',
                 headers: {
@@ -106,11 +118,22 @@ export default {
 
                 credentials: 'include',
                 body       : JSON.stringify(this.ad)
-            }).then(r => r.json()).then(result => {
-                this.fetchAds();
-                this.ad = Object.assign({}, emptyAd)
-                this.showModal = false
-            })
+            }).then(r => r.json())
+                .then(result => {
+                        if (result.error) {
+                            this.error = result.error;
+                            return;
+                        }
+                        this.fetchAds();
+                        this.ad        = Object.assign({}, emptyAd)
+                        this.showModal = false
+                        ElMessage.success({'message': 'Добавлено'})
+                    }
+                )
+                .catch(e => {
+                    ElMessage.error({'message': 'Произошла ошибка'})
+                    throw e;
+                })
         }
     }
 }
