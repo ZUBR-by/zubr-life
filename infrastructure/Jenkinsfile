@@ -27,6 +27,7 @@ pipeline {
             VITE_BOT_NAME          = credentials('LIFE_BOT_NAME')
             VITE_TELEGRAM_AUTH_URL = 'https://api.zubr.life/login'
             VITE_TELEGRAM_API_URL  = 'https://api.zubr.life'
+            VITE_SENTRY_DSN        = credentials('SENTRY_DSN')
         }
         steps {
             sh 'yarn'
