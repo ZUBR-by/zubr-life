@@ -22,7 +22,9 @@
                                 <li>
                                     <router-link :to="'/ad'">Объявления</router-link>
                                 </li>
-                                <li><a href="">Готовы помочь</a></li>
+                                <li>
+                                    <router-link :to="'/people'">Люди</router-link>
+                                </li>
                                 <li><a href="">О проекте</a></li>
                             </ul>
                         </aside>
@@ -33,7 +35,7 @@
                 <a id="widget"></a>
                 <router-link class="ml-5" :to="'/'">Главная</router-link>
                 <router-link class="ml-5" :to="'/ad'">Объявления</router-link>
-                <a class="ml-5" href="#">Готовы помочь</a>
+                <router-link class="ml-5" :to="'/people'">Люди</router-link>
                 <a class="ml-5" href="#">О проекте</a>
             </div>
         </div>
