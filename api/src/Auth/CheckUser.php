@@ -2,7 +2,9 @@
 
 namespace App\Auth;
 
+use App\Entity\User;
 use App\TelegramAdapter;
+use Doctrine\ORM\EntityManagerInterface;
 use Firebase\JWT\JWT;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpKernel\Event\ControllerEvent;
@@ -15,15 +17,20 @@ class CheckUser implements EventSubscriberInterface
      * @var TelegramAdapter
      */
     private TelegramAdapter $adapter;
-    private string $publicKey;
+    private string $publicKeyPath;
+    /**
+     * @var EntityManagerInterface
+     */
+    private EntityManagerInterface $em;
 
-    public function __construct(TelegramAdapter $adapter, string $publicKey)
+    public function __construct(TelegramAdapter $adapter, string $publicKey, EntityManagerInterface $em)
     {
-        $this->adapter   = $adapter;
-        $this->publicKey = file_get_contents($publicKey);
+        $this->adapter       = $adapter;
+        $this->publicKeyPath = $publicKey;
+        $this->em            = $em;
     }
 
-    public function onKernelController(ControllerEvent $event): void
+    public function onKernelController(ControllerEvent $event) : void
     {
         $controller = $event->getController();
 
@@ -39,7 +46,7 @@ class CheckUser implements EventSubscriberInterface
             try {
                 $decoded = (array) JWT::decode(
                     (string) $request->cookies->get('AUTH_TOKEN'),
-                    $this->publicKey,
+                    file_get_contents($this->publicKeyPath),
                     ['RS256']
                 );
                 if (! isset($decoded['id'])) {
@@ -49,6 +56,14 @@ class CheckUser implements EventSubscriberInterface
                 if (! $this->adapter->isUserInAllowedGroups($decoded['id'])) {
                     throw new NotInGroups();
                 }
+                /** @var User|null $user */
+                $user = $this->em->getRepository(User::class)->find($decoded['id']);
+                if (! $user) {
+                    return;
+                }
+                if ($user->isBanned()) {
+                    throw new Banned();
+                }
 
             } catch (UnexpectedValueException $e) {
                 $request->cookies->remove('AUTH_TOKEN');
@@ -57,7 +72,7 @@ class CheckUser implements EventSubscriberInterface
         }
     }
 
-    public static function getSubscribedEvents(): array
+    public static function getSubscribedEvents() : array
     {
         return [
             KernelEvents::CONTROLLER => 'onKernelController',

@@ -2,6 +2,7 @@
 
 namespace Tests;
 
+use App\Auth\Banned;
 use App\Auth\NotAuthorized;
 use App\Auth\NotInGroups;
 use App\TelegramAdapter;
@@ -93,5 +94,34 @@ class SimpleTest extends WebTestCase
 
         $response = $client->getResponse();
         $this->assertEquals(302, $response->getStatusCode());
+    }
+
+
+    public function testBanned(): void
+    {
+        $client = static::createClient();
+        $param  = self::$container->getParameter('private_key');
+        $cookie = new Cookie(
+            'AUTH_TOKEN',
+            JWT::encode(
+                ['id' => 2],
+                file_get_contents($param),
+                'RS256'
+            )
+        );
+        $mock   = $this->createMock(TelegramAdapter::class);
+        $mock->expects(static::any())->method('isUserInAllowedGroups')->willReturn(true);
+
+        self::$container->set(TelegramAdapter::class, $mock);
+        $client->getCookieJar()->set($cookie);
+
+        $client->request('POST', '/comment', [], [], []);
+
+        $response = $client->getResponse();
+        $this->assertEquals(
+            encode(['error' => (new Banned())->getMessage()]),
+            $response->getContent(),
+            $response->getContent()
+        );
     }
 }

@@ -33,4 +33,9 @@ class User
         $this->params   = $params;
         $this->bannedAt = $bannedAt;
     }
+
+    public function isBanned() : bool
+    {
+        return $this->bannedAt !== null;
+    }
 }
