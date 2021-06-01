@@ -28,6 +28,11 @@ class Organization
     private string $address;
 
     /**
+     * @ORM\Column(type="json", options={"default" : "{}"})
+     */
+    private array $params;
+
+    /**
      * @ORM\Column(type="decimal", nullable=true, precision=11, scale=8)
      */
     private ?float $longitude;

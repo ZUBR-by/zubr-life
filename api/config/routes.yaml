@@ -47,10 +47,10 @@ event_get:
 
 organization_list:
     path: /organization
-    controller: App\Event\GetOrganizationsAction
+    controller: App\Organization\GetOrganizationsAction
     methods: [GET]
 
 organization_get:
     path: /organization/{id}
-    controller: App\Event\GetOrganizationAction
+    controller: App\Organization\GetOrganizationAction
     methods: [GET]

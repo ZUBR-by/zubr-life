@@ -11,14 +11,20 @@
                 <tr>
                     <th>Номер</th>
                     <th>Название</th>
-                    <th>Описание</th>
+                    <th></th>
                 </tr>
                 </thead>
                 <tbody>
                 <tr v-for="org of organizations">
-                    <th><router-link :to="'/org/' + org.id">{{ org.id }}</router-link></th>
+                    <th>
+                        {{ org.id }}
+                    </th>
                     <th>{{ org.name }}</th>
-                    <th>{{ org.description }}</th>
+                    <th>
+                        <router-link :to="{name: 'organization', params: {id: org.id}}">
+                            Комментировать
+                        </router-link>
+                    </th>
                 </tr>
                 </tbody>
             </table>
@@ -30,11 +36,11 @@
 
 export default {
     created() {
-        // this.fetchOrganizations();
+        this.fetchOrganizations();
     },
     data() {
         return {
-            organizations: [{id: 1, name: 'Школа', description: 'test'}],
+            organizations: [],
         }
     },
     methods: {

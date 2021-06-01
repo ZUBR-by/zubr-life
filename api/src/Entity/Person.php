@@ -33,7 +33,7 @@ class Person
     private string $description;
 
     /**
-     * @ORM\Column(type="json", nullable=true)
+     * @ORM\Column(type="json", options={"default" : "[]"})
      */
     private array $attachments;
 
