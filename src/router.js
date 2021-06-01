@@ -25,6 +25,9 @@ const routes = [
         path     : '/people',
         name     : 'people',
         label    : 'Люди',
+        meta     : {
+            title: 'Люди'
+        },
         component: People,
     },
     {
