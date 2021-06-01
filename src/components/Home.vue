@@ -56,7 +56,7 @@
     </div>
     <div class="section">
         <div class="columns">
-            <div class="column">
+<!--            <div class="column">
                 <div class="content">
                     <h1 class="pl-5">
                         Категории
@@ -141,8 +141,8 @@
                         </label>
                     </div>
                 </div>
-            </div>
-            <div class="column is-four-fifths">
+            </div>-->
+            <div class="column">
                 <div style="position:relative;overflow:hidden;">
                     <div id="map" style="width: 100%;height: 700px"></div>
                 </div>
@@ -197,10 +197,10 @@ export default {
             target      : 'map',
             view        : new View({
                 center    : [
-                    3069707.4297911962,
-                    7140262.185605532
+                    3069956.6171871186,
+                    7140368.320977872
                 ],
-                zoom      : 14.7,
+                zoom      : 15.05,
                 projection: 'EPSG:3857'
             }),
         });
