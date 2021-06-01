@@ -22,5 +22,35 @@ ad_add:
 
 ad_list:
     path: /ad
-    controller: App\Ad\GetListAction
+    controller: App\Ad\GetAdsAction
+    methods: [GET]
+
+person_list:
+    path: /person
+    controller: App\Person\GetPeopleAction
+    methods: [GET]
+
+person_get:
+    path: /person/{id}
+    controller: App\Person\GetPersonAction
+    methods: [GET]
+
+event_list:
+    path: /event
+    controller: App\Event\GetEventsAction
+    methods: [GET]
+
+event_get:
+    path: /event/{id}
+    controller: App\Event\GetPersonAction
+    methods: [GET]
+
+organization_list:
+    path: /organization
+    controller: App\Event\GetOrganizationsAction
+    methods: [GET]
+
+organization_get:
+    path: /organization/{id}
+    controller: App\Event\GetOrganizationAction
     methods: [GET]

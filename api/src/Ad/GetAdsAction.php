@@ -6,7 +6,7 @@ use Doctrine\DBAL\Connection;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 
-class GetListAction extends AbstractController
+class GetAdsAction extends AbstractController
 {
     public function __invoke(Connection $connection): JsonResponse
     {

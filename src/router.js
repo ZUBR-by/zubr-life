@@ -1,29 +1,59 @@
 import {createRouter, createWebHistory} from 'vue-router'
-import Home                             from '/src/components/Home.vue'
-import Help                             from '/src/components/Help.vue'
-import Ad                               from '/src/components/Ad.vue'
-import People                           from '/src/components/People.vue'
+import Home                             from './components/Home.vue'
+import Ad                               from './components/Ad.vue'
+import People                           from './components/People.vue'
+import Organizations                    from "./components/Organizations.vue";
+import Organization                     from "./components/Organization.vue";
+import About                            from "./components/About.vue";
+import Events                           from "./components/Events.vue";
+import Event                            from "./components/Event.vue";
 
 const routes = [
     {
         path     : '/',
-        name     : 'Home',
+        name     : 'home',
+        label    : 'Главная',
         component: Home,
-    },
-    {
-        path     : '/help',
-        name     : 'Help',
-        component: Help,
     },
     {
         path     : '/ad',
         name     : 'ad',
+        label    : 'Объявления',
         component: Ad,
     },
     {
         path     : '/people',
         name     : 'people',
+        label    : 'Люди',
         component: People,
+    },
+    {
+        path     : '/org',
+        name     : 'organizations',
+        label    : 'Организации',
+        component: Organizations,
+    },
+    {
+        path     : '/org/:id',
+        name     : 'organization',
+        component: Organization,
+    },
+    {
+        path     : '/event',
+        name     : 'events',
+        label    : 'События',
+        component: Events,
+    },
+    {
+        path     : '/event/:id',
+        name     : 'event',
+        component: Event,
+    },
+    {
+        path     : '/about',
+        name     : 'about',
+        label    : 'О проекте',
+        component: About,
     },
 ]
 const router = createRouter({
@@ -31,3 +61,4 @@ const router = createRouter({
     routes,
 })
 export default router
+export {routes}

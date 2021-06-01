@@ -1,7 +1,7 @@
 <template>
     <div class="box is-radiusless zbr-hdr">
         <div class="columns is-align-items-center">
-            <div class="column pl-6">
+            <div class="column pl-4">
                 <a href="/">
                     <img class="zbr-h-logo" src="/imgs/icons/svg/zubr-h-logo.svg">
                 </a>
@@ -19,43 +19,47 @@
                                 Разделы сайта
                             </p>
                             <ul class="menu-list">
-                                <li>
-                                    <router-link :to="'/ad'">Объявления</router-link>
+                                <li v-for="route of routes"  :key="route.name">
+                                    <router-link :to="{name: route.name}">
+                                        {{route.label}}
+                                    </router-link>
                                 </li>
-                                <li>
-                                    <router-link :to="'/people'">Люди</router-link>
-                                </li>
-                                <li><a href="">О проекте</a></li>
                             </ul>
                         </aside>
                     </div>
                 </div>
             </div>
-            <div class="column has-text-right has-text-weight-medium pr-6 is-hidden-mobile">
+            <div class="column is-two-thirds has-text-right has-text-weight-medium is-hidden-mobile">
                 <a id="widget"></a>
-                <router-link class="ml-5" :to="'/'">Главная</router-link>
-                <router-link class="ml-5" :to="'/ad'">Объявления</router-link>
-                <router-link class="ml-5" :to="'/people'">Люди</router-link>
-                <a class="ml-5" href="#">О проекте</a>
+                <router-link class="ml-5"
+                             v-for="route of routes" :to="{name: route.name}" :key="route.name">
+                    {{route.label}}
+                </router-link>
             </div>
         </div>
     </div>
 </template>
 
-<script setup>
-import {onMounted} from 'vue'
+<script>
+import {routes} from "../router";
 
-onMounted(() => {
-    let telegramScript = document.createElement('script')
-    telegramScript.setAttribute('src', 'https://telegram.org/js/telegram-widget.js?14')
-    telegramScript.setAttribute('async', '')
-    telegramScript.setAttribute('data-telegram-login', import.meta.env.VITE_BOT_NAME)
-    telegramScript.setAttribute('data-userpic', 'false')
-    telegramScript.setAttribute('data-size', 'medium')
-    telegramScript.setAttribute('data-auth-url', import.meta.env.VITE_TELEGRAM_AUTH_URL)
-    document.getElementById("widget").appendChild(telegramScript)
-
-});
+export default {
+    data() {
+        return {
+            routes: routes.filter(i => i.label)
+        }
+    },
+    mounted() {
+        let telegramScript = document.createElement('script')
+        telegramScript.setAttribute('src', 'https://telegram.org/js/telegram-widget.js?14')
+        telegramScript.setAttribute('async', '')
+        telegramScript.setAttribute('data-telegram-login', import.meta.env.VITE_BOT_NAME)
+        telegramScript.setAttribute('data-userpic', 'false')
+        telegramScript.setAttribute('data-size', 'medium')
+        telegramScript.setAttribute('data-auth-url', import.meta.env.VITE_TELEGRAM_AUTH_URL)
+        document.getElementById("widget").appendChild(telegramScript)
+    }
+}
 </script>
 
 <style scoped>
