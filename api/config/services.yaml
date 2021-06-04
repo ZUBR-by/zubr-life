@@ -24,6 +24,9 @@ services:
   App\DisplayWidget:
     tags: [ 'controller.service_arguments' ]
 
+  App\HomePageAction:
+    tags: [ 'controller.service_arguments' ]
+
   App\ErrorListener:
     tags:
       - { name: kernel.event_listener, event: kernel.exception }

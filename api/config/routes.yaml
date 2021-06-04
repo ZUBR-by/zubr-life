@@ -6,6 +6,10 @@ index:
     path: /
     controller: App\DisplayWidget
 
+home:
+    path: /home
+    controller: App\HomePageAction
+
 api_login:
     path: /login
     controller: App\Auth\LoginAction
@@ -42,7 +46,7 @@ event_list:
 
 event_get:
     path: /event/{id}
-    controller: App\Event\GetPersonAction
+    controller: App\Event\GetEventAction
     methods: [GET]
 
 organization_list:
