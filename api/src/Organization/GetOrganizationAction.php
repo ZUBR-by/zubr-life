@@ -12,7 +12,7 @@ class GetOrganizationAction extends AbstractController
     public function __invoke(int $id, Request $request, Connection $connection) : JsonResponse
     {
         $data = $connection->fetchOne(<<<SQL
-SELECT JSON_OBJECT('data', JSON_OBJECT(
+   SELECT JSON_OBJECT('data', JSON_OBJECT(
       'id', o.id,
       'name', o.name,
       'comments', JSON_ARRAYAGG(DISTINCT JSON_OBJECT('text', text)),
@@ -23,11 +23,11 @@ SELECT JSON_OBJECT('data', JSON_OBJECT(
           ))
         )
      )
- FROM organization o
- JOIN persons_organizations po on o.id = po.organization_id
- JOIN person as p on po.person_id = p.id
- JOIN comment c on o.id = c.organization_id
-WHERE o.id = ?
+     FROM organization o
+LEFT JOIN persons_organizations po on o.id = po.organization_id
+LEFT JOIN person as p on po.person_id = p.id
+LEFT JOIN comment c on o.id = c.organization_id
+    WHERE o.id = ?
 SQL
             ,
             [$id]
