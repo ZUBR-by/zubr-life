@@ -2,9 +2,9 @@
     <div class="section zbr-promo">
         <div class="column is-centered">
             <div class="content is-medium">
-                <h1 class="pl-5 pb-5 has-text-weight-bold">
+                <h3 class="pl-5 pb-5 has-text-weight-bold">
                     Организации
-                </h1>
+                </h3>
             </div>
             <table class="table">
                 <thead>

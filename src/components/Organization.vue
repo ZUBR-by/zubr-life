@@ -1,7 +1,7 @@
 <template>
     <div class="section zbr-promo">
         <div class="column is-centered">
-            {{$route.params.id}}
+            {{organization}}
         </div>
     </div>
 </template>
@@ -14,7 +14,7 @@ export default {
     },
     data() {
         return {
-            organizations: [],
+            organization: {},
             error        : null,
         }
     },
@@ -24,7 +24,7 @@ export default {
                 .then(r => r.json())
                 .then(
                     r => {
-                        this.ads = r.data;
+                        this.organization = r.data;
                     }
                 )
         }
