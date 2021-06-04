@@ -8,7 +8,7 @@ const app = createApp(App)
 app.use(router)
 app.mount('#app')
 
-if (import.meta.env.MODE === 'development') {
+if (import.meta.env.MODE !== 'development') {
     import('./sentry').then(
         ({Sentry}) => {
             app.config.errorHandler = (err) => {
