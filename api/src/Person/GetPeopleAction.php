@@ -12,7 +12,7 @@ class GetPeopleAction extends AbstractController
     public function __invoke(Request $request, Connection $connection): JsonResponse
     {
         $data = $connection->fetchOne(<<<SQL
-SELECT JSON_OBJECT('data', JSON_ARRAYAGG(
+   SELECT JSON_OBJECT('data', JSON_ARRAYAGG(
          JSON_OBJECT(
             'id', p.id,
             'full_name', full_name,
@@ -20,10 +20,11 @@ SELECT JSON_OBJECT('data', JSON_ARRAYAGG(
             'photo_url', photo_url,
             'org', JSON_OBJECT('id', o.id, 'name', o.name)
            )
+         ORDER BY JSON_EXTRACT(p.params, '$.top') DESC, full_name
        ))
- FROM person as p
- JOIN persons_organizations po on p.id = po.person_id
- JOIN organization o on po.organization_id = o.id
+     FROM person as p
+LEFT JOIN persons_organizations po on p.id = po.person_id
+LEFT JOIN organization o on po.organization_id = o.id
 SQL
         );
         return JsonResponse::fromJsonString($data ?: '{"data":[]}');

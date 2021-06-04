@@ -38,6 +38,11 @@ class Person
     private array $attachments;
 
     /**
+     * @ORM\Column(type="json", options={"default" : "{}"})
+     */
+    private array $params;
+
+    /**
      * @var Organization[]
      * @ORM\ManyToMany(targetEntity="Organization")
      * @ORM\JoinTable(name="persons_organizations",
