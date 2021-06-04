@@ -25,6 +25,7 @@ SELECT JSON_OBJECT(
            )
        ))
  FROM organization
+WHERE longitude is NOT NULL
 SQL
         );
         return JsonResponse::fromJsonString($data ?: '{"data":{}}}');
