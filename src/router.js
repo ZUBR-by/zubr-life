@@ -2,6 +2,7 @@ import {createRouter, createWebHistory} from 'vue-router'
 import Home                             from './components/Home.vue'
 import Ad                               from './components/Ad.vue'
 import People                           from './components/People.vue'
+import Person                           from './components/Person.vue'
 import Organizations                    from "./components/Organizations.vue";
 import Organization                     from "./components/Organization.vue";
 import About                            from "./components/About.vue";
@@ -29,6 +30,14 @@ const routes = [
             title: 'Люди'
         },
         component: People,
+    },
+    {
+        path     : '/people/:id',
+        name     : 'person',
+        meta     : {
+            title: 'Человек'
+        },
+        component: Person,
     },
     {
         path     : '/org',
