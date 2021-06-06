@@ -8,6 +8,7 @@ import Organization                     from "./components/Organization.vue";
 import About                            from "./components/About.vue";
 import Events                           from "./components/Events.vue";
 import Event                            from "./components/Event.vue";
+import {nextTick}                       from "vue";
 
 const routes = [
     {
@@ -20,6 +21,9 @@ const routes = [
         path     : '/ad',
         name     : 'ad',
         label    : 'Объявления',
+        meta     : {
+            title: 'Объявления'
+        },
         component: Ad,
     },
     {
@@ -71,6 +75,12 @@ const routes = [
 const router = createRouter({
     history: createWebHistory(),
     routes,
+})
+router.afterEach(async (to, from) => {
+    await nextTick()
+    document.title = to.meta.title
+        ? 'ZUBR.life - ' + to.meta.title
+        : 'ZUBR.life - Экран местного самоуправления';
 })
 export default router
 export {routes}
