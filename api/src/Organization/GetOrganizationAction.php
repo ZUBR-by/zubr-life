@@ -9,7 +9,7 @@ use Symfony\Component\HttpFoundation\Request;
 
 class GetOrganizationAction extends AbstractController
 {
-    public function __invoke(int $id, Request $request, Connection $connection) : JsonResponse
+    public function __invoke(int     $id, Request $request, Connection $connection) : JsonResponse
     {
         $data = $connection->fetchOne(<<<SQL
    SELECT JSON_OBJECT('data', JSON_OBJECT(
@@ -17,6 +17,7 @@ class GetOrganizationAction extends AbstractController
       'name', o.name,
       'longitude', o.longitude,
       'latitude', o.latitude,
+      'address', o.address,
       'comments_count', cast(COUNT(DISTINCT c.id) as integer),
       'comments', JSON_ARRAYAGG(
           DISTINCT JSON_OBJECT(
@@ -28,7 +29,7 @@ class GetOrganizationAction extends AbstractController
       ),
       'people', JSON_ARRAYAGG(DISTINCT JSON_OBJECT(
         'id', p.id,
-        'name', p.full_name,
+        'full_name', p.full_name,
         'description', p.description
           ))
         )

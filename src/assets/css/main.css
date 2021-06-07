@@ -331,7 +331,7 @@ body {
   line-height: 1.5; }
 
 a {
-  color: #3273dc;
+  color: #ff5c01;
   cursor: pointer;
   text-decoration: none; }
   a strong {
@@ -2971,7 +2971,7 @@ a.tag:hover {
   white-space: nowrap; }
   .breadcrumb a {
     align-items: center;
-    color: #3273dc;
+    color: #ff5c01;
     display: flex;
     justify-content: center;
     padding: 0 0.75em; }
