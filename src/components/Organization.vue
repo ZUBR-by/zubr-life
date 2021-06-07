@@ -139,7 +139,11 @@ export default {
 
             this.map.addLayer(marker);
         }
+    },
+    unmounted() {
+        this.map = null;
     }
+
 }
 </script>
 
