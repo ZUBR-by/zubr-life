@@ -97,11 +97,12 @@ export default {
                         if (!r.data.latitude) {
                             return;
                         }
-                        setTimeout(this.initMap, 1)
+                        setTimeout(this.initMap, 400)
                     }
                 )
         },
         initMap() {
+            document.getElementById('map').innerHTML = '';
             this.map   = new Map({
                 layers      : [
                     new TileLayer({
@@ -139,11 +140,7 @@ export default {
 
             this.map.addLayer(marker);
         }
-    },
-    unmounted() {
-        this.map = null;
     }
-
 }
 </script>
 
