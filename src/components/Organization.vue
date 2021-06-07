@@ -15,13 +15,13 @@
                     <h3 class="is-size-4">{{ organization.name }}</h3>
                     <p class="pt-2"><b>Адрес:</b> {{ organization.address }}</p>
                 </div>
-                <div class="column is-two-thirds" v-show="organization.latitude">
+                <div class="column is-two-thirds" v-if="organization.latitude">
                     <div id="map" class="pr-2" style="height: 350px;width: 100%"></div>
                 </div>
             </div>
             <div class="pl-5 pt-3 pb-4 pr-5" style="min-height: 300px">
                 <el-tabs v-model="activeName">
-                    <el-tab-pane label="Люди относящиеся к организации" name="first">
+                    <el-tab-pane label="Люди относящиеся к организации" name="people">
                         <ul>
                             <li v-for="person of organization.people">
                                 <router-link :to="{name: 'person', params: {id: person.id}}">
@@ -31,7 +31,7 @@
                             </li>
                         </ul>
                     </el-tab-pane>
-                    <el-tab-pane label="Комментарии" name="second">
+                    <el-tab-pane label="Комментарии" name="comments">
                         <div class="card" v-for="comment of organization.comments">
                             <div class="card-content">
                                 <div class="content">
@@ -79,7 +79,7 @@ export default {
             organization: {},
             error       : null,
             map         : null,
-            activeName  : 'first'
+            activeName  : 'people'
         }
     },
     methods: {
