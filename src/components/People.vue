@@ -16,7 +16,7 @@
                 </thead>
                 <tbody>
                 <tr v-for="person of people">
-                    <td>
+                    <td style="vertical-align: middle">
                         <div class="grid-image">
                             <img :src="person.photo_url
                                         ? person.photo_url
