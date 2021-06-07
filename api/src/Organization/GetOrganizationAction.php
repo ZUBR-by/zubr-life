@@ -15,6 +15,8 @@ class GetOrganizationAction extends AbstractController
    SELECT JSON_OBJECT('data', JSON_OBJECT(
       'id', o.id,
       'name', o.name,
+      'longitude', o.longitude,
+      'latitude', o.latitude,
       'comments_count', cast(COUNT(DISTINCT c.id) as integer),
       'comments', JSON_ARRAYAGG(
           DISTINCT JSON_OBJECT(
