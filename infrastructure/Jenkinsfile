@@ -32,6 +32,7 @@ pipeline {
         steps {
             sh 'yarn'
             sh 'yarn build'
+            sh 'rm -rf api/vendor'
             sh 'make compose-composer-ci'
             dir('api'){
                 writeFile file: '.env', text: """
