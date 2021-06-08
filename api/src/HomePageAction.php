@@ -17,8 +17,8 @@ SELECT JSON_OBJECT(
          JSON_OBJECT(
              'type', 'Feature',
             'id', organization.id,
-            'properties', JSON_OBJECT('name', name),
-             'geometry', JSON_OBJECT(
+            'properties', JSON_OBJECT('id', id, 'name', name, 'type', 'organization'),
+            'geometry', JSON_OBJECT(
                  'type', 'Point',
                  'coordinates', JSON_ARRAY(longitude, latitude)
              )

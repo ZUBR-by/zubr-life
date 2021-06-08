@@ -150,7 +150,16 @@
         </div>
         <div id="popup" class="ol-popup">
             <a href="#" id="popup-closer" class="ol-popup-closer"></a>
-            <div id="popup-content"></div>
+            <div id="popup-content">
+                <template v-if="feature">
+                    {{ feature.name }}
+                    <p>
+                        <router-link :to="{name: feature.type, params: {id: feature.id}}">
+                            Подробности
+                        </router-link>
+                    </p>
+                </template>
+            </div>
         </div>
     </div>
 </template>
@@ -180,7 +189,8 @@ export default {
     },
     data() {
         return {
-            map: null
+            map    : null,
+            feature: null,
         }
     },
     mounted() {
@@ -250,7 +260,7 @@ export default {
         this.map.on('singleclick', (evt) => {
             let coordinate = evt.coordinate;
             this.map.forEachFeatureAtPixel(evt.pixel, baseFeature => {
-                content.innerHTML = '<p>You clicked here:</p><code>' + baseFeature.getProperties().name + '</code>';
+                this.feature = baseFeature.getProperties();
                 overlay.setPosition(coordinate);
             })
         });
