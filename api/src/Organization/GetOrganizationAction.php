@@ -30,6 +30,7 @@ class GetOrganizationAction extends AbstractController
       'people', JSON_ARRAYAGG(DISTINCT JSON_OBJECT(
         'id', p.id,
         'full_name', p.full_name,
+        'photo_url', p.photo_url,
         'description', p.description
           ))
         )
