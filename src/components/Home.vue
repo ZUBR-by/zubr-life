@@ -168,6 +168,8 @@ import MouseWheelZoom from 'ol/interaction/MouseWheelZoom';
 import {defaults}     from 'ol/interaction';
 import GeoJSON        from 'ol/format/GeoJSON';
 import {fromLonLat}   from 'ol/proj';
+import Style          from "ol/style/Style";
+import Icon           from "ol/style/Icon";
 
 
 export default {
@@ -227,6 +229,12 @@ export default {
                     source: new VectorSource({
                         url   : import.meta.env.VITE_TELEGRAM_API_URL + '/home',
                         format: new GeoJSON(),
+                    }),
+                    style : new Style({
+                        image: new Icon({
+                            scale: 0.3,
+                            src  : '/imgs/icons/marker.png',
+                        }),
                     }),
                 })
             ],
