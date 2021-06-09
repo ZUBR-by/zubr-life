@@ -45,6 +45,11 @@ SELECT id, name, longitude, latitude, null as created_at,
        'ad' as type 
   FROM ad
  WHERE longitude is NOT NULL
+ UNION ALL
+SELECT id, name, longitude, latitude, null as created_at, 
+       'place' as type 
+  FROM place
+ WHERE longitude is NOT NULL
 ) as f
 SQL
         );

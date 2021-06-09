@@ -34,6 +34,11 @@ ad_get:
     controller: App\Ad\GetAdAction
     methods: [GET]
 
+place_get:
+    path: /place/{id}
+    controller: App\Place\GetPlaceAction
+    methods: [GET]
+
 person_list:
     path: /person
     controller: App\Person\GetPeopleAction
