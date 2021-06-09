@@ -185,11 +185,6 @@ import Icon           from "ol/style/Icon";
 
 
 export default {
-    methods: {
-        center() {
-            console.log(this.map.getView().getCenter())
-        }
-    },
     data() {
         return {
             map    : null,
@@ -198,7 +193,6 @@ export default {
     },
     mounted() {
         let container = document.getElementById('popup');
-        let content   = document.getElementById('popup-content');
         let closer    = document.getElementById('popup-closer');
 
 
@@ -259,7 +253,7 @@ export default {
                 center: fromLonLat([
                     27.576935, 53.841629
                 ]),
-                zoom  : 15.05
+                zoom  : 14.70
             }),
         });
         this.map.on('singleclick', (evt) => {
