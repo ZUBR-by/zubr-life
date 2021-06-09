@@ -3,7 +3,7 @@
         <div class="columns is-align-items-center">
             <div class="column pl-4">
                 <a href="/">
-                    <img class="zbr-h-logo" src="/imgs/loshitsa.png">
+                    <img class="zbr-h-logo" :src="'/imgs/loshitsa-' + Math.floor(Math.random() * 3) +  '.png'">
                 </a>
                 <div class="has-text-weight-medium pr-6 is-hidden-desktop">
                     <div id="script"></div>
