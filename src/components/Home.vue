@@ -152,7 +152,10 @@
             <a href="#" id="popup-closer" class="ol-popup-closer"></a>
             <div id="popup-content">
                 <template v-if="feature">
-                    {{ feature.name }}
+                    <p v-if="feature.type === 'event'">
+                        {{feature.created_at}}
+                    </p>
+                    <p><b>{{ feature.name }}</b></p>
                     <p>
                         <router-link :to="{name: feature.type, params: {id: feature.id}}">
                             Подробности
@@ -240,12 +243,14 @@ export default {
                         url   : import.meta.env.VITE_TELEGRAM_API_URL + '/home',
                         format: new GeoJSON(),
                     }),
-                    style : new Style({
-                        image: new Icon({
-                            scale: 0.3,
-                            src  : '/imgs/icons/marker.png',
-                        }),
-                    }),
+                    style : (feature) => {
+                        return [new Style({
+                            image: new Icon({
+                                scale: 0.4,
+                                src  : `/imgs/icons/marker/${feature.getProperties().type}.png`,
+                            }),
+                        })]
+                    },
                 })
             ],
             overlays    : [overlay],

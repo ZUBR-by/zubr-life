@@ -157,7 +157,7 @@ export default {
                 style : new Style({
                     image: new Icon({
                         scale: 0.3,
-                        src  : '/imgs/icons/marker.png',
+                        src  : '/imgs/icons/marker/default.png',
                     }),
                 }),
             });
