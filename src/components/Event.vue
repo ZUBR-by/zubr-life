@@ -1,7 +1,7 @@
 <template>
     <div class="section zbr-promo">
         <div class="column is-centered">
-            {{ $route.params.id }}
+            {{ event }}
         </div>
     </div>
 </template>
@@ -10,15 +10,15 @@
 
 export default {
     created() {
-        // this.fetchOrganizations();
+        this.fetchEvent();
     },
     data() {
         return {
-            event: {id: 1, name: 'Школа', description: 'test'},
+            event: {},
         }
     },
     methods: {
-        fetchOrganizations() {
+        fetchEvent() {
             fetch(import.meta.env.VITE_TELEGRAM_API_URL + '/event/' + this.$route.params.id)
                 .then(r => r.json())
                 .then(

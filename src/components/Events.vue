@@ -9,19 +9,20 @@
             <table class="table">
                 <thead>
                 <tr>
-                    <th>Номер</th>
+                    <th>Дата</th>
                     <th>Название</th>
-                    <th>Описание</th>
                 </tr>
                 </thead>
                 <tbody>
                 <tr v-for="event of events">
                     <th>
+                        {{ event.created_at }}
+                    </th>
+                    <th>
                         <router-link :to="{name: 'event', params: {id: event.id}}">
-                            {{ event.id }}
+                            {{ event.name }}
                         </router-link>
                     </th>
-                    <th>{{ event.name }}</th>
                     <th>{{ event.description }}</th>
                 </tr>
                 </tbody>
@@ -38,7 +39,7 @@ export default {
     },
     data() {
         return {
-            events: [{id: 1, name: 'Событие', description: 'test'}],
+            events: [],
         }
     },
     methods: {
