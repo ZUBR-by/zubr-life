@@ -29,6 +29,11 @@ ad_list:
     controller: App\Ad\GetAdsAction
     methods: [GET]
 
+ad_get:
+    path: /ad/{id}
+    controller: App\Ad\GetAdAction
+    methods: [GET]
+
 person_list:
     path: /person
     controller: App\Person\GetPeopleAction
@@ -47,6 +52,11 @@ event_list:
 event_get:
     path: /event/{id}
     controller: App\Event\GetEventAction
+    methods: [GET]
+
+feed:
+    path: /feed
+    controller: App\GetFeedAction
     methods: [GET]
 
 organization_list:

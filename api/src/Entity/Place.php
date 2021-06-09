@@ -2,13 +2,14 @@
 
 namespace App\Entity;
 
+use DateTime;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Entity
- * @ORM\Table(name="organization")
+ * @ORM\Table(name="place")
  */
-class Organization
+class Place
 {
     /**
      * @ORM\Column(name="id", type="integer", nullable=false)
@@ -23,14 +24,9 @@ class Organization
     private string $name;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=4000, options={"default" : ""})
      */
-    private string $address;
-
-    /**
-     * @ORM\Column(type="json", options={"default" : "{}"})
-     */
-    private array $params;
+    private string $description;
 
     /**
      * @ORM\Column(type="decimal", nullable=true, precision=11, scale=8)
@@ -47,4 +43,13 @@ class Organization
      */
     private array $attachments;
 
+    /**
+     * @ORM\Column(type="json", options={"default" : "{}"})
+     */
+    private array $params;
+
+    /**
+     * @ORM\Column(type="datetime", nullable=true)
+     */
+    private ?DateTime $hiddenAt;
 }

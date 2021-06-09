@@ -24,7 +24,7 @@ class Comment
     private string $text;
 
     /**
-     * @ORM\Column(type="json", nullable=true)
+     * @ORM\Column(type="json", nullable=true, options={"default" : "[]"})
      */
     private array $attachments;
 
@@ -72,6 +72,14 @@ class Comment
      * })
      */
     private ?Issue $issue;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="Place")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="place_id", referencedColumnName="id")
+     * })
+     */
+    private ?Place $place;
 
     /**
      * @ORM\ManyToOne(targetEntity="User")

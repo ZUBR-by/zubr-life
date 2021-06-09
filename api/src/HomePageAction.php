@@ -39,7 +39,12 @@ SELECT id, name, longitude, latitude, null as created_at,
 SELECT id, name, longitude, latitude, DATE_FORMAT(created_at, '%d.%m.%Y') as created_at, 
        'event' as type 
   FROM event
- WHERE longitude is NOT NULL    
+ WHERE longitude is NOT NULL 
+ UNION ALL
+SELECT id, name, longitude, latitude, null as created_at, 
+       'ad' as type 
+  FROM ad
+ WHERE longitude is NOT NULL
 ) as f
 SQL
         );

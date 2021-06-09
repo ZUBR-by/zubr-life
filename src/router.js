@@ -1,6 +1,7 @@
 import {createRouter, createWebHistory} from 'vue-router'
-import Home                             from './components/Home.vue'
-import Ad                               from './components/Ad.vue'
+import Home from './components/Home.vue'
+import Feed  from './components/Feed.vue'
+import Ad   from './components/Ad.vue'
 import People                           from './components/People.vue'
 import Person                           from './components/Person.vue'
 import Organizations                    from "./components/Organizations.vue";
@@ -18,12 +19,17 @@ const routes = [
         component: Home,
     },
     {
-        path     : '/ad',
-        name     : 'ad',
-        label    : 'Объявления',
+        path     : '/feed',
+        name     : 'feed',
+        component: Feed,
+        label    : 'Лента новостей',
         meta     : {
-            title: 'Объявления'
+            title: 'Лента новостей'
         },
+    },
+    {
+        path     : '/ad/:id',
+        name     : 'ad',
         component: Ad,
     },
     {
@@ -57,7 +63,6 @@ const routes = [
     {
         path     : '/event',
         name     : 'events',
-        label    : 'События',
         component: Events,
     },
     {

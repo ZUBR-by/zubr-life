@@ -31,24 +31,19 @@
                         Последние объявления
                     </h1>
                     <div class="announcements">
-                        <a href="#" class="box">
-                            <div class="is-size-7 has-text-grey">08.09.2020</div>
-                            <div class="tag is-primary">Готовы помочь</div>
-                            <p>Курсы английского, немецкого, итальянского</p>
-                        </a>
-                        <a href="#" class="box">
-                            <div class="is-size-7 has-text-grey">08.09.2020</div>
-                            <div class="tag is-primary">Готовы помочь</div>
-                            <p>Hostel Point Minsk предлагает бесплатное проживание в Минске для иногородних</p>
-                        </a>
-                        <a href="#" class="box">
-                            <div class="is-size-7 has-text-grey">08.09.2020</div>
-                            <div class="tag is-danger">Готовы помочь</div>
-                            <p>Продукты питания</p>
-                        </a>
+                        <router-link :to="{name: item.type, params: {id: item.id}}"
+                                     class="box"
+                                     v-for="item of feed">
+                            <div class="is-size-7 has-text-grey">{{ item.created_at }}</div>
+                            <div class="tag"
+                                 :class="{'is-primary' : item.type === 'ad', 'is-danger': item.type === 'event'}">
+                                {{ item.type === 'event' ? 'Событие' : 'Объявление' }}
+                            </div>
+                            <p>{{ item.name }}</p>
+                        </router-link>
                     </div>
                     <div class="pt-5">
-                        <router-link class="button is-fullwidth" :to="'/ad'">Еще</router-link>
+                        <router-link class="button is-fullwidth" :to="'/feed'">Еще</router-link>
                     </div>
                 </div>
             </div>
@@ -153,7 +148,7 @@
             <div id="popup-content">
                 <template v-if="feature">
                     <p v-if="feature.type === 'event'">
-                        {{feature.created_at}}
+                        {{ feature.created_at }}
                     </p>
                     <p><b>{{ feature.name }}</b></p>
                     <p>
@@ -185,10 +180,14 @@ import Icon           from "ol/style/Icon";
 
 
 export default {
+    created() {
+        this.fetchFeed()
+    },
     data() {
         return {
             map    : null,
             feature: null,
+            feed   : [],
         }
     },
     mounted() {
@@ -263,7 +262,17 @@ export default {
                 overlay.setPosition(coordinate);
             })
         });
-
+    },
+    methods: {
+        fetchFeed() {
+            fetch(import.meta.env.VITE_TELEGRAM_API_URL + '/feed?limit=3')
+                .then(r => r.json())
+                .then(
+                    r => {
+                        this.feed = r.data;
+                    }
+                )
+        }
     }
 }
 </script>
