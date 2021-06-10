@@ -2,7 +2,7 @@
     <div class="section zbr-promo">
         <div class="columns is-centered">
             <div class="column is-two-thirds">
-                <div class="panel" v-if="event.attachments">
+                <div class="panel" v-if="event.name">
                     <nav class="breadcrumb pt-5 pl-3 is-medium" aria-label="breadcrumbs">
                         <ul>
                             <li>
@@ -21,7 +21,7 @@
                     <h3 class="is-size-4 pl-3">{{ event.name }}</h3>
                     <div class="columns pt-2 pl-3 pr-3">
                         <div class="column">
-                            <el-carousel trigger="click" :arrow="'always'" :autoplay="false">
+                            <el-carousel trigger="click" :arrow="'always'" :autoplay="false" v-if="images.length > 0">
                                 <el-carousel-item v-for="item of images" :key="item.value">
                                     <div class="columns is-centered">
                                         <el-image :src="item.value"
@@ -31,7 +31,6 @@
                                                   style="width: 600px; height: 400px"
                                                   :fit="'scale-down'"></el-image>
                                     </div>
-
                                 </el-carousel-item>
                             </el-carousel>
                         </div>
@@ -84,6 +83,9 @@ export default {
     },
     computed: {
         images() {
+            if(!this.event.attachments) {
+                return [];
+            }
             return this.event.attachments.filter(item => item.type === 'image')
         }
     },
