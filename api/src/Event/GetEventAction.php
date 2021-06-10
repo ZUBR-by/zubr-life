@@ -12,13 +12,12 @@ class GetEventAction extends AbstractController
     public function __invoke(int $id, Request $request, Connection $connection) : JsonResponse
     {
         $data = $connection->fetchOne(<<<SQL
-   SELECT JSON_OBJECT('data', JSON_OBJECT(
+   SELECT JSON_OBJECT('data', JSON_MERGE_PATCH(JSON_OBJECT(
       'id', e.id,
       'name', e.name,
       'longitude', e.longitude,
       'latitude', e.latitude,
       'description', e.description,
-      'attachments', e.attachments,
       'created_at', DATE_FORMAT(e.created_at, '%d.%m.%Y'),
       'comments_count', cast(COUNT(DISTINCT c.id) as integer),
       'comments', JSON_ARRAYAGG(
@@ -29,7 +28,7 @@ class GetEventAction extends AbstractController
               'params', c.params
           )
       )
-        )
+        ), e.params)
      )
      FROM event e
 LEFT JOIN comment c on e.id = c.event_id AND c.hidden_at IS NULL
