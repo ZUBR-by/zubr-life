@@ -1,15 +1,15 @@
 import {createRouter, createWebHistory} from 'vue-router'
-import Home                             from './components/Home.vue'
-import Feed                             from './components/Feed.vue'
-import Ad                               from './components/Ad.vue'
-import Place                            from './components/Place.vue'
-import People                           from './components/People.vue'
-import Person                           from './components/Person.vue'
-import Organizations                    from "./components/Organizations.vue";
-import Organization                     from "./components/Organization.vue";
-import About                            from "./components/About.vue";
-import Events                           from "./components/Events.vue";
-import Event                            from "./components/Event.vue";
+import Home                             from './pages/Home.vue'
+import Feed                             from './pages/Feed.vue'
+import Ad                               from './pages/Ad.vue'
+import Place                            from './pages/Place.vue'
+import People                           from './pages/People.vue'
+import Person                           from './pages/Person.vue'
+import Organizations                    from "./pages/Organizations.vue";
+import Organization                     from "./pages/Organization.vue";
+import About                            from "./pages/About.vue";
+import Events                           from "./pages/Events.vue";
+import Event                            from "./pages/Event.vue";
 import {nextTick}                       from "vue";
 
 const routes = [
