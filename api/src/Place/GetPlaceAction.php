@@ -17,6 +17,8 @@ class GetPlaceAction extends AbstractController
       'name', p.name,
       'longitude', p.longitude,
       'latitude', p.latitude,
+      'description', p.description,
+      'attachments', p.attachments,
       'comments_count', cast(COUNT(DISTINCT c.id) as integer),
       'comments', JSON_ARRAYAGG(
           DISTINCT JSON_OBJECT(

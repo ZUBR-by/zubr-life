@@ -18,6 +18,7 @@ class GetAdAction extends AbstractController
       'description', a.description,
       'longitude', a.longitude,
       'latitude', a.latitude,
+      'attachments', a.attachments,
       'created_at', DATE_FORMAT(a.created_at, '%d.%m.%Y'),
       'comments_count', cast(COUNT(DISTINCT c.id) as integer),
       'comments', JSON_ARRAYAGG(

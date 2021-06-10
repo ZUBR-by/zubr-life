@@ -17,6 +17,8 @@ class GetEventAction extends AbstractController
       'name', e.name,
       'longitude', e.longitude,
       'latitude', e.latitude,
+      'description', e.description,
+      'attachments', e.attachments,
       'created_at', DATE_FORMAT(e.created_at, '%d.%m.%Y'),
       'comments_count', cast(COUNT(DISTINCT c.id) as integer),
       'comments', JSON_ARRAYAGG(
