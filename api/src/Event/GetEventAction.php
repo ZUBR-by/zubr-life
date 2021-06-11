@@ -18,16 +18,16 @@ class GetEventAction extends AbstractController
       'longitude', e.longitude,
       'latitude', e.latitude,
       'description', e.description,
-      'attachments', JSON_QUERY(JSON_ARRAYAGG(e.attachments), '$.[0]'),
+      'attachments', JSON_QUERY(JSON_ARRAYAGG(e.attachments), '$[0]'),
       'created_at', DATE_FORMAT(e.created_at, '%d.%m.%Y'),
       'comments_count', CAST(COUNT(DISTINCT c.id) as integer),
       'comments', JSON_ARRAYAGG(
-          DISTINCT JSON_OBJECT(
-              'text', text, 
-              'created_at', c.created_at, 
-              'attachments', c.attachments,
-              'params', c.params
-          )
+              DISTINCT JSON_OBJECT(
+                  'text', text, 
+                  'created_at', c.created_at, 
+                  'attachments', c.attachments,
+                  'params', c.params
+              )
           )
         )
      )

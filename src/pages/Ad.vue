@@ -21,18 +21,7 @@
                     <h3 class="is-size-4 pl-3">{{ ad.name }}</h3>
                     <div class="columns pt-2 pl-3 pr-3">
                         <div class="column">
-                            <el-carousel trigger="click" :arrow="'always'" :autoplay="false" v-if="images.length > 0">
-                                <el-carousel-item v-for="item of images" :key="item.value">
-                                    <div class="columns is-centered">
-                                        <el-image :src="item.value"
-                                                  class="pl-6 pr-6"
-                                                  :preview-src-list="[item.value]"
-                                                  :append-to-body="true"
-                                                  style="width: 600px; height: 400px"
-                                                  :fit="'scale-down'"></el-image>
-                                    </div>
-                                </el-carousel-item>
-                            </el-carousel>
+                            <images :images="images"></images>
                         </div>
                     </div>
                     <div class="pl-5 pt-3 pb-4 pr-5" style="min-height: 300px;">
@@ -54,7 +43,6 @@
                                         <a href="#" class="card-footer-item">Дата</a>
                                     </footer>
                                 </div>
-
                             </el-tab-pane>
                         </el-tabs>
                     </div>
@@ -65,22 +53,25 @@
 </template>
 
 <script>
-import place                                                    from "../components/place.vue";
-import {ElCarousel, ElCarouselItem, ElImage, ElTabPane, ElTabs} from "element-plus";
+import place                        from "../components/place.vue";
+import images                       from "../components/images.vue";
+import {ElImage, ElTabPane, ElTabs} from "element-plus";
 
 export default {
     components: {
+        images,
         place,
         ElTabPane,
         ElTabs,
-        ElCarousel,
-        ElCarouselItem,
         ElImage
     },
     created() {
         this.fetchAd();
     },
     computed: {
+        comments() {
+            return this.ad.comments_count ? this.ad.comments : [];
+        },
         images() {
             if (!this.ad.attachments) {
                 return [];
@@ -90,7 +81,7 @@ export default {
     },
     data() {
         return {
-            ad: {},
+            ad        : {},
             activeName: 'place'
         }
     },

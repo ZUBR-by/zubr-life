@@ -21,7 +21,7 @@
                     <h3 class="is-size-4 pl-5">{{ place.name }}</h3>
                     <p class="pl-5 pt-3 pr-5" style="white-space: pre-wrap;font-size: 18px">
                         {{ description }} <a @click="fullText = !fullText">
-                        {{fullText ? 'Показать меньше' : 'Показать все'}}
+                        {{ fullText ? 'Показать меньше' : 'Показать все' }}
                     </a>
                     </p>
                     <div class="columns pt-2 pl-3 pr-3">
@@ -41,25 +41,15 @@
                         </div>
                     </div>
                     <div class="pl-5 pt-3 pb-4 pr-5" style="min-height: 300px;">
-                        <el-tabs v-model="activeName">
+                        <el-tabs v-model="activeName" name="media">
                             <el-tab-pane label="Расположение" name="place" v-if="place.longitude">
                                 <place :latitude="place.latitude" :longitude="place.longitude"></place>
                             </el-tab-pane>
+                            <el-tab-pane label="Медия" name="media">
+                                <images :images="images"></images>
+                            </el-tab-pane>
                             <el-tab-pane :label="'Комментарии' + '(' + place.comments_count +')'" name="comments">
-                                <div class="card"
-                                     v-for="comment of place.comments"
-                                     v-if="place.comments_count > 0">
-                                    <div class="card-content">
-                                        <div class="content">
-                                            {{ comment.text }}
-                                        </div>
-                                    </div>
-                                    <footer class="card-footer">
-                                        <a href="#" class="card-footer-item">Author</a>
-                                        <a href="#" class="card-footer-item">Дата</a>
-                                    </footer>
-                                </div>
-
+                                <comments :comments="comments"></comments>
                             </el-tab-pane>
                         </el-tabs>
                     </div>
@@ -70,22 +60,26 @@
 </template>
 
 <script>
-import place                                                    from "../components/place.vue";
-import {ElCarousel, ElCarouselItem, ElImage, ElTabPane, ElTabs} from "element-plus";
+import place               from "../components/place.vue";
+import {ElTabPane, ElTabs} from "element-plus";
+import Images              from "../components/images.vue";
+import Comments            from "../components/comments.vue";
 
 export default {
     components: {
+        Comments,
+        Images,
         place,
         ElTabPane,
         ElTabs,
-        ElCarousel,
-        ElCarouselItem,
-        ElImage
     },
     created() {
         this.fetchPlace();
     },
     computed: {
+        comments() {
+            return this.place.comments_count ? this.place.comments : [];
+        },
         description() {
             if (!this.fullText) {
                 return this.place.description.substr(0, 800) + '...'

@@ -56,20 +56,7 @@
                                 </table>
                             </el-tab-pane>
                             <el-tab-pane :label="'Комментарии' + '(' + person.comments_count +')'" name="comments">
-                                <div class="card"
-                                     v-for="comment of person.comments"
-                                     v-if="person.comments_count > 0">
-                                    <div class="card-content">
-                                        <div class="content">
-                                            {{ comment.text }}
-                                        </div>
-                                    </div>
-                                    <footer class="card-footer">
-                                        <a href="#" class="card-footer-item">Author</a>
-                                        <a href="#" class="card-footer-item">Дата</a>
-                                    </footer>
-                                </div>
-
+                                <comments :comments="comments"></comments>
                             </el-tab-pane>
                         </el-tabs>
                     </div>
@@ -83,17 +70,23 @@
 
 <script>
 
-import {ElTabPane, ElTabs} from "element-plus";
+import {ElTabPane, ElTabs, ElCard} from "element-plus";
+import Comments                    from "../components/comments.vue";
 
 export default {
     components: {
+        Comments,
         ElTabPane,
-        ElTabs
+        ElTabs,
+        ElCard
     },
     created() {
         this.fetchPerson();
     },
     computed: {
+        comments() {
+            return this.person.comments_count ? this.person.comments : [];
+        },
         photo() {
             return this.person.photo_url ? this.person.photo_url : 'https://zubr.in/assets/images/user.svg'
         },

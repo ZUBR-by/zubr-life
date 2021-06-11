@@ -67,20 +67,7 @@
                             <el-tab-pane :label="'Комментарии' + '(' + organization.comments_count +')'"
                                          name="comments"
                                          v-if="organization.name">
-                                <div class="card"
-                                     v-for="comment of organization.comments"
-                                     v-if="organization.comments_count > 0">
-                                    <div class="card-content">
-                                        <div class="content">
-                                            {{ comment.text }}
-                                        </div>
-                                    </div>
-                                    <footer class="card-footer">
-                                        <a href="#" class="card-footer-item">Author</a>
-                                        <a href="#" class="card-footer-item">Дата</a>
-                                    </footer>
-                                </div>
-
+                                <comments :comments="comments"></comments>
                             </el-tab-pane>
                         </el-tabs>
                     </div>
@@ -94,9 +81,11 @@
 
 import {ElTabPane, ElTabs} from 'element-plus'
 import place               from "../components/place.vue";
+import Comments            from "../components/comments.vue";
 
 export default {
     components: {
+        Comments,
         ElTabPane,
         ElTabs,
         place
@@ -113,6 +102,9 @@ export default {
         }
     },
     computed: {
+        comments() {
+            return this.organization.comments_count ? this.organization.comments : [];
+        },
         links() {
             if (!this.organization.attachments) {
                 return [];
