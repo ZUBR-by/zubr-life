@@ -18,8 +18,8 @@ class GetOrganizationAction extends AbstractController
       'longitude', o.longitude,
       'latitude', o.latitude,
       'address', o.address,
-      'attachments', o.attachments,
-      'comments_count', cast(COUNT(DISTINCT c.id) as integer),
+      'attachments', JSON_QUERY(JSON_ARRAYAGG(o.attachments), '$[0]'),
+      'comments_count', CAST(COUNT(DISTINCT c.id) as integer),
       'comments', JSON_ARRAYAGG(
           DISTINCT JSON_OBJECT(
               'text', text, 
@@ -28,6 +28,7 @@ class GetOrganizationAction extends AbstractController
               'params', c.params
           )
       ),
+      'people_count', CAST(COUNT(DISTINCT p.id) as integer),
       'people', JSON_ARRAYAGG(DISTINCT JSON_OBJECT(
         'id', p.id,
         'full_name', p.full_name,

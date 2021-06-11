@@ -18,10 +18,21 @@
                         </ul>
                     </nav>
                     <hr>
+                    <div class="pl-5">
+                        <h3 class="is-size-4">{{ organization.name }}</h3>
+                    </div>
                     <div class="columns">
-                        <div class="column pl-5 is-one-third">
-                            <h3 class="is-size-4">{{ organization.name }}</h3>
-                            <p class="pt-2"><b>Адрес:</b> {{ organization.address }}</p>
+                        <div class="column pl-5">
+                            <p class="pt-2 pl-3" v-if="organization.address">
+                                <b>Адрес:</b> {{ organization.address }}
+                            </p>
+                            <div v-if="links" class="pl-3">
+                                <ul>
+                                    <li v-for="link of links" :key="link.value">
+                                        <a :href="link.value">{{ link.name ? link.name : link.value }}</a>
+                                    </li>
+                                </ul>
+                            </div>
                         </div>
                         <div class="column is-two-thirds" v-if="organization.latitude">
                             <place :longitude="organization.longitude" :latitude="organization.latitude"></place>
@@ -32,7 +43,7 @@
                             <el-tab-pane label="Люди относящиеся к организации" name="people" style="overflow-x: auto">
                                 <table class="table is-fullwidth is-striped">
                                     <tbody>
-                                    <tr v-for="person of organization.people" :key="person.id">
+                                    <tr v-for="person of organization.people" :key="person.id" v-if="organization.people_count > 0">
                                         <td style="vertical-align: middle">
                                             <div class="grid-image">
                                                 <img :src="person.photo_url
@@ -53,7 +64,9 @@
                                     </tbody>
                                 </table>
                             </el-tab-pane>
-                            <el-tab-pane :label="'Комментарии' + '(' + organization.comments_count +')'" name="comments">
+                            <el-tab-pane :label="'Комментарии' + '(' + organization.comments_count +')'"
+                                         name="comments"
+                                         v-if="organization.name">
                                 <div class="card"
                                      v-for="comment of organization.comments"
                                      v-if="organization.comments_count > 0">
@@ -99,7 +112,15 @@ export default {
             activeName  : 'people'
         }
     },
-    methods: {
+    computed: {
+        links() {
+            if (!this.organization.attachments) {
+                return [];
+            }
+            return this.organization.attachments.filter(i => i.type === 'link')
+        }
+    },
+    methods : {
         fetchOrganization() {
             fetch(import.meta.env.VITE_TELEGRAM_API_URL + '/organization/' + this.$route.params.id)
                 .then(r => r.json())
