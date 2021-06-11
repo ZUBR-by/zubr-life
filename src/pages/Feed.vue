@@ -1,32 +1,35 @@
 <template>
     <div class="section zbr-promo">
-        <div class="column is-centered">
-            <div class="content is-medium">
-                <h1 class="pl-5 pb-5 has-text-weight-bold">
-                    Лента новостей
-                </h1>
+
+        <div class="columns is-centered">
+
+            <div class="column is-half">
+
+                <table class="table">
+                    <thead>
+                    <tr>
+                        <th><h3 class="content is-medium has-text-weight-bold">
+                            Лента новостей
+                        </h3></th>
+                        <th><button class="button" @click="showModal = true">Добавить</button></th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr v-for="item of feed">
+                        <th>
+                            <router-link :to="{name: item.type, params: {id: item.id}}">{{ item.name }}</router-link>
+                        </th>
+                        <th>
+                            <div class="tag"
+                                 :class="{'is-primary' : item.type === 'ad', 'is-danger': item.type === 'event'}">
+                                {{ item.type === 'event' ? 'Событие' : 'Объявление' }}
+                            </div>
+                        </th>
+
+                    </tr>
+                    </tbody>
+                </table>
             </div>
-            <table class="table">
-                <thead>
-                <tr>
-                    <th>Номер</th>
-                    <th>Название</th>
-                    <th>Описание</th>
-                    <th>
-                        <button class="button" @click="showModal = true">Добавить</button>
-                    </th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr v-for="item of feed">
-                    <th>
-                        <router-link :to="{name: item.type, params: {id: item.id}}">{{ item.name }}</router-link>
-                    </th>
-                    <th>{{ item.type }}</th>
-                    <th>{{ item.description }}</th>
-                </tr>
-                </tbody>
-            </table>
         </div>
     </div>
     <div class="modal is-clipped" :class="{'is-active': showModal}">
@@ -42,7 +45,7 @@
                             {{ error }}
                         </div>
                     </article>
-                    <h3 class="pb-5 has-text-weight-bold">Добавить объявление</h3>
+                    <h3 class="pb-5 has-text-weight-bold">Добавить объявление/событие</h3>
                     <div class="field">
                         <label class="label">Название</label>
                         <div class="control">

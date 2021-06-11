@@ -90,8 +90,8 @@ const router = createRouter({
 router.afterEach(async (to, from) => {
     await nextTick()
     document.title = to.meta.title
-        ? 'ZUBR.life - ' + to.meta.title
-        : 'ZUBR.life - Экран местного самоуправления';
+        ? 'Лошица ZUBR.life - ' + to.meta.title
+        : 'Лошица ZUBR.life - Экран местного самоуправления';
 })
 export default router
 export {routes}

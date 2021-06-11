@@ -21,11 +21,20 @@
                     <div class="columns pl-3">
                         <div class="column pl-5">
                             <div class="person-photo">
-                                <img :src="person.photo_url ? person.photo_url : 'https://zubr.in/assets/images/user.svg'">
+                                <img :src="photo">
                             </div>
                         </div>
                         <div class="column is-four-fifths">
                             <h3 class="is-size-3">{{ person.full_name }}</h3>
+                            <div v-if="links" class="pt-4">
+                                <ul>
+                                    <li v-for="link of links" :key="link.value">
+                                        <a :href="link.value" target="_blank">
+                                            {{ link.name ? link.name : link.value }}
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
                         </div>
                     </div>
                     <div class="pl-5 pt-3 pb-4 pr-5" style="min-height: 300px;">
@@ -70,7 +79,6 @@
     </div>
 
 
-
 </template>
 
 <script>
@@ -85,12 +93,22 @@ export default {
     created() {
         this.fetchPerson();
     },
-
+    computed: {
+        photo() {
+            return this.person.photo_url ? this.person.photo_url : 'https://zubr.in/assets/images/user.svg'
+        },
+        links() {
+            if (!this.person.attachments) {
+                return [];
+            }
+            return this.person.attachments.filter(i => i.type === 'link')
+        }
+    },
     data() {
         return {
-            person: {},
-            error : null,
-            activeName  : 'orgs'
+            person    : {},
+            error     : null,
+            activeName: 'orgs'
         }
     },
     methods: {

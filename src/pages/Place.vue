@@ -1,23 +1,109 @@
 <template>
     <div class="section zbr-promo">
-        <div class="column is-centered">
-            {{ place }}
-            <place v-if="place.longitude" :latitude="place.latitude" :longitude="place.longitude"></place>
+        <div class="columns is-centered">
+            <div class="column is-two-thirds">
+                <div class="panel" v-if="place.name">
+                    <nav class="breadcrumb pt-5 pl-3 is-medium" aria-label="breadcrumbs">
+                        <ul>
+                            <li>
+                                <router-link :to="{name: 'home'}">
+                                    <button class="button is-primary is-inverted">
+                                        <span class="icon is-small">
+                                          <i class="fas fa-arrow-left"></i>
+                                        </span>
+                                        <span>Главная</span>
+                                    </button>
+                                </router-link>
+                            </li>
+                        </ul>
+                    </nav>
+                    <hr>
+                    <h3 class="is-size-4 pl-5">{{ place.name }}</h3>
+                    <p class="pl-5 pt-3 pr-5" style="white-space: pre-wrap;font-size: 18px">
+                        {{ description }} <a @click="fullText = !fullText">
+                        {{fullText ? 'Показать меньше' : 'Показать все'}}
+                    </a>
+                    </p>
+                    <div class="columns pt-2 pl-3 pr-3">
+                        <div class="column">
+                            <el-carousel trigger="click" :arrow="'always'" :autoplay="false" v-if="images.length > 0">
+                                <el-carousel-item v-for="item of images" :key="item.value">
+                                    <div class="columns is-centered">
+                                        <el-image :src="item.value"
+                                                  class="pl-6 pr-6"
+                                                  :preview-src-list="[item.value]"
+                                                  :append-to-body="true"
+                                                  style="width: 600px; height: 400px"
+                                                  :fit="'scale-down'"></el-image>
+                                    </div>
+                                </el-carousel-item>
+                            </el-carousel>
+                        </div>
+                    </div>
+                    <div class="pl-5 pt-3 pb-4 pr-5" style="min-height: 300px;">
+                        <el-tabs v-model="activeName">
+                            <el-tab-pane label="Расположение" name="place" v-if="place.longitude">
+                                <place :latitude="place.latitude" :longitude="place.longitude"></place>
+                            </el-tab-pane>
+                            <el-tab-pane :label="'Комментарии' + '(' + place.comments_count +')'" name="comments">
+                                <div class="card"
+                                     v-for="comment of place.comments"
+                                     v-if="place.comments_count > 0">
+                                    <div class="card-content">
+                                        <div class="content">
+                                            {{ comment.text }}
+                                        </div>
+                                    </div>
+                                    <footer class="card-footer">
+                                        <a href="#" class="card-footer-item">Author</a>
+                                        <a href="#" class="card-footer-item">Дата</a>
+                                    </footer>
+                                </div>
+
+                            </el-tab-pane>
+                        </el-tabs>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </template>
 
 <script>
-import place from "../components/place.vue";
+import place                                                    from "../components/place.vue";
+import {ElCarousel, ElCarouselItem, ElImage, ElTabPane, ElTabs} from "element-plus";
 
 export default {
-    components: {place},
+    components: {
+        place,
+        ElTabPane,
+        ElTabs,
+        ElCarousel,
+        ElCarouselItem,
+        ElImage
+    },
     created() {
         this.fetchPlace();
     },
+    computed: {
+        description() {
+            if (!this.fullText) {
+                return this.place.description.substr(0, 800) + '...'
+            }
+            return this.place.description;
+        },
+        images() {
+            if (!this.place.attachments) {
+                return [];
+            }
+            return this.place.attachments.filter(item => item.type === 'image')
+        }
+    },
     data() {
         return {
-            place: {},
+            fullText  : false,
+            place     : {},
+            activeName: 'place'
         }
     },
     methods: {

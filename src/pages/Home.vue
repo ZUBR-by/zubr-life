@@ -4,7 +4,7 @@
             <div class="column is-three-fifths">
                 <div class="content is-medium">
                     <h1 class="pl-5 pb-5 has-text-weight-bold">
-                        Экран местного самоуправления
+                        Экран местного самоуправления - {{name}}
                     </h1>
                     <ul class="pr-6">
                         <li class="pb-3">
@@ -188,6 +188,7 @@ export default {
             map    : null,
             feature: null,
             feed   : [],
+            name   : 'Лошица'
         }
     },
     mounted() {

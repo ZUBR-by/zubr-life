@@ -18,7 +18,7 @@ class GetPlaceAction extends AbstractController
       'longitude', p.longitude,
       'latitude', p.latitude,
       'description', p.description,
-      'attachments', p.attachments,
+      'attachments', JSON_QUERY(JSON_ARRAYAGG(p.attachments), '$[0]'),
       'comments_count', cast(COUNT(DISTINCT c.id) as integer),
       'comments', JSON_ARRAYAGG(
           DISTINCT JSON_OBJECT(
@@ -31,7 +31,7 @@ class GetPlaceAction extends AbstractController
         )
      )
      FROM place p
-LEFT JOIN comment c on p.id = c.event_id AND c.hidden_at IS NULL
+LEFT JOIN comment c ON p.id = c.event_id AND c.hidden_at IS NULL
     WHERE p.id = ?
 SQL
             ,
