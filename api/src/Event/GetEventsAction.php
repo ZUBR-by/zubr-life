@@ -25,7 +25,8 @@ SELECT JSON_OBJECT('data', JSON_ARRAYAGG(
          )
         ORDER BY created_at DESC
        ))
-  FROM event
+  FROM event 
+ WHERE hidden_at IS NULL
 SQL
         );
         return JsonResponse::fromJsonString($data ?: '{"data":[]}');

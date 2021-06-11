@@ -18,7 +18,7 @@ class GetAdAction extends AbstractController
       'description', a.description,
       'longitude', a.longitude,
       'latitude', a.latitude,
-      'attachments', a.attachments,
+      'attachments',JSON_QUERY(JSON_ARRAYAGG(a.attachments), '$[0]'),
       'created_at', DATE_FORMAT(a.created_at, '%d.%m.%Y'),
       'comments_count', cast(COUNT(DISTINCT c.id) as integer),
       'comments', JSON_ARRAYAGG(
@@ -33,7 +33,7 @@ class GetAdAction extends AbstractController
      )
      FROM ad a
 LEFT JOIN comment c on a.id = c.ad_id AND c.hidden_at IS NULL
-    WHERE a.id = ?
+    WHERE a.id = ? AND a.hidden_at IS NULL
 SQL
             ,
             [$id]

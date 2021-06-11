@@ -24,9 +24,9 @@ SELECT JSON_OBJECT('data', JSON_ARRAYAGG(
            $limit
        ))
  FROM (
-     SELECT id, 'ad' as type, name, created_at FROM ad
+     SELECT id, 'ad' as type, name, created_at FROM ad WHERE hidden_at IS NULL
      UNION ALL
-     SELECT id, 'event' as type, name, created_at FROM event
+     SELECT id, 'event' as type, name, created_at FROM event WHERE hidden_at IS NULL
  ) as f
 SQL
         );
