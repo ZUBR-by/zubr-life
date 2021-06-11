@@ -44,7 +44,7 @@
                                 <table class="table is-fullwidth is-striped">
                                     <tbody>
                                     <tr v-for="person of organization.people" :key="person.id" v-if="organization.people_count > 0">
-                                        <td style="vertical-align: middle">
+                                        <td style="vertical-align: middle;width: 80px">
                                             <div class="grid-image">
                                                 <img :src="person.photo_url
                                         ? person.photo_url

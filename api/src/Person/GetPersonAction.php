@@ -17,7 +17,7 @@ SELECT JSON_OBJECT(
     'full_name', full_name,
     'description', description,
     'photo_url', photo_url,
-    'attachments', p.attachments,
+    'attachments', JSON_QUERY(JSON_ARRAYAGG(o.attachments), '$[0]'),
     'organizations_count', cast(COUNT(DISTINCT o.id) as integer),
     'organizations', JSON_ARRAYAGG(DISTINCT JSON_OBJECT('id', o.id, 'name', o.name)),
     'comments_count', cast(COUNT(DISTINCT c.id) as integer),
