@@ -7,7 +7,7 @@
                 </a>
                 <div class="has-text-weight-medium pr-6 is-hidden-desktop">
                     <div id="script"></div>
-                    <input id="brgrbtn" class="is-hidden-desktop" type="checkbox">
+                    <input id="brgrbtn" class="is-hidden-desktop" type="checkbox" v-model="hidden">
                     <label for="brgrbtn" class="burger-button is-hidden-desktop mr-5">
                         <div class="burger-button-line"></div>
                         <div class="burger-button-line"></div>
@@ -19,9 +19,9 @@
                                 Разделы сайта
                             </p>
                             <ul class="menu-list">
-                                <li v-for="route of routes"  :key="route.name">
-                                    <router-link :to="{name: route.name}">
-                                        {{route.label}}
+                                <li v-for="route of routes" :key="route.name">
+                                    <router-link :to="{name: route.name}" @click="hidden = false">
+                                        {{ route.label }}
                                     </router-link>
                                 </li>
                             </ul>
@@ -33,7 +33,7 @@
                 <a id="widget"></a>
                 <router-link class="ml-5"
                              v-for="route of routes" :to="{name: route.name}" :key="route.name">
-                    {{route.label}}
+                    {{ route.label }}
                 </router-link>
             </div>
         </div>
@@ -46,6 +46,7 @@ import {routes} from "../router";
 export default {
     data() {
         return {
+            hidden: false,
             routes: routes.filter(i => i.label)
         }
     },
