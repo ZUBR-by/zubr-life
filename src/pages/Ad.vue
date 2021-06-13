@@ -19,9 +19,14 @@
                     </nav>
                     <hr>
                     <h3 class="is-size-4 pl-3">{{ ad.name }}</h3>
+                    <ul>
+                        <li v-for="link of links" :key="link.value">
+                            <a :href="link.value">{{ link.name ? link.name : link.value }}</a>
+                        </li>
+                    </ul>
                     <div class="columns pt-2 pl-3 pr-3">
                         <div class="column">
-                            <images :images="images"></images>
+                            <gallery :collection="media"></gallery>
                         </div>
                     </div>
                     <div class="pl-5 pt-3 pb-4 pr-5" style="min-height: 300px;">
@@ -54,12 +59,12 @@
 
 <script>
 import place                        from "../components/place.vue";
-import images                       from "../components/images.vue";
+import gallery                       from "../components/gallery.vue";
 import {ElImage, ElTabPane, ElTabs} from "element-plus";
 
 export default {
     components: {
-        images,
+        gallery,
         place,
         ElTabPane,
         ElTabs,
@@ -72,12 +77,18 @@ export default {
         comments() {
             return this.ad.comments_count ? this.ad.comments : [];
         },
-        images() {
+        media() {
             if (!this.ad.attachments) {
                 return [];
             }
-            return this.ad.attachments.filter(item => item.type === 'image')
-        }
+            return this.ad.attachments.filter(item => item.type !== 'link')
+        },
+        links() {
+            if (!this.ad.attachments) {
+                return [];
+            }
+            return this.ad.attachments.filter(item => item.type === 'link')
+        },
     },
     data() {
         return {

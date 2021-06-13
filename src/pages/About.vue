@@ -28,6 +28,9 @@
                     <li>
                         <a href="https://vk.com/loshitsa1">Паблик Лошицы в ВК</a>
                     </li>
+                    <li>
+                        <a href="https://t.me/volnayaLoshica/1284">История микрарайона</a>
+                    </li>
                 </ul>
             </div>
         </div>

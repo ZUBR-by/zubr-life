@@ -19,6 +19,11 @@
                     </nav>
                     <hr>
                     <h3 class="is-size-4 pl-5">{{ place.name }}</h3>
+                    <ul>
+                        <li v-for="link of links" :key="link.value">
+                            <a :href="link.value">{{ link.name ? link.name : link.value }}</a>
+                        </li>
+                    </ul>
                     <p class="pl-5 pt-3 pr-5" style="white-space: pre-wrap;font-size: 18px">
                         {{ description }} <a @click="fullText = !fullText">
                         {{ fullText ? 'Показать меньше' : 'Показать все' }}
@@ -26,18 +31,7 @@
                     </p>
                     <div class="columns pt-2 pl-3 pr-3">
                         <div class="column">
-                            <el-carousel trigger="click" :arrow="'always'" :autoplay="false" v-if="images.length > 0">
-                                <el-carousel-item v-for="item of images" :key="item.value">
-                                    <div class="columns is-centered">
-                                        <el-image :src="item.value"
-                                                  class="pl-6 pr-6"
-                                                  :preview-src-list="[item.value]"
-                                                  :append-to-body="true"
-                                                  style="width: 600px; height: 400px"
-                                                  :fit="'scale-down'"></el-image>
-                                    </div>
-                                </el-carousel-item>
-                            </el-carousel>
+                            <gallery :collection="media"></gallery>
                         </div>
                     </div>
                     <div class="pl-5 pt-3 pb-4 pr-5" style="min-height: 300px;">
@@ -46,7 +40,7 @@
                                 <place :latitude="place.latitude" :longitude="place.longitude"></place>
                             </el-tab-pane>
                             <el-tab-pane label="Медия" name="media">
-                                <images :images="images"></images>
+                                <gallery :collection="media"></gallery>
                             </el-tab-pane>
                             <el-tab-pane :label="'Комментарии' + '(' + place.comments_count +')'" name="comments">
                                 <comments :comments="comments"></comments>
@@ -62,13 +56,13 @@
 <script>
 import place               from "../components/place.vue";
 import {ElTabPane, ElTabs} from "element-plus";
-import Images              from "../components/images.vue";
 import Comments            from "../components/comments.vue";
+import Gallery             from "../components/gallery.vue";
 
 export default {
     components: {
+        Gallery,
         Comments,
-        Images,
         place,
         ElTabPane,
         ElTabs,
@@ -86,12 +80,18 @@ export default {
             }
             return this.place.description;
         },
-        images() {
+        media() {
             if (!this.place.attachments) {
                 return [];
             }
-            return this.place.attachments.filter(item => item.type === 'image')
-        }
+            return this.place.attachments.filter(item => item.type !== 'link')
+        },
+        links() {
+            if (!this.place.attachments) {
+                return [];
+            }
+            return this.place.attachments.filter(item => item.type === 'link')
+        },
     },
     data() {
         return {

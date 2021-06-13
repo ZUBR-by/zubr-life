@@ -18,10 +18,17 @@
                         </ul>
                     </nav>
                     <hr>
-                    <h3 class="is-size-4 pl-5">{{ event.name }}</h3>
+                    <div class="pl-5">
+                        <h3 class="is-size-4">{{ event.name }}</h3>
+                        <ul>
+                            <li v-for="link of links" :key="link.value">
+                                <a :href="link.value">{{ link.name ? link.name : link.value }}</a>
+                            </li>
+                        </ul>
+                    </div>
                     <div class="columns pt-2 pl-5 pr-3">
                         <div class="column">
-                            <images :images="images"></images>
+                            <gallery :collection="media"></gallery>
                         </div>
                     </div>
                     <div class="pl-5 pt-3 pb-4 pr-5" style="min-height: 300px;">
@@ -43,14 +50,14 @@
 <script>
 
 import {ElTabPane, ElTabs, ElImage} from "element-plus";
-import Map                          from "../components/place.vue";
-import Images                       from "../components/images.vue";
-import Comments                     from "../components/comments.vue";
+import Map      from "../components/place.vue";
+import gallery   from "../components/gallery.vue";
+import Comments from "../components/comments.vue";
 
 export default {
     components: {
         Comments,
-        Images,
+        gallery,
         'place': Map,
         ElTabPane,
         ElTabs,
@@ -63,11 +70,17 @@ export default {
         comments() {
             return this.event.comments_count ? this.event.comments : [];
         },
-        images() {
+        links() {
             if (!this.event.attachments) {
                 return [];
             }
-            return this.event.attachments.filter(item => item.type === 'image')
+            return this.event.attachments.filter(item => item.type === 'link')
+        },
+        media() {
+            if (!this.event.attachments) {
+                return [];
+            }
+            return this.event.attachments.filter(item => item.type !== 'link')
         }
     },
     data() {
