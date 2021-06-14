@@ -95,7 +95,9 @@ export default {
     },
     data() {
         return {
-            organization: {},
+            organization: {
+                comments_count: 0
+            },
             error       : null,
             map         : null,
             activeName  : 'people'

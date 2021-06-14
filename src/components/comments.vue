@@ -4,21 +4,22 @@
             <div class="clearfix">
                 <el-button class="button"
                            style="padding: 3px 0"
-                           type="text">Анонимный автор</el-button>
+                           type="text">Анонимный автор
+                </el-button>
                 <el-button class="button"
                            style="float: right; padding: 3px 0"
-                           type="text">{{ comment.created_at }}</el-button>
+                           type="text">{{ comment.created_at }}
+                </el-button>
             </div>
         </template>
         <div>
             {{ comment.text }}
             <template v-for="link of comment.attachments.filter(i => i.type === 'link')">
                 <a :href="link.value">
-                    {{link.name ? link.name : link.value}}
+                    {{ link.name ? link.name : link.value }}
                 </a>
                 &nbsp;
             </template>
-
         </div>
     </el-card>
 </template>
@@ -44,6 +45,7 @@ export default {
     display: table;
     content: "";
 }
+
 .clearfix:after {
     clear: both
 }

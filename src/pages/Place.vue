@@ -96,7 +96,9 @@ export default {
     data() {
         return {
             fullText  : false,
-            place     : {},
+            place     : {
+                comments_count: 0
+            },
             activeName: 'place'
         }
     },

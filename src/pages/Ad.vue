@@ -91,7 +91,9 @@ export default {
     },
     data() {
         return {
-            ad        : {},
+            ad        : {
+                comments_count: 0
+            },
             activeName: 'place'
         }
     },

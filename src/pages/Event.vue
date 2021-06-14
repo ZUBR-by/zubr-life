@@ -86,7 +86,9 @@ export default {
     },
     data() {
         return {
-            event     : {},
+            event     : {
+                comments_count: 0
+            },
             activeName: 'place'
         }
     },

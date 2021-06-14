@@ -99,7 +99,9 @@ export default {
     },
     data() {
         return {
-            person    : {},
+            person    : {
+                comments_count: 0
+            },
             error     : null,
             activeName: 'orgs'
         }
