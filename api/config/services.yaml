@@ -9,7 +9,9 @@ services:
       $botToken: "%env(LOCALITY_BOT_TOKEN)%"
       $allowedGroups: "%env(json:GROUPS)%"
       $domain: "%env(DOMAIN)%"
-
+      $s3Key: "%env(AWS_KEY)%"
+      $s3Secret: "%env(AWS_SECRET)%"
+      $s3Bucket: "%env(S3_BUCKET)%"
       $privateKey: '%private_key%'
       $publicKey: '%env(resolve:JWT_PUBLIC_KEY)%'
 

@@ -36,7 +36,8 @@
         "symfony/string": "5.2.*",
         "symfony/translation": "5.2.*",
         "symfony/validator": "5.2.*",
-        "symfony/yaml": "5.2.*"
+        "symfony/yaml": "5.2.*",
+        "aws/aws-sdk-php": "3.147.*"
     },
     "require-dev": {
         "doctrine/doctrine-fixtures-bundle": "^3.4",
