@@ -1,20 +1,22 @@
 <template>
-    <el-image v-if="collection.length === 1"
-              v-for="item of collection"
-              :src="item.value"
-              :preview-src-list="[item.value]"
-              :append-to-body="true"
-              style="width: 600px; height: 400px"
-              :fit="'scale-down'"></el-image>
-    <el-carousel trigger="click" :arrow="'always'" :autoplay="false" v-if="collection.length > 1">
+    <el-carousel trigger="click" :arrow="'always'" :autoplay="false" v-if="collection.length > 0" style="max-height: 800px">
         <el-carousel-item v-for="item of collection" :key="item.value">
             <div class="columns is-centered">
                 <el-image :src="item.value"
+                          v-if="item.type === 'image'"
                           class="pl-6 pr-6"
                           :preview-src-list="[item.value]"
                           :append-to-body="true"
-                          style="width: 600px; height: 400px"
+                          style="width: 600px;height: 600px;margin:auto"
                           :fit="'scale-down'"></el-image>
+                <div v-else-if="item.type === 'video'">
+                    <video controls style="height: auto;">
+                        <source :src="item.value">
+                    </video>
+                </div>
+                <template v-else>
+                    {{item}}
+                </template>
             </div>
         </el-carousel-item>
     </el-carousel>
@@ -34,6 +36,10 @@ export default {
 }
 </script>
 
-<style scoped>
-
+<style>
+.el-carousel__container {
+    min-height: 600px;
+    max-height: 1000px;
+    position: relative;
+}
 </style>

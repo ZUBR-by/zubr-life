@@ -26,13 +26,11 @@
                             </li>
                         </ul>
                     </div>
-                    <div class="columns pt-2 pl-5 pr-3">
-                        <div class="column">
-                            <gallery :collection="media"></gallery>
-                        </div>
-                    </div>
                     <div class="pl-5 pt-3 pb-4 pr-5" style="min-height: 300px;">
                         <el-tabs v-model="activeName">
+                            <el-tab-pane label="Медиа" name="media">
+                                <gallery :collection="media"></gallery>
+                            </el-tab-pane>
                             <el-tab-pane label="Место" name="place" v-if="event.longitude">
                                 <place :latitude="event.latitude" :longitude="event.longitude"></place>
                             </el-tab-pane>
@@ -103,10 +101,3 @@ export default {
 
 }
 </script>
-
-<style>
-.el-carousel__container {
-    height: 400px !important;
-    position: relative;
-}
-</style>
