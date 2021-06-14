@@ -20,6 +20,9 @@
                     <hr>
                     <div class="pl-5">
                         <h3 class="is-size-4">{{ event.name }}</h3>
+                        <p>
+                            {{event.description}}
+                        </p>
                         <ul>
                             <li v-for="link of links" :key="link.value">
                                 <a :href="link.value">{{ link.name ? link.name : link.value }}</a>
@@ -28,7 +31,7 @@
                     </div>
                     <div class="pl-5 pt-3 pb-4 pr-5" style="min-height: 300px;">
                         <el-tabs v-model="activeName">
-                            <el-tab-pane label="Медиа" name="media">
+                            <el-tab-pane label="Галерея" name="media">
                                 <gallery :collection="media"></gallery>
                             </el-tab-pane>
                             <el-tab-pane label="Место" name="place" v-if="event.longitude">
@@ -94,6 +97,9 @@ export default {
                 .then(
                     r => {
                         this.event = r.data;
+                        if (!this.event.longitude) {
+                            this.activeName = 'media'
+                        }
                     }
                 )
         },

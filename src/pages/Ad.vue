@@ -18,19 +18,18 @@
                         </ul>
                     </nav>
                     <hr>
-                    <h3 class="is-size-4 pl-3">{{ ad.name }}</h3>
-                    <ul>
+                    <h3 class="is-size-4 pl-5">{{ ad.name }}</h3>
+                    <p class="pl-5"> {{ad.description}}</p>
+                    <ul class="pl-5">
                         <li v-for="link of links" :key="link.value">
                             <a :href="link.value">{{ link.name ? link.name : link.value }}</a>
                         </li>
                     </ul>
-                    <div class="columns pt-2 pl-3 pr-3">
-                        <div class="column">
-                            <gallery :collection="media"></gallery>
-                        </div>
-                    </div>
                     <div class="pl-5 pt-3 pb-4 pr-5" style="min-height: 300px;">
                         <el-tabs v-model="activeName">
+                            <el-tab-pane label="Галерея" name="media">
+                                <gallery :collection="media"></gallery>
+                            </el-tab-pane>
                             <el-tab-pane label="Место" name="place" v-if="ad.longitude">
                                 <place :latitude="ad.latitude" :longitude="ad.longitude"></place>
                             </el-tab-pane>
@@ -103,6 +102,9 @@ export default {
                 .then(
                     r => {
                         this.ad = r.data;
+                        if (!this.ad.longitude) {
+                            this.activeName = 'media'
+                        }
                     }
                 )
         }
