@@ -21,7 +21,7 @@
                             <router-link :to="{name: item.type, params: {id: item.id}}">{{ item.name }}</router-link>
                         </th>
                         <th>{{item.created_at}}</th>
-                        <th>
+                        <th style="text-align: center">
                             <div class="tag"
                                  :class="{'is-primary' : item.type === 'ad', 'is-danger': item.type === 'event'}">
                                 {{ item.type === 'event' ? 'Событие' : 'Объявление' }}
