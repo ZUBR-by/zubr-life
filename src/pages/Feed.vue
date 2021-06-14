@@ -11,6 +11,7 @@
                         <th><h3 class="content is-medium has-text-weight-bold">
                             Лента новостей
                         </h3></th>
+                        <th>Дата</th>
                         <th><button class="button" @click="showModal = true">Добавить</button></th>
                     </tr>
                     </thead>
@@ -19,6 +20,7 @@
                         <th>
                             <router-link :to="{name: item.type, params: {id: item.id}}">{{ item.name }}</router-link>
                         </th>
+                        <th>{{item.created_at}}</th>
                         <th>
                             <div class="tag"
                                  :class="{'is-primary' : item.type === 'ad', 'is-danger': item.type === 'event'}">
