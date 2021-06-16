@@ -11,8 +11,11 @@ class GetFeedAction extends AbstractController
 {
     public function __invoke(Request $request, Connection $connection) : JsonResponse
     {
-        $limit = $request->query->get('limit') ? 'LIMIT ' . $request->query->get('limit') : '';
-        $data  = $connection->fetchOne(<<<SQL
+        $limit = '';
+        if (is_numeric($request->query->get('limit'))) {
+            $limit = 'LIMIT ' . (string) $request->query->get('limit');
+        }
+        $data = $connection->fetchOne(<<<SQL
 SELECT JSON_OBJECT('data', JSON_ARRAYAGG(
            JSON_OBJECT(
             'id', id,

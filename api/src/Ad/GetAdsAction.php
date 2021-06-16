@@ -17,7 +17,7 @@ class GetAdsAction extends AbstractController
                         name, 
                         description 
                    FROM ad
-                  WHERE hiddent_at is NULL
+                  WHERE hidden_at is NULL
                ORDER BY created_at DESC'
             ),
         ]);

@@ -18,20 +18,10 @@ class GetPlaceAction extends AbstractController
       'longitude', p.longitude,
       'latitude', p.latitude,
       'description', p.description,
-      'attachments', JSON_QUERY(JSON_ARRAYAGG(p.attachments), '$[0]'),
-      'comments_count', cast(COUNT(DISTINCT c.id) as integer),
-      'comments', JSON_ARRAYAGG(
-          DISTINCT JSON_OBJECT(
-              'text', text, 
-              'created_at', c.created_at, 
-              'attachments', c.attachments,
-              'params', c.params
-          )
-      )
-        )
+      'attachments', JSON_QUERY(JSON_ARRAYAGG(p.attachments), '$[0]')
+    )
      )
      FROM place p
-LEFT JOIN comment c ON p.id = c.event_id AND c.hidden_at IS NULL
     WHERE p.id = ?
 SQL
             ,

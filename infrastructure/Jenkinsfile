@@ -28,6 +28,8 @@ pipeline {
             VITE_TELEGRAM_AUTH_URL = 'https://api.zubr.life/login'
             VITE_TELEGRAM_API_URL  = 'https://api.zubr.life'
             VITE_SENTRY_DSN        = credentials('SENTRY_DSN')
+            S3_SECRET              = credentials('API_S3_SECRET')
+            S3_KEY                 = credentials('API_S3_KEY')
         }
         steps {
             sh 'yarn'
@@ -44,9 +46,9 @@ APP_ENV=prod
 JWT_SECRET_KEY=%kernel.project_dir%/config/jwt/private.pem
 JWT_PUBLIC_KEY=%kernel.project_dir%/config/jwt/public.pem
 CORS_ALLOW_ORIGIN='^https?://(new.zubr.life)'
-S3_BUCKET=test
-AWS_SECRET=secret
-AWS_KEY=key
+S3_BUCKET=lifeloshica
+AWS_SECRET=${S3_SECRET}
+AWS_KEY=${S3_KEY}
 """
             }
         }

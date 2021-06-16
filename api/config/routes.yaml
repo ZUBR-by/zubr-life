@@ -19,6 +19,11 @@ add_comment:
     controller: App\AddComment
     methods: [POST]
 
+comment_list:
+    path: /comment/{type}/{id}
+    controller: App\GetCommentsAction
+    methods: [GET]
+
 ad_add:
     path: /ad
     controller: App\Ad\AddAdAction

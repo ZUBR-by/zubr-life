@@ -38,4 +38,9 @@ class User
     {
         return $this->bannedAt !== null;
     }
+
+    public function id() : int
+    {
+        return $this->id;
+    }
 }

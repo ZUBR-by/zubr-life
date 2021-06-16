@@ -43,7 +43,7 @@ class SimpleTest extends WebTestCase
         self::$container->set(TelegramAdapter::class, $mock);
         $client->getCookieJar()->set($cookie);
 
-        $client->request('POST', '/comment', [], [], []);
+        $client->request('POST', '/comment', ['id' => 1, 'type' => 'place', 'text' => 'test'], [], []);
 
         $response = $client->getResponse();
         $this->assertEquals('[]', $response->getContent(), $response->getContent());
@@ -94,6 +94,56 @@ class SimpleTest extends WebTestCase
 
         $response = $client->getResponse();
         $this->assertEquals(302, $response->getStatusCode());
+    }
+
+    public function testGetPlace(): void
+    {
+        $client = static::createClient();
+
+        $client->request('GET', '/place/1', [], [], []);
+
+        $response = $client->getResponse();
+        $this->assertEquals(200, $response->getStatusCode());
+    }
+
+    public function testGetAds(): void
+    {
+        $client = static::createClient();
+
+        $client->request('GET', '/ad', [], [], []);
+
+        $response = $client->getResponse();
+        $this->assertEquals(200, $response->getStatusCode());
+    }
+
+    public function testGetOrganizations(): void
+    {
+        $client = static::createClient();
+
+        $client->request('GET', '/organization', [], [], []);
+
+        $response = $client->getResponse();
+        $this->assertEquals(200, $response->getStatusCode());
+    }
+
+    public function testGetPeople(): void
+    {
+        $client = static::createClient();
+
+        $client->request('GET', '/person', [], [], []);
+
+        $response = $client->getResponse();
+        $this->assertEquals(200, $response->getStatusCode());
+    }
+
+    public function testGetFeed(): void
+    {
+        $client = static::createClient();
+
+        $client->request('GET', '/feed', [], [], []);
+
+        $response = $client->getResponse();
+        $this->assertEquals(200, $response->getStatusCode());
     }
 
 

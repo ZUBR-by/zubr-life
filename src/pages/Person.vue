@@ -55,8 +55,8 @@
                                     </tbody>
                                 </table>
                             </el-tab-pane>
-                            <el-tab-pane :label="'Комментарии' + '(' + person.comments_count +')'" name="comments">
-                                <comments :comments="comments"></comments>
+                            <el-tab-pane label="Комментарии" name="comments" v-if="person.id">
+                                <comments :id="person.id" :type="'person'" ></comments>
                             </el-tab-pane>
                         </el-tabs>
                     </div>
@@ -84,9 +84,6 @@ export default {
         this.fetchPerson();
     },
     computed: {
-        comments() {
-            return this.person.comments_count ? this.person.comments : [];
-        },
         photo() {
             return this.person.photo_url ? this.person.photo_url : 'https://zubr.in/assets/images/user.svg'
         },
@@ -99,9 +96,7 @@ export default {
     },
     data() {
         return {
-            person    : {
-                comments_count: 0
-            },
+            person    : {},
             error     : null,
             activeName: 'orgs'
         }
@@ -113,6 +108,7 @@ export default {
                 .then(
                     r => {
                         this.person = r.data;
+                        console.log(this.person.id)
                     }
                 )
         }

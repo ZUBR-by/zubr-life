@@ -19,15 +19,6 @@ class GetOrganizationAction extends AbstractController
       'latitude', o.latitude,
       'address', o.address,
       'attachments', JSON_QUERY(JSON_ARRAYAGG(o.attachments), '$[0]'),
-      'comments_count', CAST(COUNT(DISTINCT c.id) as integer),
-      'comments', JSON_ARRAYAGG(
-          DISTINCT JSON_OBJECT(
-              'text', text, 
-              'created_at', created_at, 
-              'attachments', c.attachments,
-              'params', c.params
-          )
-      ),
       'people_count', CAST(COUNT(DISTINCT p.id) as integer),
       'people', JSON_ARRAYAGG(DISTINCT JSON_OBJECT(
         'id', p.id,
@@ -40,7 +31,6 @@ class GetOrganizationAction extends AbstractController
      FROM organization o
 LEFT JOIN persons_organizations po on o.id = po.organization_id
 LEFT JOIN person as p on po.person_id = p.id
-LEFT JOIN comment c on o.id = c.organization_id AND c.hidden_at IS NULL
     WHERE o.id = ?
 SQL
             ,

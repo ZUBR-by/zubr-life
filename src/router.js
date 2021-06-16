@@ -48,7 +48,7 @@ const routes = [
         component: People,
     },
     {
-        path     : '/people/:id',
+        path     : '/person/:id',
         name     : 'person',
         meta     : {
             title: 'Человек'

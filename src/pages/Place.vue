@@ -18,22 +18,19 @@
                         </ul>
                     </nav>
                     <hr>
-                    <h3 class="is-size-4 pl-5">{{ place.name }}</h3>
-                    <ul>
-                        <li v-for="link of links" :key="link.value">
-                            <a :href="link.value">{{ link.name ? link.name : link.value }}</a>
-                        </li>
-                    </ul>
-                    <p class="pl-5 pt-3 pr-5" style="white-space: pre-wrap;font-size: 18px">
-                        {{ description }} <a @click="fullText = !fullText">
-                        {{ fullText ? 'Показать меньше' : 'Показать все' }}
-                    </a>
-                    </p>
-                    <div class="columns pt-2 pl-3 pr-3">
-                        <div class="column">
-                            <gallery :collection="media"></gallery>
-                        </div>
-                    </div>
+                    <article class="pl-5">
+                        <h3 class="is-size-4">{{ place.name }}</h3>
+                        <ul>
+                            <li v-for="link of links" :key="link.value">
+                                <a :href="link.value">{{ link.name ? link.name : link.value }}</a>
+                            </li>
+                        </ul>
+                        <p class="pt-3 pr-5" style="white-space: pre-wrap;font-size: 18px">
+                            {{ description }} <a @click="fullText = !fullText">
+                            {{ fullText ? 'Показать меньше' : 'Показать все' }}
+                        </a>
+                        </p>
+                    </article>
                     <div class="pl-5 pt-3 pb-4 pr-5" style="min-height: 300px;">
                         <el-tabs v-model="activeName" name="media">
                             <el-tab-pane label="Расположение" name="place" v-if="place.longitude">
@@ -42,8 +39,8 @@
                             <el-tab-pane label="Медия" name="media">
                                 <gallery :collection="media"></gallery>
                             </el-tab-pane>
-                            <el-tab-pane :label="'Комментарии' + '(' + place.comments_count +')'" name="comments">
-                                <comments :comments="comments"></comments>
+                            <el-tab-pane :label="'Комментарии'" name="comments" v-if="place.id">
+                                <comments :type="'place'" :id="place.id"></comments>
                             </el-tab-pane>
                         </el-tabs>
                     </div>
@@ -71,9 +68,6 @@ export default {
         this.fetchPlace();
     },
     computed: {
-        comments() {
-            return this.place.comments_count ? this.place.comments : [];
-        },
         description() {
             if (!this.fullText) {
                 return this.place.description.substr(0, 800) + '...'
@@ -96,9 +90,7 @@ export default {
     data() {
         return {
             fullText  : false,
-            place     : {
-                comments_count: 0
-            },
+            place     : {},
             activeName: 'place'
         }
     },

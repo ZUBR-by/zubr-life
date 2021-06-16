@@ -19,20 +19,10 @@ class GetEventAction extends AbstractController
       'latitude', e.latitude,
       'description', e.description,
       'attachments', JSON_QUERY(JSON_ARRAYAGG(e.attachments), '$[0]'),
-      'created_at', DATE_FORMAT(e.created_at, '%d.%m.%Y'),
-      'comments_count', CAST(COUNT(DISTINCT c.id) as integer),
-      'comments', JSON_ARRAYAGG(
-              DISTINCT JSON_OBJECT(
-                  'text', text, 
-                  'created_at', c.created_at, 
-                  'attachments', c.attachments,
-                  'params', c.params
-              )
-          )
-        )
+      'created_at', DATE_FORMAT(e.created_at, '%d.%m.%Y')
+    )
      )
      FROM event e
-LEFT JOIN comment c on e.id = c.event_id AND c.hidden_at IS NULL
     WHERE e.id = ? AND e.hidden_at IS NULL
 SQL
             ,

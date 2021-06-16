@@ -15,6 +15,7 @@ class Place
      * @ORM\Column(name="id", type="integer", nullable=false)
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
+     * @psalm-suppress PropertyNotSetInConstructor
      */
     private int $id;
 
@@ -52,4 +53,22 @@ class Place
      * @ORM\Column(type="datetime", nullable=true)
      */
     private ?DateTime $hiddenAt;
+
+    public function __construct(
+        string $name,
+        string $description = '',
+        array $attachments = [],
+        array $params = [],
+        ?float $latitude = null,
+        ?float $longitude = null,
+        ?DateTime $hiddenAt = null
+    ) {
+        $this->name        = $name;
+        $this->description = $description;
+        $this->attachments = $attachments;
+        $this->params      = $params;
+        $this->latitude    = $latitude;
+        $this->longitude   = $longitude;
+        $this->hiddenAt    = $hiddenAt;
+    }
 }

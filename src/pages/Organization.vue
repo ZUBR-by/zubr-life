@@ -64,10 +64,11 @@
                                     </tbody>
                                 </table>
                             </el-tab-pane>
-                            <el-tab-pane :label="'Комментарии' + '(' + organization.comments_count +')'"
+                            <el-tab-pane label="Комментарии"
                                          name="comments"
-                                         v-if="organization.name">
-                                <comments :comments="comments"></comments>
+                                         v-if="organization.id">
+                                <comments :type="'organization'"
+                                          :id="organization.id"></comments>
                             </el-tab-pane>
                         </el-tabs>
                     </div>

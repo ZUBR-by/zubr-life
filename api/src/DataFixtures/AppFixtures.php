@@ -2,6 +2,7 @@
 
 namespace App\DataFixtures;
 
+use App\Entity\Place;
 use App\Entity\User;
 use DateTime;
 use Doctrine\Bundle\FixturesBundle\Fixture;
@@ -15,6 +16,8 @@ class AppFixtures extends Fixture
         $manager->persist($product);
         $product1 = new User(2, [], new DateTime());
         $manager->persist($product1);
+        $place = new Place('test');
+        $manager->persist($place);
         $manager->flush();
     }
 }

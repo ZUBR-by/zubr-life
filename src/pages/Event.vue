@@ -18,7 +18,7 @@
                         </ul>
                     </nav>
                     <hr>
-                    <div class="pl-5">
+                    <article class="pl-5">
                         <h3 class="is-size-4">{{ event.name }}</h3>
                         <p>
                             {{event.description}}
@@ -28,7 +28,7 @@
                                 <a :href="link.value">{{ link.name ? link.name : link.value }}</a>
                             </li>
                         </ul>
-                    </div>
+                    </article>
                     <div class="pl-5 pt-3 pb-4 pr-5" style="min-height: 300px;">
                         <el-tabs v-model="activeName">
                             <el-tab-pane label="Галерея" name="media">
@@ -37,8 +37,8 @@
                             <el-tab-pane label="Место" name="place" v-if="event.longitude">
                                 <place :latitude="event.latitude" :longitude="event.longitude"></place>
                             </el-tab-pane>
-                            <el-tab-pane :label="'Комментарии' + '(' + event.comments_count +')'" name="comments">
-                                <comments :comments="comments"></comments>
+                            <el-tab-pane label="Комментарии" name="comments" v-if="event.id">
+                                <comments :type="'event'" :id="event.id"></comments>
                             </el-tab-pane>
                         </el-tabs>
                     </div>
@@ -86,9 +86,7 @@ export default {
     },
     data() {
         return {
-            event     : {
-                comments_count: 0
-            },
+            event     : {},
             activeName: 'place'
         }
     },

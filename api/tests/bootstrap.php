@@ -25,7 +25,8 @@ $application->run(new ArrayInput(
     ['command' => 'doctrine:database:create', '--if-not-exists' => true, '-vvv' => true]),
     $output
 );
-$application->run(new ArrayInput(['command' => 'doctrine:schema:update', '--force' => true, '-vvv' => true]), $output);
+$application->run(new ArrayInput(['command' => 'doctrine:schema:drop', '--force' => true, '-vvv' => true]), $output);
+$application->run(new ArrayInput(['command' => 'doctrine:schema:create', '-vvv' => true]), $output);
 $application->run(new ArrayInput(['command' => 'doctrine:fixtures:load', '-n' => true, '-vvv' => true]), $output);
 
 
