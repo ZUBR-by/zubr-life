@@ -1,28 +1,43 @@
 <template>
     <div>
-        <el-card class="box-card mt-2" v-for="comment of list">
+        <el-card class="box-card mt-2 mb-2" v-for="comment of comments">
             <template #header>
-                <div class="clearfix">
+                <div class="clearfix pl-2">
                     <el-button class="button"
-                               type="text">Анонимный автор
+                               type="text" style="font-size: 14px">Анонимный автор
+                    </el-button>
+                    <el-button class="button"
+                               v-if="comment.can_delete"
+                               style="float: right;padding-left: 10px;padding-right: 10px"
+                               icon="el-icon-close"
+                               type="text">
                     </el-button>
                     <el-button class="button"
                                :title="comment.created_at"
-                               style="float: right; padding: 0"
+                               style="float: right; padding: 0;font-size: 14px"
                                type="text">{{ comment.created_at_formatted }}
                     </el-button>
                 </div>
             </template>
-            <div>
-                {{ comment.text }}
-                <template v-for="link of comment.attachments.filter(i => i.type === 'link')">
-                    <a :href="link.value">
-                        {{ link.name ? link.name : link.value }}
+            <span style="white-space: pre-wrap;font-size: 14px">{{ comment.text }}</span>
+            <template v-for="link of comment.attachments.filter(i => i.type === 'link')">
+                <a :href="link.value">
+                    {{ link.name ? link.name : link.value }}
+                </a>
+                &nbsp;
+            </template>
+            <template v-if="comment.attachments && comment.attachments.length > 0">
+                <hr style="margin-top:5px;margin-bottom: 5px">
+                <span class="pr-3" v-for="(attachment, index) of comment.attachments">
+                    <a :href="attachment.value" target="_blank" style="font-size: 13px">
+                        Прикрепленный файл {{ index + 1 }}
                     </a>
-                    &nbsp;
-                </template>
-            </div>
+                </span>
+            </template>
         </el-card>
+        <a @click="showAll = true" v-if="!showAll" class="mt-3">
+            Показать все комментарии({{ list.length }})...
+        </a>
         <form @submit.prevent="save" class="pt-3">
             <div class="field is-grouped">
                 <p class="control is-expanded">
@@ -47,7 +62,7 @@
                         :on-remove="handleRemove"
                         multiple
                         :limit="3"
-                        accept="image/*,video/*,audio/*"
+                        accept="image/*,video/*,audio/*,application/pdf"
                         :on-exceed="handleExceed"
                         :file-list="fileList">
                         <button class="button is-inverted" type="button">
@@ -66,7 +81,7 @@
 </template>
 
 <script>
-import {ElButton, ElCard, ElUpload, ElMessage} from "element-plus";
+import {ElButton, ElCard, ElUpload, ElMessage, ElIcon} from "element-plus";
 
 const emptyComment = {
     text       : '',
@@ -75,7 +90,7 @@ const emptyComment = {
 
 export default {
     components: {
-        ElCard, ElButton, ElUpload
+        ElCard, ElButton, ElUpload, ElIcon
     },
     props     : {
         type: String,
@@ -84,7 +99,13 @@ export default {
     created() {
         this.fetchComments()
     },
-    methods: {
+    computed: {
+        comments() {
+            return this.showAll ? this.list : this.list.slice(0, 2)
+        }
+    },
+    methods : {
+
         handleRemove(file) {
             this.form.attachments = this.form.attachments.filter(i => file.uid !== i.uid)
         },
@@ -101,7 +122,6 @@ export default {
             formData.append('id', this.id + '');
 
             this.form.attachments.forEach((elem, index) => {
-                console.log(elem)
                 formData.append('attachment' + index, elem.raw);
             })
 
@@ -116,11 +136,16 @@ export default {
             })
         },
         fetchComments() {
-            fetch(import.meta.env.VITE_TELEGRAM_API_URL + '/comment/' + this.type + '/' + this.id)
+            fetch(import.meta.env.VITE_TELEGRAM_API_URL + '/comment/' + this.type + '/' + this.id,
+                {credentials: 'include'}
+            )
                 .then(r => r.json())
                 .then(
                     r => {
                         this.list = r.data;
+                        if (this.list.length > 2) {
+                            this.showAll = false
+                        }
                     }
                 )
         }
@@ -133,6 +158,7 @@ export default {
             },
             fileList     : [],
             list         : [],
+            showAll      : true,
             dialogVisible: false
         }
     }

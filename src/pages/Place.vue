@@ -26,9 +26,10 @@
                             </li>
                         </ul>
                         <p class="pt-3 pr-5" style="white-space: pre-wrap;font-size: 18px">
-                            {{ description }} <a @click="fullText = !fullText">
-                            {{ fullText ? 'Показать меньше' : 'Показать все' }}
-                        </a>
+                            {{ description }}
+                            <a @click="fullText = !fullText">
+                                {{ fullText ? 'Показать меньше' : 'Показать все' }}
+                            </a>
                         </p>
                     </article>
                     <div class="pl-5 pt-3 pb-4 pr-5" style="min-height: 300px;">

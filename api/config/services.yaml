@@ -39,3 +39,7 @@ services:
 
   App\TelegramAdapter:
     public: true
+
+  App\S3Uploader: ~
+
+  App\FileUploader: '@App\S3Uploader'
