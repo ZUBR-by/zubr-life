@@ -8,6 +8,7 @@
                     </el-button>
                     <el-button class="button"
                                v-if="comment.can_delete"
+                               @click="archiveComment(comment.id)"
                                style="float: right;padding-left: 10px;padding-right: 10px"
                                icon="el-icon-close"
                                type="text">
@@ -105,7 +106,6 @@ export default {
         }
     },
     methods : {
-
         handleRemove(file) {
             this.form.attachments = this.form.attachments.filter(i => file.uid !== i.uid)
         },
@@ -146,6 +146,20 @@ export default {
                         if (this.list.length > 2) {
                             this.showAll = false
                         }
+                    }
+                )
+        },
+        archiveComment(id) {
+            fetch(import.meta.env.VITE_TELEGRAM_API_URL + '/comment/' + id,
+                {
+                    credentials: 'include',
+                    method     : 'DELETE'
+                }
+            )
+                .then(r => r.json())
+                .then(
+                    () => {
+                        this.fetchComments()
                     }
                 )
         }

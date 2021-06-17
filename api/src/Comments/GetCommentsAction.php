@@ -1,6 +1,6 @@
 <?php
 
-namespace App;
+namespace App\Comments;
 
 use App\Entity\User;
 use Doctrine\DBAL\Connection;
@@ -24,7 +24,8 @@ class GetCommentsAction extends AbstractController
         $data = $dbal->fetchOne(<<<SQL
    SELECT JSON_OBJECT('data', JSON_ARRAYAGG(
             JSON_OBJECT(
-              'text', text, 
+              'id',id,
+              'text', text,
               'created_at', created_at, 
               'created_at_formatted', DATE_FORMAT(created_at, '%d.%m.%Y %H:%i'), 
               'attachments', attachments,

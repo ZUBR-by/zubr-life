@@ -1,9 +1,10 @@
 <?php
 
-namespace App;
+namespace App\Comments;
 
 use App\Auth\ActionNeedAuthorization;
 use App\Entity\User;
+use App\FileUploader;
 use Doctrine\DBAL\Connection;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\File\UploadedFile;

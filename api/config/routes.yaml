@@ -14,14 +14,19 @@ api_login:
     path: /login
     controller: App\Auth\LoginAction
 
-add_comment:
+comment_add:
     path: /comment
-    controller: App\AddComment
+    controller: App\Comments\AddComment
     methods: [POST]
+
+comment_archive:
+    path: /comment/{id}
+    controller: App\Comments\ArchiveComment
+    methods: [DELETE]
 
 comment_list:
     path: /comment/{type}/{id}
-    controller: App\GetCommentsAction
+    controller: App\Comments\GetCommentsAction
     methods: [GET]
 
 ad_add:
