@@ -192,9 +192,10 @@ export default {
         }
     },
     mounted() {
+        document.getElementById('map').innerHTML = '';
+
         let container = document.getElementById('popup');
         let closer    = document.getElementById('popup-closer');
-
 
         var overlay = new Overlay({
             element         : container,
