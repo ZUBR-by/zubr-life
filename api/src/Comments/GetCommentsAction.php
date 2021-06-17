@@ -40,6 +40,9 @@ SQL
             ,
             [$user->id(), $id]
         );
-        return JsonResponse::fromJsonString($data ?: '{"data":{}}}');
+        if ($data === '{"data": null}') {
+            return JsonResponse::fromJsonString('{"data":[]}');
+        }
+        return JsonResponse::fromJsonString($data ?: '{"data":[]}');
     }
 }
