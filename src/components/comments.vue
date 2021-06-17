@@ -20,7 +20,7 @@
                     </el-button>
                 </div>
             </template>
-            <span style="white-space: pre-wrap;font-size: 14px">{{ comment.text }}</span>
+            <span style="white-space: pre-wrap;font-size: 14px" class="pr-2">{{ comment.text }}</span>
             <template v-for="link of comment.attachments.filter(i => i.type === 'link')">
                 <a :href="link.value">
                     {{ link.name ? link.name : link.value }}
