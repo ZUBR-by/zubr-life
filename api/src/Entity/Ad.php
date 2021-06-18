@@ -69,7 +69,7 @@ class Ad
      */
     private ?DateTime $hiddenAt = null;
 
-    public function __construct(User $user, string $name, string $description)
+    public function __construct(User $user, string $name, string $description = '', array $attachments = [])
     {
         if (length($name) === 0) {
             throw new EmptyField('Название');
@@ -78,5 +78,11 @@ class Ad
         $this->name        = $name;
         $this->description = $description;
         $this->createdAt   = new DateTime();
+        $this->attachments = $attachments;
+    }
+
+    public function addAttachments(array $attachments) : void
+    {
+        $this->attachments = array_merge($this->attachments, $attachments);
     }
 }

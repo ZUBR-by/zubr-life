@@ -74,6 +74,11 @@ feed:
     controller: App\GetFeedAction
     methods: [GET]
 
+feed_add:
+    path: /feed
+    controller: App\AddFeedItemAction
+    methods: [POST]
+
 organization_list:
     path: /organization
     controller: App\Organization\GetOrganizationsAction

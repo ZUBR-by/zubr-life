@@ -2,8 +2,11 @@
 
 namespace App\Entity;
 
+use App\EmptyField;
 use DateTime;
 use Doctrine\ORM\Mapping as ORM;
+use function Psl\Str\length;
+use function Symfony\Component\Translation\t;
 
 /**
  * @ORM\Entity
@@ -15,6 +18,7 @@ class Event
      * @ORM\Column(name="id", type="integer", nullable=false)
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
+     * @psalm-suppress PropertyNotSetInConstructor
      */
     private int $id;
 
@@ -65,4 +69,32 @@ class Event
      * })
      */
     private ?User $user;
+
+    public function __construct(
+        User $user,
+        string $name,
+        string $description = '',
+        ?DateTime $createdAt = null,
+        array $attachments = [],
+        ?float $longitude = null,
+        ?float $latitude = null
+    ) {
+        if (length($name) === 0) {
+            throw new EmptyField('Название');
+        }
+        $this->user        = $user;
+        $this->name        = $name;
+        $this->description = $description;
+        $this->createdAt   = $createdAt ?: new DateTime();
+        $this->attachments = $attachments;
+        $this->hiddenAt    = null;
+        $this->longitude   = $longitude;
+        $this->latitude    = $latitude;
+        $this->params      = [];
+    }
+
+    public function addAttachments(array $attachments) : void
+    {
+        $this->attachments = array_merge($this->attachments, $attachments);
+    }
 }
