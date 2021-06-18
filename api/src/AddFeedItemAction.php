@@ -47,8 +47,8 @@ class AddFeedItemAction extends AbstractController implements ActionNeedAuthoriz
                 if (count($mime) !== 2) {
                     continue;
                 }
-                if (! in_array($mime[0], ['image', 'video', 'audio'])
-                    || $file->getClientMimeType() !== 'application/pdf') {
+                if (! (in_array($mime[0], ['image', 'video', 'audio'])
+                    || $file->getClientMimeType() === 'application/pdf')) {
                     continue;
                 }
                 $link          = $fileUploader->uploadFile($file);

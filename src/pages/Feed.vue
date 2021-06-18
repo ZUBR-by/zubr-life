@@ -32,7 +32,7 @@
             </div>
         </div>
     </div>
-    <el-dialog v-model="dialogVisible" :append-to-body="true">
+    <el-dialog v-model="dialogVisible" :append-to-body="true" width="30%">
         <form @submit.prevent="save">
             <article class="message is-danger" v-show="error">
                 <div class="message-body">
@@ -42,7 +42,8 @@
             <div class="field">
                 <label class="label">Название</label>
                 <div class="control">
-                    <input class="input" type="text" v-model="form.name" required>
+                    <input class="input is-small"
+                           type="text" v-model="form.name" required>
                 </div>
             </div>
             <div class="field">
@@ -55,21 +56,22 @@
                 </div>
             </div>
             <div class="field calendar">
-                <label class="label">Тип</label>
+                <label class="label">Дата</label>
                 <div>
                     <datepicker v-model="form.created_at"
-                                class="input"
+                                class="input is-small"
                                 :locale="locale" style="width: 140px"></datepicker>
                 </div>
             </div>
             <div class="field">
                 <label class="label">Описание</label>
                 <div class="control">
-                    <textarea class="textarea" v-model="form.description"></textarea>
+                    <textarea class="textarea"
+                              rows="3"
+                              v-model="form.description"></textarea>
                 </div>
             </div>
             <div class="field">
-                <label class="label">Описание</label>
                 <div class="control">
                     <el-upload
                         class="upload-demo"
@@ -83,7 +85,7 @@
                         accept="image/*,video/*,audio/*,application/pdf"
                         :on-exceed="handleExceed"
                         :file-list="fileList">
-                        <button class="button is-inverted" type="button">
+                        <button class="button is-inverted is-small" type="button">
                             <span class="icon">
                               <i class="fas fa-paperclip"></i>
                             </span>
@@ -94,12 +96,14 @@
             </div>
             <div class="field is-grouped">
                 <div class="control">
-                    <button class="button is-link" type="submit">Сохранить</button>
+                    <el-button size="small" type="primary" native-type="submit">Сохранить</el-button>
                 </div>
                 <div class="control">
-                    <button type="button"
-                            class="button is-link is-light" @click="dialogVisible = false">Отмена
-                    </button>
+                    <el-button native-type="button"
+                               size="small"
+                               @click="dialogVisible = false">
+                        Отмена
+                    </el-button>
                 </div>
             </div>
         </form>
@@ -108,7 +112,7 @@
 
 <script>
 
-import {ElMessage, ElUpload, ElDialog, ElRadioButton, ElRadioGroup} from 'element-plus';
+import {ElMessage, ElUpload, ElDialog, ElRadioButton, ElRadioGroup, ElButton} from 'element-plus';
 import datepicker                                                   from 'vue3-datepicker'
 import locale                                                       from 'date-fns/locale/ru'
 
@@ -116,7 +120,7 @@ let emptyForm = {name: '', description: '', type: 'event', attachments: []};
 
 export default {
     components: {
-        ElUpload, ElDialog, ElRadioButton, ElRadioGroup, datepicker
+        ElUpload, ElDialog, ElRadioButton, ElRadioGroup, datepicker, ElButton
     },
     created() {
         this.fetchFeed();
@@ -160,21 +164,17 @@ export default {
             const formData = new FormData();
             formData.append('description', this.form.description);
             formData.append('name', this.form.name);
-            formData.append('type', this.type);
-            formData.append('created_at', this.form.created_at);
+            formData.append('type', this.form.type);
+            formData.append('created_at', this.form.created_at.toISOString());
 
             this.form.attachments.forEach((elem, index) => {
                 formData.append('attachment' + index, elem.raw);
             })
 
-            fetch(import.meta.env.VITE_TELEGRAM_API_URL + '/ad', {
-                method : 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-
+            fetch(import.meta.env.VITE_TELEGRAM_API_URL + '/feed', {
+                method     : 'POST',
                 credentials: 'include',
-                body       : JSON.stringify(this.ad)
+                body       : formData
             }).then(r => r.json())
                 .then(result => {
                         if (result.error) {
@@ -182,7 +182,8 @@ export default {
                             return;
                         }
                         this.fetchFeed();
-                        this.form          = Object.assign({}, emptyForm)
+                        this.form = Object.assign({}, emptyForm)
+                        this.$refs.upload.clearFiles()
                         this.dialogVisible = false
                         ElMessage.success({'message': 'Добавлено'})
                     }
@@ -201,6 +202,7 @@ export default {
     --vdp-hover-bg-color: #FF5C01;
     --vdp-selected-bg-color: #FF5C01;
 }
+
 @media (max-width: 820px) {
     .el-dialog {
         width: 80% !important;
