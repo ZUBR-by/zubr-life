@@ -21,7 +21,7 @@
                     <div class="columns pl-3">
                         <div class="column pl-5">
                             <div class="person-photo">
-                                <img :src="photo">
+                                <el-image :src="photo" :preview-src-list="[photo]"></el-image>
                             </div>
                         </div>
                         <div class="column is-four-fifths">
@@ -70,7 +70,7 @@
 
 <script>
 
-import {ElTabPane, ElTabs, ElCard} from "element-plus";
+import {ElTabPane, ElTabs, ElCard, ElImage} from "element-plus";
 import Comments                    from "../components/comments.vue";
 
 export default {
@@ -78,7 +78,8 @@ export default {
         Comments,
         ElTabPane,
         ElTabs,
-        ElCard
+        ElCard,
+        ElImage
     },
     created() {
         this.fetchPerson();
