@@ -20,7 +20,8 @@
                     </el-button>
                 </div>
             </template>
-            <span style="white-space: pre-wrap;font-size: 14px" class="pr-2">{{ comment.text }}</span>
+            <span class="pr-2 comment-text" v-html="linkify(comment.text)">
+            </span>
             <template v-for="link of comment.attachments.filter(i => i.type === 'link')">
                 <a :href="link.value">
                     {{ link.name ? link.name : link.value }}
@@ -83,6 +84,7 @@
 
 <script>
 import {ElButton, ElCard, ElUpload, ElMessage, ElIcon} from "element-plus";
+import linkifyHtml                                     from 'linkifyjs/html';
 
 const emptyComment = {
     text       : '',
@@ -106,6 +108,9 @@ export default {
         }
     },
     methods : {
+        linkify(text) {
+            return linkifyHtml(text);
+        },
         handleRemove(file) {
             this.form.attachments = this.form.attachments.filter(i => file.uid !== i.uid)
         },
@@ -193,7 +198,10 @@ export default {
 .el-card__header {
     padding: 0 10px !important;
 }
-
+.comment-text {
+    white-space: pre-wrap;
+    font-size: 14px
+}
 .clearfix:before,
 .clearfix:after {
     display: table;
