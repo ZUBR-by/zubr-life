@@ -26,8 +26,8 @@ class GetCommentsAction extends AbstractController
             JSON_OBJECT(
               'id',id,
               'text', text,
-              'created_at', created_at, 
-              'created_at_formatted', DATE_FORMAT(created_at, '%d.%m.%Y %H:%i'), 
+              'created_at', DATE_ADD(created_at, INTERVAL 3 HOUR), 
+              'created_at_formatted', DATE_FORMAT(DATE_ADD(created_at, INTERVAL 3 HOUR), '%d.%m.%Y %H:%i'), 
               'attachments', attachments,
               'params', params,
               'can_delete', user_id = ?
