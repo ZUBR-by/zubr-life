@@ -20,6 +20,7 @@
                     <hr>
                     <article class="pl-5">
                         <h3 class="is-size-4">{{ event.name }}</h3>
+                        <p> {{event.created_at}} </p>
                         <p>
                             {{event.description}}
                         </p>

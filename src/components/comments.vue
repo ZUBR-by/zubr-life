@@ -27,7 +27,7 @@
                 </a>
                 &nbsp;
             </template>
-            <template v-if="comment.attachments && comment.attachments.length > 0">
+            <template v-if="comment.attachments && comment.attachments.filter(i => i.type !== 'link').length > 0">
                 <hr style="margin-top:5px;margin-bottom: 5px">
                 <span class="pr-3" v-for="(attachment, index) of comment.attachments.filter(i => i.type !== 'link')">
                     <a :href="attachment.value" target="_blank" style="font-size: 13px">
@@ -45,7 +45,7 @@
                     <textarea class="textarea" v-model="form.text" rows="1"></textarea>
                 </p>
                 <p class="control">
-                    <button class="button is-outlined" type="submit">
+                    <button class="button is-outlined" :class="{'is-loading': isLoading}" :disabled="form.text.length === 0" type="submit">
                         <span class="icon">
                           <i class="fas fa-paper-plane fa-lg"></i>
                         </span>
@@ -124,15 +124,24 @@ export default {
             this.form.attachments.forEach((elem, index) => {
                 formData.append('attachment' + index, elem.raw);
             })
-
+            this.isLoading = true;
             fetch(import.meta.env.VITE_TELEGRAM_API_URL + '/comment', {
                 'method'     : 'POST',
                 'body'       : formData,
                 'credentials': 'include'
-            }).then((r) => {
+            }).then((r) => r.json()).then((r) => {
+                this.isLoading = false;
+                if (r.error) {
+                    ElMessage.error(r.error)
+                    return;
+                }
                 this.fetchComments()
                 Object.assign(this.form, emptyComment)
                 this.$refs.upload.clearFiles()
+            }).catch(e => {
+                this.isLoading = false;
+                ElMessage.error('Произошла ошибка')
+                throw e;
             })
         },
         fetchComments() {
@@ -170,6 +179,7 @@ export default {
                 text       : '',
                 attachments: [],
             },
+            isLoading    : false,
             fileList     : [],
             list         : [],
             showAll      : true,

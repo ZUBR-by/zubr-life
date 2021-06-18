@@ -18,6 +18,9 @@ class AddComment extends AbstractController implements ActionNeedAuthorization
     {
         $type = $request->get('type');
         $text = $request->get('text');
+        if (empty($text)) {
+            return new JsonResponse(['error' => 'Текст комментария обязателен']);
+        }
         if (! in_array($type, ['person', 'organization', 'event', 'place', 'ad'])) {
             return JsonResponse::fromJsonString(encode(['error' => 'Неправильный тип']));
         }
