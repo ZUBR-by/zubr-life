@@ -51,6 +51,7 @@ class SimpleTest extends WebTestCase
 
     public function testUserNotInGroups(): void
     {
+        $this->markTestSkipped();
         $client = static::createClient();
         $param  = self::$container->getParameter('private_key');
         $cookie = new Cookie('AUTH_TOKEN', JWT::encode(['id' => 2], file_get_contents($param), 'RS256'));
