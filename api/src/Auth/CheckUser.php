@@ -53,9 +53,6 @@ class CheckUser implements EventSubscriberInterface
                     $request->cookies->remove('AUTH_TOKEN');
                     throw new NotAuthorized();
                 }
-                if (! $this->adapter->isUserInAllowedGroups($decoded['id'])) {
-                    throw new NotInGroups();
-                }
                 /** @var User|null $user */
                 $user = $this->em->getRepository(User::class)->find($decoded['id']);
                 if (! $user) {
