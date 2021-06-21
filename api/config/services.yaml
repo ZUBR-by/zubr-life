@@ -13,7 +13,8 @@ services:
       $s3Secret: "%env(AWS_SECRET)%"
       $s3Bucket: "%env(S3_BUCKET)%"
       $privateKey: '%private_key%'
-      $publicKey: '%env(resolve:JWT_PUBLIC_KEY)%'
+      $publicKey: '%env(PUBLIC_KEY)%'
+      $jwtPublicKey: '%env(resolve:JWT_PUBLIC_KEY)%'
 
   App\:
     resource: '../src/'

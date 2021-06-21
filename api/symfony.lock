@@ -157,12 +157,6 @@
     "laminas/laminas-code": {
         "version": "4.2.2"
     },
-    "laminas/laminas-eventmanager": {
-        "version": "3.3.1"
-    },
-    "laminas/laminas-zendframework-bridge": {
-        "version": "1.2.0"
-    },
     "league/event": {
         "version": "2.2.0"
     },
@@ -198,6 +192,21 @@
     },
     "openlss/lib-array2xml": {
         "version": "1.0.0"
+    },
+    "paragonie/constant_time_encoding": {
+        "version": "v2.4.0"
+    },
+    "paragonie/halite": {
+        "version": "v4.8.0"
+    },
+    "paragonie/hidden-string": {
+        "version": "v2.0.0"
+    },
+    "paragonie/random_compat": {
+        "version": "v9.99.100"
+    },
+    "paragonie/sodium_compat": {
+        "version": "v1.16.1"
     },
     "phar-io/manifest": {
         "version": "2.0.1"

@@ -23,10 +23,10 @@ class CheckUser implements EventSubscriberInterface
      */
     private EntityManagerInterface $em;
 
-    public function __construct(TelegramAdapter $adapter, string $publicKey, EntityManagerInterface $em)
+    public function __construct(TelegramAdapter $adapter, string $jwtPublicKey, EntityManagerInterface $em)
     {
         $this->adapter       = $adapter;
-        $this->publicKeyPath = $publicKey;
+        $this->publicKeyPath = $jwtPublicKey;
         $this->em            = $em;
     }
 

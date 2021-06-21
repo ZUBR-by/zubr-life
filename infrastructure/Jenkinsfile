@@ -30,6 +30,7 @@ pipeline {
             VITE_SENTRY_DSN        = credentials('SENTRY_DSN')
             S3_SECRET              = credentials('API_S3_SECRET')
             S3_KEY                 = credentials('API_S3_KEY')
+            PUBLIC_KEY             = credentials('LIFE_PUBLIC_KEY_USERS')
         }
         steps {
             sh 'yarn'
@@ -49,6 +50,7 @@ CORS_ALLOW_ORIGIN='^https?://(new.zubr.life)'
 S3_BUCKET=lifeloshica
 AWS_SECRET=${S3_SECRET}
 AWS_KEY=${S3_KEY}
+PUBLIC_KEY=${PUBLIC_KEY}
 """
             }
         }

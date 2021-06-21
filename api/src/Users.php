@@ -17,7 +17,7 @@ class Users
         $this->em = $em;
     }
 
-    public function getById(int $id): User
+    public function getById(string $id): User
     {
         $user = $this->em->getRepository(User::class)->find($id);
         if (! $user) {

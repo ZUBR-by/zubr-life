@@ -5,6 +5,9 @@ namespace App\Auth;
 use App\Entity\User;
 use Doctrine\ORM\EntityManagerInterface;
 use Firebase\JWT\JWT;
+use ParagonIE\Halite\Asymmetric\Crypto;
+use ParagonIE\Halite\Asymmetric\EncryptionPublicKey;
+use ParagonIE\HiddenString\HiddenString;
 use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Cookie;
@@ -19,10 +22,11 @@ class LoginAction extends AbstractController
         Request $request,
         string $botToken,
         string $domain,
+        string $publicKey,
         EntityManagerInterface $em,
         LoggerInterface $logger,
         string $privateKey
-    ): Response {
+    ) : Response {
         $credentials = $request->query->all();
         $response    = new RedirectResponse('https://' . $domain, Response::HTTP_FOUND);
         $error       = $this->checkCredentials($credentials, $botToken);
@@ -31,7 +35,11 @@ class LoginAction extends AbstractController
             $response->setTargetUrl('https://' . $domain . '?error=auth');
             return $response;
         }
-        $user = $em->getRepository(User::class)->find($credentials['id']);
+        $credentials['id'] = Crypto::seal(
+            new HiddenString($credentials['id']),
+            new EncryptionPublicKey(new HiddenString($publicKey))
+        );
+        $user              = $em->getRepository(User::class)->find($credentials['id']);
         if (! $user) {
             $user = new User($credentials['id']);
             $em->persist($user);
@@ -54,7 +62,7 @@ class LoginAction extends AbstractController
         return $response;
     }
 
-    public function checkCredentials(array $credentials, string $botToken): ?Throwable
+    public function checkCredentials(array $credentials, string $botToken) : ?Throwable
     {
         if (! isset($credentials['hash'], $credentials['id'])) {
             return new InvalidCredentials();

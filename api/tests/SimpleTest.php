@@ -106,6 +106,16 @@ class SimpleTest extends WebTestCase
         $this->assertEquals(200, $response->getStatusCode());
     }
 
+    public function testGetCommentsPlace(): void
+    {
+        $client = static::createClient();
+
+        $client->request('GET', '/comment/ad/1', [], [], []);
+
+        $response = $client->getResponse();
+        $this->assertEquals(200, $response->getStatusCode());
+    }
+
     public function testGetAds(): void
     {
         $client = static::createClient();

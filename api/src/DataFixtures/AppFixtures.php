@@ -12,9 +12,9 @@ class AppFixtures extends Fixture
 {
     public function load(ObjectManager $manager) : void
     {
-        $product = new User(1);
+        $product = new User('1');
         $manager->persist($product);
-        $product1 = new User(2, [], new DateTime());
+        $product1 = new User('2', [], new DateTime());
         $manager->persist($product1);
         $place = new Place('test');
         $manager->persist($place);

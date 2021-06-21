@@ -15,12 +15,11 @@ class GetCommentsAction extends AbstractController
         string $type,
         Request $request,
         Connection $dbal,
-        ?User $user = null
+        User $user
     ) : JsonResponse {
         if (! in_array($type, ['ad', 'place', 'event', 'organization', 'person'])) {
             return new JsonResponse(['data' => []]);
         }
-        $user = $user ?: new User(0);
         $data = $dbal->fetchOne(<<<SQL
    SELECT JSON_OBJECT('data', JSON_ARRAYAGG(
             JSON_OBJECT(

@@ -12,10 +12,10 @@ use Doctrine\ORM\Mapping as ORM;
 class User
 {
     /**
-     * @ORM\Column(name="id", type="integer", nullable=false)
+     * @ORM\Column(name="id", type="string", nullable=false)
      * @ORM\Id
      */
-    private int $id;
+    private string $id;
 
     /**
      * @ORM\Column(type="datetime", nullable=true)
@@ -27,7 +27,7 @@ class User
      */
     private array $params;
 
-    public function __construct(int $id, array $params = [], ?DateTime $bannedAt = null)
+    public function __construct(string $id, array $params = [], ?DateTime $bannedAt = null)
     {
         $this->id       = $id;
         $this->params   = $params;
@@ -36,10 +36,10 @@ class User
 
     public function isBanned() : bool
     {
-        return $this->bannedAt !== null || $this->id === 0;
+        return $this->bannedAt !== null || $this->id === '0';
     }
 
-    public function id() : int
+    public function id() : string
     {
         return $this->id;
     }

@@ -14,17 +14,17 @@ use UnexpectedValueException;
 class GetUser implements ArgumentValueResolverInterface
 {
     private LoggerInterface $logger;
-    private string $publicKey;
+    private string $jwtPublicKey;
     private Users $users;
 
     public function __construct(
         LoggerInterface $logger,
         Users $users,
-        string $publicKey
+        string $jwtPublicKey
     ) {
-        $this->logger    = $logger;
-        $this->publicKey = file_get_contents($publicKey);
-        $this->users     = $users;
+        $this->logger       = $logger;
+        $this->jwtPublicKey = file_get_contents($jwtPublicKey);
+        $this->users        = $users;
     }
 
     public function supports(Request $request, ArgumentMetadata $argument) : bool
@@ -37,14 +37,13 @@ class GetUser implements ArgumentValueResolverInterface
         try {
             $decoded = (array) JWT::decode(
                 (string) $request->cookies->get('AUTH_TOKEN'),
-                $this->publicKey,
+                $this->jwtPublicKey,
                 ['RS256']
             );
         } catch (UnexpectedValueException $e) {
             $request->cookies->remove('AUTH_TOKEN');
-            $decoded = ['id' => 0];
         }
 
-        yield $this->users->getById($decoded['id']);
+        yield ! isset($decoded) ? new User('0') : $this->users->getById($decoded['id']);
     }
 }
