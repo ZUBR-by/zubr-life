@@ -13,17 +13,22 @@ class GetOrganizationsAction extends AbstractController
     {
         $data = $connection->fetchOne(<<<SQL
 SELECT JSON_OBJECT('data', JSON_ARRAYAGG(
-         JSON_MERGE(
-           JSON_OBJECT(
-            'id', organization.id,
+         JSON_OBJECT(
+            'id', id,
             'name', name,
-            'longitude', longitude,
-            'latitude', latitude
-           ),
-          params
-         )
+            'rating', rating 
+           )
+        ORDER BY rating DESC
        ))
- FROM organization
+FROM (
+     SELECT o.id, 
+            name,
+            SUM(IF(rp.type = 'upvote', 1, IF(rp.type IS NULL, 0, -1))) as rating
+       FROM organization o
+  LEFT JOIN rating_point rp on o.id = rp.organization_id
+   GROUP BY o.id 
+) as o
+ 
 SQL
         );
         return JsonResponse::fromJsonString($data ?: '{"data":[]}');

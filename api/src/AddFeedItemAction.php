@@ -2,7 +2,7 @@
 
 namespace App;
 
-use App\Auth\ActionNeedAuthorization;
+use App\Auth\ActionRequiresAuthorization;
 use App\Entity\Ad;
 use App\Entity\Event;
 use App\Entity\User;
@@ -15,9 +15,8 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Throwable;
-use function Psl\Json\encode;
 
-class AddFeedItemAction extends AbstractController implements ActionNeedAuthorization
+class AddFeedItemAction extends AbstractController implements ActionRequiresAuthorization
 {
     public function __invoke(
         User $user,

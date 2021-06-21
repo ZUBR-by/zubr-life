@@ -1,90 +1,100 @@
 widget:
-    path: /private/widget
-    controller: App\DisplayWidget
+  path: /private/widget
+  controller: App\DisplayWidget
 
 index:
-    path: /
-    controller: App\DisplayWidget
+  path: /
+  controller: App\DisplayWidget
 
 home:
-    path: /home
-    controller: App\HomePageAction
+  path: /home
+  controller: App\HomePageAction
 
 api_login:
-    path: /login
-    controller: App\Auth\LoginAction
+  path: /login
+  controller: App\Auth\LoginAction
 
 comment_add:
-    path: /comment
-    controller: App\Comments\AddComment
-    methods: [POST]
+  path: /comment
+  controller: App\Comments\AddComment
+  methods: [ POST ]
 
 comment_archive:
-    path: /comment/{id}
-    controller: App\Comments\ArchiveComment
-    methods: [DELETE]
+  path: /comment/{id}
+  controller: App\Comments\ArchiveComment
+  methods: [ DELETE ]
 
 comment_list:
-    path: /comment/{type}/{id}
-    controller: App\Comments\GetCommentsAction
-    methods: [GET]
+  path: /comment/{type}/{id}
+  controller: App\Comments\GetCommentsAction
+  methods: [ GET ]
 
 ad_add:
-    path: /ad
-    controller: App\Ad\AddAdAction
-    methods: [POST, OPTIONS]
+  path: /ad
+  controller: App\Ad\AddAdAction
+  methods: [ POST, OPTIONS ]
 
 ad_list:
-    path: /ad
-    controller: App\Ad\GetAdsAction
-    methods: [GET]
+  path: /ad
+  controller: App\Ad\GetAdsAction
+  methods: [ GET ]
 
 ad_get:
-    path: /ad/{id}
-    controller: App\Ad\GetAdAction
-    methods: [GET]
+  path: /ad/{id}
+  controller: App\Ad\GetAdAction
+  methods: [ GET ]
 
 place_get:
-    path: /place/{id}
-    controller: App\Place\GetPlaceAction
-    methods: [GET]
+  path: /place/{id}
+  controller: App\Place\GetPlaceAction
+  methods: [ GET ]
 
 person_list:
-    path: /person
-    controller: App\Person\GetPeopleAction
-    methods: [GET]
+  path: /person
+  controller: App\Person\GetPeopleAction
+  methods: [ GET ]
 
 person_get:
-    path: /person/{id}
-    controller: App\Person\GetPersonAction
-    methods: [GET]
+  path: /person/{id}
+  controller: App\Person\GetPersonAction
+  methods: [ GET ]
 
 event_list:
-    path: /event
-    controller: App\Event\GetEventsAction
-    methods: [GET]
+  path: /event
+  controller: App\Event\GetEventsAction
+  methods: [ GET ]
 
 event_get:
-    path: /event/{id}
-    controller: App\Event\GetEventAction
-    methods: [GET]
+  path: /event/{id}
+  controller: App\Event\GetEventAction
+  methods: [ GET ]
 
 feed:
-    path: /feed
-    controller: App\GetFeedAction
-    methods: [GET]
+  path: /feed
+  controller: App\GetFeedAction
+  methods: [ GET ]
 
 feed_add:
-    path: /feed
-    controller: App\AddFeedItemAction
-    methods: [POST]
+  path: /feed
+  controller: App\AddFeedItemAction
+  methods: [ POST ]
 
 organization_list:
-    path: /organization
-    controller: App\Organization\GetOrganizationsAction
-    methods: [GET]
+  path: /organization
+  controller: App\Organization\GetOrganizationsAction
+  methods: [ GET ]
 
 organization_get:
-    path: /organization/{id}
-    controller: App\Organization\GetOrganizationAction
-    methods: [GET]
+  path: /organization/{id}
+  controller: App\Organization\GetOrganizationAction
+  methods: [ GET ]
+
+rate:
+  path: /rate/{type}/{entity}/{id}
+  controller: App\RateAction
+  methods: [ POST ]
+
+unrate:
+  path: /unrate/{entity}/{id}
+  controller: App\UnrateAction
+  methods: [ POST ]

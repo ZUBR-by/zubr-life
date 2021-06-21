@@ -36,7 +36,7 @@ class User
 
     public function isBanned() : bool
     {
-        return $this->bannedAt !== null;
+        return $this->bannedAt !== null || $this->id === 0;
     }
 
     public function id() : int
