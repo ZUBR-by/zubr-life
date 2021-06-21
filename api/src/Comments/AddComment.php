@@ -2,7 +2,7 @@
 
 namespace App\Comments;
 
-use App\Auth\ActionNeedAuthorization;
+use App\Auth\ActionRequiresAuthorization;
 use App\Entity\User;
 use App\FileUploader;
 use Doctrine\DBAL\Connection;
@@ -12,7 +12,7 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use function Psl\Json\encode;
 
-class AddComment extends AbstractController implements ActionNeedAuthorization
+class AddComment extends AbstractController implements ActionRequiresAuthorization
 {
     public function __invoke(User $user, Request $request, Connection $dbal, FileUploader $fileUploader) : JsonResponse
     {

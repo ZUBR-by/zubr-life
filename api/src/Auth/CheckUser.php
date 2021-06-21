@@ -38,7 +38,7 @@ class CheckUser implements EventSubscriberInterface
             $controller = $controller[0];
         }
 
-        if ($controller instanceof ActionNeedAuthorization) {
+        if ($controller instanceof ActionRequiresAuthorization) {
             $request = $event->getRequest();
             if (! $request->cookies->has('AUTH_TOKEN')) {
                 throw new NotAuthorized();

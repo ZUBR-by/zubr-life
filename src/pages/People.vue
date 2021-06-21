@@ -10,6 +10,7 @@
                     <tr>
                         <td></td>
                         <th>ФИО</th>
+                        <th>Рейтинг</th>
                         <th></th>
                     </tr>
                     </thead>
@@ -27,6 +28,14 @@
                                 {{ person.full_name }}
                             </router-link>
                         </td>
+                        <th style="vertical-align: middle;text-align: center"
+                            :class="{
+                                'has-text-success': person.rating > 0,
+                                'has-text-danger': person.rating < 0
+                            }"
+                        >
+                            {{ person.rating }}
+                        </th>
                         <td style="vertical-align: middle">
                             <template v-if="person.description">
                                 {{ person.description }} в

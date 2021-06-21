@@ -18,61 +18,73 @@
                         </ul>
                     </nav>
                     <hr>
-                    <div class="pl-5">
-                        <h3 class="is-size-4">{{ organization.name }}</h3>
-                    </div>
-                    <div class="columns">
-                        <div class="column pl-5">
-                            <p class="pt-2 pl-3" v-if="organization.address">
-                                <b>Адрес:</b> {{ organization.address }}
-                            </p>
-                            <div v-if="links" class="pl-3">
-                                <ul>
-                                    <li v-for="link of links" :key="link.value">
-                                        <a :href="link.value">{{ link.name ? link.name : link.value }}</a>
-                                    </li>
-                                </ul>
+                    <template v-if="organization.name">
+                        <div class="pl-5">
+                            <h3 class="is-size-4">{{ organization.name }}</h3>
+                        </div>
+                        <div class="columns">
+                            <div class="column pl-5">
+                                <p class="pt-2 pl-3" v-if="organization.address">
+                                    <b>Адрес:</b> {{ organization.address }}
+                                </p>
+                                <div class="pl-3 pt-2 pb-2">
+                                    <rating :entity="organization.rating"
+                                            @change="fetchOrganization"
+                                            :type="'organization'"
+                                            :id="organization.id"></rating>
+                                </div>
+
+                                <div v-if="links" class="pl-3">
+                                    <ul>
+                                        <li v-for="link of links" :key="link.value">
+                                            <a :href="link.value">{{ link.name ? link.name : link.value }}</a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="column is-two-thirds" v-if="organization.latitude">
+                                <place :longitude="organization.longitude" :latitude="organization.latitude"></place>
                             </div>
                         </div>
-                        <div class="column is-two-thirds" v-if="organization.latitude">
-                            <place :longitude="organization.longitude" :latitude="organization.latitude"></place>
-                        </div>
-                    </div>
-                    <div class="pl-5 pt-3 pb-4 pr-5" style="min-height: 300px;">
-                        <el-tabs v-model="activeName">
-                            <el-tab-pane label="Люди относящиеся к организации" name="people" style="overflow-x: auto">
-                                <table class="table is-fullwidth is-striped">
-                                    <tbody>
-                                    <tr v-for="person of organization.people" :key="person.id" v-if="organization.people_count > 0">
-                                        <td style="vertical-align: middle;width: 80px">
-                                            <div class="grid-image">
-                                                <img :src="person.photo_url
+                        <div class="pl-5 pt-3 pb-4 pr-5" style="min-height: 300px;">
+                            <el-tabs v-model="activeName">
+                                <el-tab-pane label="Люди относящиеся к организации" name="people" style="overflow-x: auto">
+                                    <table class="table is-fullwidth is-striped">
+                                        <tbody>
+                                        <tr v-for="person of organization.people"
+                                            :key="person.id"
+                                            v-if="organization.people_count > 0">
+                                            <td style="vertical-align: middle;width: 80px">
+                                                <div class="grid-image">
+                                                    <img :src="person.photo_url
                                         ? person.photo_url
                                         : 'https://zubr.in/assets/images/user.svg'">
-                                            </div>
+                                                </div>
 
-                                        </td>
-                                        <td style="vertical-align: middle">
-                                            <router-link :to="{name: 'person', params: {id: person.id}}">
-                                                {{ person.full_name }}
-                                            </router-link>
-                                        </td>
-                                        <td style="vertical-align: middle">
-                                            <template v-if="person.description">{{ person.description }}</template>
-                                        </td>
-                                    </tr>
-                                    </tbody>
-                                </table>
-                            </el-tab-pane>
-                            <el-tab-pane label="Комментарии"
-                                         name="comments"
-                                         v-if="organization.id">
-                                <comments :type="'organization'"
-                                          :id="organization.id"></comments>
-                            </el-tab-pane>
-                        </el-tabs>
-                    </div>
+                                            </td>
+                                            <td style="vertical-align: middle">
+                                                <router-link :to="{name: 'person', params: {id: person.id}}">
+                                                    {{ person.full_name }}
+                                                </router-link>
+                                            </td>
+                                            <td style="vertical-align: middle">
+                                                <template v-if="person.description">{{ person.description }}</template>
+                                            </td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                </el-tab-pane>
+                                <el-tab-pane label="Комментарии"
+                                             name="comments"
+                                             v-if="organization.id">
+                                    <comments :type="'organization'"
+                                              :id="organization.id"></comments>
+                                </el-tab-pane>
+                            </el-tabs>
+                        </div>
+                    </template>
                 </div>
+
             </div>
         </div>
     </div>
@@ -83,9 +95,12 @@
 import {ElTabPane, ElTabs} from 'element-plus'
 import place               from "../components/place.vue";
 import Comments            from "../components/comments.vue";
+import Rating              from "../components/rating.vue";
+import handle              from './../http'
 
 export default {
     components: {
+        Rating,
         Comments,
         ElTabPane,
         ElTabs,
@@ -117,8 +132,12 @@ export default {
     },
     methods : {
         fetchOrganization() {
-            fetch(import.meta.env.VITE_TELEGRAM_API_URL + '/organization/' + this.$route.params.id)
-                .then(r => r.json())
+            fetch(import.meta.env.VITE_TELEGRAM_API_URL + '/organization/' + this.$route.params.id,
+                {
+                    'credentials': 'include'
+                }
+            )
+                .then(handle)
                 .then(
                     r => {
                         if (r.error) {

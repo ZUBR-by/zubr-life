@@ -18,48 +18,55 @@
                         </ul>
                     </nav>
                     <hr>
-                    <div class="columns pl-3">
-                        <div class="column pl-5">
-                            <div class="person-photo">
-                                <el-image :src="photo" :preview-src-list="[photo]"></el-image>
+                    <template v-if="person.full_name">
+                        <div class="columns pl-3">
+                            <div class="column pl-5">
+                                <div class="person-photo">
+                                    <el-image :src="photo" :preview-src-list="[photo]"></el-image>
+                                </div>
+                            </div>
+                            <div class="column is-four-fifths">
+                                <h3 class="is-size-3">{{ person.full_name }}</h3>
+                                <rating :entity="person.rating"
+                                        @change="fetchPerson"
+                                        :type="'person'"
+                                        :id="person.id"></rating>
+                                <div v-if="links" class="pt-4">
+                                    <ul>
+                                        <li v-for="link of links" :key="link.value">
+                                            <a :href="link.value" target="_blank">
+                                                {{ link.name ? link.name : link.value }}
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </div>
                             </div>
                         </div>
-                        <div class="column is-four-fifths">
-                            <h3 class="is-size-3">{{ person.full_name }}</h3>
-                            <div v-if="links" class="pt-4">
-                                <ul>
-                                    <li v-for="link of links" :key="link.value">
-                                        <a :href="link.value" target="_blank">
-                                            {{ link.name ? link.name : link.value }}
-                                        </a>
-                                    </li>
-                                </ul>
-                            </div>
+                        <div class="pl-5 pt-3 pb-4 pr-5" style="min-height: 300px;">
+                            <el-tabs v-model="activeName">
+                                <el-tab-pane label="Организации" name="orgs" style="overflow-x: auto">
+                                    <table class="table is-fullwidth is-striped">
+                                        <tbody>
+                                        <tr v-for="org of person.organizations"
+                                            :key="org.id"
+                                            v-if="person.organizations_count > 0">
+                                            <td>
+                                                {{ person.description }} в
+                                                <router-link :to="{name: 'organization', params: {id: org.id}}">
+                                                    {{ org.name }}
+                                                </router-link>
+                                            </td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                </el-tab-pane>
+                                <el-tab-pane label="Комментарии" name="comments" v-if="person.id">
+                                    <comments :id="person.id" :type="'person'"></comments>
+                                </el-tab-pane>
+                            </el-tabs>
                         </div>
-                    </div>
-                    <div class="pl-5 pt-3 pb-4 pr-5" style="min-height: 300px;">
-                        <el-tabs v-model="activeName">
-                            <el-tab-pane label="Организации" name="orgs" style="overflow-x: auto">
-                                <table class="table is-fullwidth is-striped">
-                                    <tbody>
-                                    <tr v-for="org of person.organizations"
-                                        :key="org.id"
-                                        v-if="person.organizations_count > 0">
-                                        <td>
-                                            {{ person.description }} в
-                                            <router-link :to="{name: 'organization', params: {id: org.id}}">
-                                                {{ org.name }}
-                                            </router-link>
-                                        </td>
-                                    </tr>
-                                    </tbody>
-                                </table>
-                            </el-tab-pane>
-                            <el-tab-pane label="Комментарии" name="comments" v-if="person.id">
-                                <comments :id="person.id" :type="'person'" ></comments>
-                            </el-tab-pane>
-                        </el-tabs>
-                    </div>
+                    </template>
+
                 </div>
             </div>
         </div>
@@ -71,10 +78,12 @@
 <script>
 
 import {ElTabPane, ElTabs, ElCard, ElImage} from "element-plus";
-import Comments                    from "../components/comments.vue";
+import Comments                             from "../components/comments.vue";
+import Rating                               from "../components/rating.vue";
 
 export default {
     components: {
+        Rating,
         Comments,
         ElTabPane,
         ElTabs,
@@ -104,12 +113,14 @@ export default {
     },
     methods: {
         fetchPerson() {
-            fetch(import.meta.env.VITE_TELEGRAM_API_URL + '/person/' + this.$route.params.id)
+            fetch(import.meta.env.VITE_TELEGRAM_API_URL + '/person/' + this.$route.params.id,
+                {
+                    'credentials': 'include'
+                })
                 .then(r => r.json())
                 .then(
                     r => {
                         this.person = r.data;
-                        console.log(this.person.id)
                     }
                 )
         }

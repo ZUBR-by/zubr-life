@@ -9,17 +9,26 @@
                     <thead>
                     <tr>
                         <th>Название</th>
+                        <th>Рейтинг</th>
                         <th></th>
                     </tr>
                     </thead>
                     <tbody>
                     <tr v-for="org of organizations">
-                        <th>{{ org.name }}</th>
-                        <th>
+                        <td>{{ org.name }}</td>
+                        <td style="vertical-align: middle;text-align: center"
+                            :class="{
+                                'has-text-success': org.rating > 0,
+                                'has-text-danger': org.rating < 0
+                            }"
+                        >
+                            {{ org.rating }}
+                        </td>
+                        <td>
                             <router-link :to="{name: 'organization', params: {id: org.id}}">
                                 Комментировать
                             </router-link>
-                        </th>
+                        </td>
                     </tr>
                     </tbody>
                 </table>
