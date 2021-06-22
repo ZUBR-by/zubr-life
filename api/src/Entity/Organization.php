@@ -23,6 +23,11 @@ class Organization
     private string $name;
 
     /**
+     * @ORM\Column(type="string", length=4000, options={"default" : ""})
+     */
+    private string $description;
+
+    /**
      * @ORM\Column(type="string", length=255)
      */
     private string $address;
