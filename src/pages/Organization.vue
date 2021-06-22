@@ -27,13 +27,12 @@
                                 <p class="pt-2 pl-3" v-if="organization.address">
                                     <b>Адрес:</b> {{ organization.address }}
                                 </p>
-                                <div class="pl-3 pt-2 pb-2">
+                                <div class="pt-2 pb-2 pl-3">
                                     <rating :entity="organization.rating"
                                             @change="fetchOrganization"
                                             :type="'organization'"
                                             :id="organization.id"></rating>
                                 </div>
-
                                 <div v-if="links" class="pl-3">
                                     <ul>
                                         <li v-for="link of links" :key="link.value">
@@ -41,6 +40,9 @@
                                         </li>
                                     </ul>
                                 </div>
+                                <p class="pl-3 pr-2">
+                                    {{ organization.description }}
+                                </p>
                             </div>
                             <div class="column is-two-thirds" v-if="organization.latitude">
                                 <place :longitude="organization.longitude" :latitude="organization.latitude"></place>

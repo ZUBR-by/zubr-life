@@ -26,7 +26,7 @@ SELECT JSON_OBJECT('data', JSON_ARRAYAGG(
        )
 FROM ( SELECT p.id,
               full_name,
-              description,
+              p.description,
               photo_url,
               SUM(IF(rp.type = 'upvote', 1, IF(rp.type IS NULL, 0, -1))) as rating,
               o.id as org_id,

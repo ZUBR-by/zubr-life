@@ -16,7 +16,7 @@ class GetPersonAction extends AbstractController
 SELECT JSON_OBJECT(
     'id', p.id,
     'full_name', full_name,
-    'description', description,
+    'description', p.description,
     'photo_url', photo_url,
     'rating', JSON_OBJECT(
         'is_upvoted', is_upvoted,

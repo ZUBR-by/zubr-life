@@ -20,6 +20,7 @@ class GetOrganizationAction extends AbstractController
       'longitude', o.longitude,
       'latitude', o.latitude,
       'address', o.address,
+      'description', o.description,
       'rating', JSON_OBJECT(
         'is_upvoted', is_upvoted,
         'is_downvoted', is_downoted,
