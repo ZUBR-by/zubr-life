@@ -3,12 +3,8 @@
 namespace App\Auth;
 
 use App\Entity\User;
-use App\TelegramAdapter;
 use Doctrine\ORM\EntityManagerInterface;
 use Firebase\JWT\JWT;
-use ParagonIE\Halite\Asymmetric\Crypto;
-use ParagonIE\Halite\KeyFactory;
-use ParagonIE\HiddenString\HiddenString;
 use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Cookie;
@@ -26,7 +22,6 @@ class LoginAction extends AbstractController
         string $publicKey,
         EntityManagerInterface $em,
         LoggerInterface $logger,
-        TelegramAdapter $adapter,
         string $privateKey
     ) : Response {
         $credentials = $request->query->all();
@@ -37,15 +32,7 @@ class LoginAction extends AbstractController
             $response->setTargetUrl('https://' . $domain . '?error=auth');
             return $response;
         }
-        if (! $adapter->isUserInAllowedGroups($credentials['id'])) {
-            $response->setTargetUrl('https://' . $domain . '?error=group');
-            return $response;
-        }
-        $credentials['id'] = Crypto::seal(
-            new HiddenString($credentials['id']),
-            KeyFactory::loadEncryptionPublicKey($publicKey)
-        );
-        $user              = $em->getRepository(User::class)->find($credentials['id']);
+        $user = $em->getRepository(User::class)->find($credentials['id']);
         if (! $user) {
             $user = new User($credentials['id']);
             $em->persist($user);
