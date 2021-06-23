@@ -269,8 +269,8 @@ html {
 *, *::before, *::after {
   box-sizing: inherit; }
 
-img,
-video {
+img/*,
+video*/ {
   height: auto;
   max-width: 100%; }
 
