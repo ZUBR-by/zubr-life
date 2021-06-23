@@ -5,8 +5,8 @@
                 <a href="/">
                     <img class="zbr-h-logo" :src="'/imgs/loshitsa-' + Math.floor(Math.random() * 3) +  '.png'">
                 </a>
+                <a id="widget"></a>
                 <div class="has-text-weight-medium pr-6 is-hidden-desktop">
-                    <div id="script"></div>
                     <input id="brgrbtn" class="is-hidden-desktop" type="checkbox" v-model="hidden">
                     <label for="brgrbtn" class="burger-button is-hidden-desktop mr-5">
                         <div class="burger-button-line"></div>
@@ -29,8 +29,8 @@
                     </div>
                 </div>
             </div>
+
             <div class="column is-two-thirds has-text-right has-text-weight-medium is-hidden-mobile">
-                <a id="widget"></a>
                 <router-link class="ml-5"
                              v-for="route of routes" :to="{name: route.name}" :key="route.name">
                     {{ route.label }}
