@@ -25,7 +25,7 @@ class Place
     private string $name;
 
     /**
-     * @ORM\Column(type="string", length=4000, options={"default" : ""})
+     * @ORM\Column(type="text", options={"default" : ""})
      */
     private string $description;
 

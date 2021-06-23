@@ -1,5 +1,5 @@
 <template>
-    <div id="map" style="height: 350px;width: 100%"></div>
+    <div id="map" style="height: 450px;width: 100%"></div>
 </template>
 <script>
 import Map          from "ol/Map";

@@ -40,11 +40,11 @@
                                         </li>
                                     </ul>
                                 </div>
-                                <p class="pl-3 pr-2">
+                                <p class="pl-3 pr-2" style="white-space: pre-wrap;">
                                     {{ organization.description }}
                                 </p>
                             </div>
-                            <div class="column is-two-thirds" v-if="organization.latitude">
+                            <div class="column is-two-fifths" v-if="organization.latitude">
                                 <place :longitude="organization.longitude" :latitude="organization.latitude"></place>
                             </div>
                         </div>

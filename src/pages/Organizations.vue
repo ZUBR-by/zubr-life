@@ -15,7 +15,11 @@
                     </thead>
                     <tbody>
                     <tr v-for="org of organizations">
-                        <td>{{ org.name }}</td>
+                        <td>
+                            <router-link :to="{name: 'organization', params: {id: org.id}}">
+                                {{ org.name }}
+                            </router-link>
+                        </td>
                         <td style="vertical-align: middle;text-align: center"
                             :class="{
                                 'has-text-success': org.rating > 0,
@@ -23,11 +27,6 @@
                             }"
                         >
                             {{ org.rating }}
-                        </td>
-                        <td>
-                            <router-link :to="{name: 'organization', params: {id: org.id}}">
-                                Комментировать
-                            </router-link>
                         </td>
                     </tr>
                     </tbody>
