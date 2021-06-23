@@ -39,9 +39,19 @@ export default {
     height: 100px;
 }
 
-.gallery-item img {
-    width: 30%;
-    height: auto;
+@media (max-width: 820px) {
+    .gallery-item img {
+        width: 50%;
+        height: auto;
+    }
+
+}
+@media (min-width: 820px) {
+    .gallery-item img {
+        width: 30%;
+        height: auto;
+    }
+
 }
 
 </style>
