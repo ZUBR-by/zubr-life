@@ -33,7 +33,7 @@ class AddComment extends AbstractController implements ActionRequiresAuthorizati
                 continue;
             }
             if (! in_array($mime[0], ['image', 'video', 'audio'])
-                || $file->getClientMimeType() !== 'application/pdf') {
+                && $file->getClientMimeType() !== 'application/pdf') {
                 continue;
             }
             $link          = $fileUploader->uploadFile($file);

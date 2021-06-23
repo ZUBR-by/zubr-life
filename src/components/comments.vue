@@ -20,8 +20,8 @@
                     </el-button>
                 </div>
             </template>
-            <span class="pr-2 comment-text" v-html="linkify(comment.text)">
-            </span>
+            <p class="pr-2 comment-text" v-html="linkify(comment.text)">
+            </p>
             <template v-for="link of comment.attachments.filter(i => i.type === 'link')">
                 <a :href="link.value">
                     {{ link.name ? link.name : link.value }}
@@ -43,17 +43,19 @@
         <form @submit.prevent="save" class="pt-3">
             <div class="field is-grouped">
                 <p class="control is-expanded">
-                    <textarea class="textarea" v-model="form.text" rows="1"></textarea>
-                </p>
-                <p class="control">
-                    <button class="button is-outlined" :class="{'is-loading': isLoading}" :disabled="form.text.length === 0" type="submit">
-                        <span class="icon">
-                          <i class="fas fa-paper-plane fa-lg"></i>
-                        </span>
-                    </button>
+                    <el-input
+                        type="textarea"
+                        :placeholder="''"
+                        resize="vertical"
+                        rows="3"
+                        v-model="form.text"
+                        maxlength="380"
+                        show-word-limit
+                    >
+                    </el-input>
                 </p>
             </div>
-            <div class="field">
+            <div class="field is-grouped">
                 <div class="control">
                     <el-upload
                         class="upload-demo"
@@ -67,7 +69,7 @@
                         accept="image/*,video/*,audio/*,application/pdf"
                         :on-exceed="handleExceed"
                         :file-list="fileList">
-                        <button class="button is-inverted" type="button">
+                        <button class="button is-inverted" ref="upload_btn" type="button">
                             <span class="icon">
                               <i class="fas fa-paperclip"></i>
                             </span>
@@ -75,6 +77,17 @@
                         </button>
                     </el-upload>
                 </div>
+                <p class="control" >
+                    <button class="button is-outlined" :class="{'is-loading': isLoading}"
+                            :disabled="form.text.length === 0"
+                            type="submit">
+                        <span class="icon">
+                          <i class="fas fa-paper-plane fa-lg"></i>
+                        </span>
+                        <span>Отправить</span>
+                    </button>
+                </p>
+
             </div>
         </form>
     </div>
@@ -83,8 +96,8 @@
 </template>
 
 <script>
-import {ElButton, ElCard, ElUpload, ElMessage, ElIcon} from "element-plus";
-import linkifyHtml                                     from 'linkifyjs/html';
+import {ElButton, ElCard, ElUpload, ElMessage, ElIcon, ElInput} from "element-plus";
+import linkifyHtml                                              from 'linkifyjs/html';
 
 const emptyComment = {
     text       : '',
@@ -93,7 +106,7 @@ const emptyComment = {
 
 export default {
     components: {
-        ElCard, ElButton, ElUpload, ElIcon
+        ElCard, ElButton, ElUpload, ElIcon, ElInput
     },
     props     : {
         type: String,
@@ -198,10 +211,13 @@ export default {
 .el-card__header {
     padding: 0 10px !important;
 }
+
 .comment-text {
+    word-wrap: break-word;
     white-space: pre-wrap;
     font-size: 14px
 }
+
 .clearfix:before,
 .clearfix:after {
     display: table;
