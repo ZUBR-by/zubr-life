@@ -138,7 +138,7 @@
                             </div>
                         </div>-->
             <div class="column">
-                <div style="position:relative;overflow:hidden;">
+                <div style="position:relative;overflow:hidden;" class="map-home">
                     <div id="map" style="width: 100%;height: 700px"></div>
                 </div>
             </div>
@@ -285,6 +285,12 @@ export default {
 }
 </script>
 <style>
+@media (max-height: 820px) {
+    .map-home {
+        padding-right: 1.7em;
+    }
+}
+
 .ol-popup {
     position: absolute;
     background-color: white;
