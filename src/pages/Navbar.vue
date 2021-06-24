@@ -1,19 +1,23 @@
 <template>
     <div class="box is-radiusless zbr-hdr">
         <div class="columns is-align-items-center">
-            <div class="column pl-4">
-                <a href="/">
-                    <img class="zbr-h-logo" :src="'/imgs/loshitsa-' + Math.floor(Math.random() * 3) +  '.png'">
-                </a>
-                <a id="widget"></a>
-                <div class="has-text-weight-medium pr-6 is-hidden-desktop">
+            <div class="column is-two-fifth pl-1">
+                <div>
+                    <a href="/" style="float: left">
+                        <img class="zbr-h-logo"
+                             :src="'/imgs/loshitsa-' + Math.floor(Math.random() * 3) +  '.png'">
+                    </a>
+                    <a id="widget" style="float: left"></a>
+                </div>
+
+                <div class="has-text-weight-medium pr-6">
                     <input id="brgrbtn" class="is-hidden-desktop" type="checkbox" v-model="hidden">
                     <label for="brgrbtn" class="burger-button is-hidden-desktop mr-5">
                         <div class="burger-button-line"></div>
                         <div class="burger-button-line"></div>
                         <div class="burger-button-line"></div>
                     </label>
-                    <div class="box is-radiusless pt-6 brgr-nav">
+                    <div class="box is-radiusless pt-6 brgr-nav is-hidden-desktop">
                         <aside class="menu pt-6">
                             <p class="menu-label">
                                 Разделы сайта
@@ -29,8 +33,7 @@
                     </div>
                 </div>
             </div>
-
-            <div class="column is-two-thirds has-text-right has-text-weight-medium is-hidden-mobile">
+            <div class="column is-three-fifths has-text-right has-text-weight-medium is-hidden-mobile">
                 <router-link class="ml-5"
                              v-for="route of routes" :to="{name: route.name}" :key="route.name">
                     {{ route.label }}
