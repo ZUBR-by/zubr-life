@@ -40,7 +40,7 @@
             <div class="column">
                 <div class="content">
                     <h1>
-                        Последние объявления
+                        Последние новости
                     </h1>
                     <div class="announcements">
                         <router-link :to="{name: item.type, params: {id: item.id}}"
