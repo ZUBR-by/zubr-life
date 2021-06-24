@@ -7,7 +7,7 @@
                         <img class="zbr-h-logo"
                              :src="'/imgs/loshitsa-' + Math.floor(Math.random() * 3) +  '.png'">
                     </a>
-                    <a id="widget" style="float: left"></a>
+                    <a id="widget" style="float: left;padding-top:20px;padding-left: 5px"></a>
                 </div>
 
                 <div class="has-text-weight-medium pr-6">
