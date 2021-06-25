@@ -50,15 +50,15 @@ const routes = [
     {
         path     : '/person/:id',
         name     : 'person',
-        meta     : {
-            title: 'Человек'
-        },
         component: Person,
     },
     {
         path     : '/org',
         name     : 'organizations',
         label    : 'Организации',
+        meta     : {
+            title: 'Организации'
+        },
         component: Organizations,
     },
     {
@@ -80,6 +80,9 @@ const routes = [
         path     : '/about',
         name     : 'about',
         label    : 'О проекте',
+        meta     : {
+            title: 'О проекте'
+        },
         component: About,
     },
 ]
@@ -89,9 +92,10 @@ const router = createRouter({
 })
 router.afterEach(async (to, from) => {
     await nextTick()
+    console.log(to)
     document.title = to.meta.title
-        ? 'Лошица ZUBR.life - ' + to.meta.title
-        : 'Лошица ZUBR.life - Экран местного самоуправления';
+        ? to.meta.title + ' - Лошица ZUBR.life'
+        : 'Экран локального сообщества - Лошица ZUBR.life';
 })
 export default router
 export {routes}

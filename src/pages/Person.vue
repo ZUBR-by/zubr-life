@@ -121,6 +121,7 @@ export default {
                 .then(
                     r => {
                         this.person = r.data;
+                        document.title    = this.person.full_name + 'Лошица ZUBR.life'
                     }
                 )
         }

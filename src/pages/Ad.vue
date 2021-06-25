@@ -95,6 +95,7 @@ export default {
                         if (!this.ad.longitude) {
                             this.activeName = 'media'
                         }
+                        document.title = 'Объявление "' + this.ad.name + '" - Лошица ZUBR.life'
                     }
                 )
         }

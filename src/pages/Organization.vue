@@ -146,6 +146,7 @@ export default {
                             return;
                         }
                         this.organization = r.data;
+                        document.title    = this.organization.name + 'Лошица ZUBR.life'
                     }
                 )
         },

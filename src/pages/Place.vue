@@ -102,6 +102,7 @@ export default {
                 .then(
                     r => {
                         this.place = r.data;
+                        document.title    = this.place.name + ' - Лошица ZUBR.life'
                     }
                 )
         }

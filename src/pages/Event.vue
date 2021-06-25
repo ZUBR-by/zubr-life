@@ -20,9 +20,9 @@
                     <hr>
                     <article class="pl-5">
                         <h3 class="is-size-4">{{ event.name }}</h3>
-                        <p> {{event.created_at}} </p>
+                        <p> {{ event.created_at }} </p>
                         <p>
-                            {{event.description}}
+                            {{ event.description }}
                         </p>
                         <ul>
                             <li v-for="link of links" :key="link.value">
@@ -52,9 +52,9 @@
 <script>
 
 import {ElTabPane, ElTabs, ElImage} from "element-plus";
-import Map      from "../components/place.vue";
-import gallery   from "../components/gallery.vue";
-import Comments from "../components/comments.vue";
+import Map                          from "../components/place.vue";
+import gallery                      from "../components/gallery.vue";
+import Comments                     from "../components/comments.vue";
 
 export default {
     components: {
@@ -101,6 +101,7 @@ export default {
                         if (!this.event.longitude) {
                             this.activeName = 'media'
                         }
+                        document.title = 'Событие "' + this.event.name + '"' + ' - Лошица ZUBR.life'
                     }
                 )
         },
