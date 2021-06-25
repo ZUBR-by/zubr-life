@@ -7,5 +7,5 @@ use Exception;
 
 class NotInGroups extends Exception implements ExpectedError
 {
-    protected $message = 'Нужно быть участников районных чатов указанных на сайте';
+    protected $message = 'Нужно быть участников районных чатов указанных на странице "О проекте"';
 }
