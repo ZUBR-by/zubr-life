@@ -18,10 +18,16 @@
                             Поддержать нас вы можете оформив подписку на <a href="https://www.patreon.com/zubr_by">
                             Patreon
                         </a>
-                        <br>
+                            <br>
                             Исходные коды проекта можно найти на нашем <a href="https://github.com/ZUBR-by/zubr-life">
                             Github
                         </a>
+                        </p>
+                        <h4 class="has-text-weight-bold pl-3">
+                            Вступление в эти чаты дает возможность комментировать и выставлять рейтинг
+                        </h4>
+                        <p class="pl-4">
+                            <a href="https://t.me/loshitsa_united">Общий чат Лошицы</a>
                         </p>
                         <h3 class="has-text-weight-bold pl-3">Ссылки</h3>
                         <ul>
@@ -50,7 +56,9 @@
                                 <a href="https://vk.com/loshitsa1">Паблик Лошицы в ВК</a>
                             </li>
                             <li>
-                                <a href="https://t.me/volnayaLoshica/1284">История микрорайона</a>
+                                <a href="https://t.me/volnayaLoshica/1284">
+                                    История микрорайона - пост от Вольной Лошицы
+                                </a>
                             </li>
                         </ul>
                     </article>
