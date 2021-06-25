@@ -46,7 +46,7 @@ pipeline {
 LOCALITY_BOT_TOKEN=${LOCALITY_BOT_TOKEN}
 GROUPS="${LOCALITY_GROUP_ID}"
 DATABASE_URL="${DATABASE_URL}"
-DOMAIN=new.zubr.life
+DOMAIN=loshitsa.zubr.life
 APP_ENV=prod
 JWT_SECRET_KEY=%kernel.project_dir%/config/jwt/private.pem
 JWT_PUBLIC_KEY=%kernel.project_dir%/config/jwt/public.pem
