@@ -8,5 +8,6 @@
     ansistrano_allow_anonymous_stats: no
     ansistrano_deploy_from: "{{ playbook_dir }}/../"
     ansistrano_keep_releases: 5
+    ansistrano_after_symlink_tasks_file: "{{ playbook_dir }}/after_symlink_master.yml"
   roles:
     - { role: ansistrano.deploy }

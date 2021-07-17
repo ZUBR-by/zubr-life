@@ -1,0 +1,24 @@
+- name: cleanup infrastructure files
+  file:
+    path: '{{ ansistrano_release_path.stdout }}/infrastructure'
+    state: absent
+
+- name: Ansible delete file glob
+  find:
+    paths: '{{ ansistrano_release_path.stdout }}'
+    patterns: '*.key'
+  register: files_to_delete
+
+- name: Ansible remove file glob
+  file:
+    path: "{{ item.path }}"
+    state: absent
+  with_items: "{{ files_to_delete.files }}"
+
+- name: Recursively change ownership of a directory
+  ansible.builtin.file:
+    path: '{{ ansistrano_release_path.stdout }}'
+    state: directory
+    recurse: yes
+    owner: www-data
+    group: www-data

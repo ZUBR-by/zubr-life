@@ -1,4 +1,4 @@
-FROM php:7.4-cli
+FROM php:8.0-fpm
 
 RUN apt-get update \
     && apt-get install -y libpq-dev libgmp-dev libonig-dev libpng-dev libicu-dev zlib1g-dev libzip-dev git zip \
@@ -17,8 +17,6 @@ RUN yes | pecl install xdebug
 WORKDIR /app/api
 
 ENV COMPOSER_ALLOW_SUPERUSER 1
-
-RUN sed -i 's/variables_order = "GPCS"/variables_order = "EGPCS"/g' $PHP_INI_DIR/php.ini
 
 RUN curl --silent --show-error https://getcomposer.org/installer | \
     php -- --install-dir=/usr/bin/ --filename=composer && \

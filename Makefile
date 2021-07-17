@@ -21,10 +21,12 @@ compose-phpunit:
 
 compose-up-ci:
 	COMPOSE_PROJECT_NAME=locality \
-	docker-compose -f infrastructure/docker-compose.ci.yml up -d
+	HOST_UID=$$(id -u $${USER}):$$(id -g $${USER}) \
+	docker-compose -f infrastructure/docker-compose.ci.yml up -d --build
 
 compose-down-ci:
 	COMPOSE_PROJECT_NAME=locality \
+	HOST_UID=$$(id -u $${USER}):$$(id -g $${USER}) \
 	docker-compose -f infrastructure/docker-compose.ci.yml down
 
 compose-dev-build:
@@ -33,7 +35,7 @@ compose-dev-build:
 	docker-compose -f infrastructure/docker-compose.yml build
 
 phpunit:
-	api/vendor/bin/phpunit --configuration api/phpunit.xml
+	php8.0 api/vendor/bin/phpunit --configuration api/phpunit.xml
 
 psalm:
-	api/vendor/bin/psalm --show-info=true -c infrastructure/psalm.xml
+	php8.0 api/vendor/bin/psalm --show-info=true -c infrastructure/psalm.xml
