@@ -44,13 +44,13 @@ SELECT id, name, longitude, latitude, DATE_FORMAT(created_at, '%d.%m.%Y') as cre
        0 as rating,
        'event' as type
   FROM event
- WHERE longitude is NOT NULL AND hidden_at IS NULL
+ WHERE longitude is NOT NULL AND hidden IS NULL AND approved IS NOT NULL
  UNION ALL
 SELECT id, name, longitude, latitude, null as created_at,
        0 as rating,
        'ad' as type
   FROM ad
- WHERE longitude is NOT NULL AND hidden_at IS NULL
+ WHERE longitude is NOT NULL AND hidden IS NULL AND approved IS NOT NULL
  UNION ALL
 SELECT id, name, longitude, latitude, null as created_at, 
        0 as rating,

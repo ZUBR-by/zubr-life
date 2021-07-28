@@ -65,9 +65,14 @@ class Ad
     private DateTime $createdAt;
 
     /**
-     * @ORM\Column(type="datetime", nullable=true)
+     * @ORM\Column(type="json", nullable=true)
      */
-    private ?DateTime $hiddenAt = null;
+    private ?array $hidden = null;
+
+    /**
+     * @ORM\Column(type="json", nullable=true)
+     */
+    private ?array $approved = null;
 
     public function __construct(User $user, string $name, string $description = '', array $attachments = [])
     {

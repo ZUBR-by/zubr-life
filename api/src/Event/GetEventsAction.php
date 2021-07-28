@@ -26,7 +26,7 @@ SELECT JSON_OBJECT('data', JSON_ARRAYAGG(
         ORDER BY created_at DESC
        ))
   FROM event 
- WHERE hidden_at IS NULL
+ WHERE hidden IS NULL AND approved IS NOT NULL
 SQL
         );
         return JsonResponse::fromJsonString($data ?: '{"data":[]}');

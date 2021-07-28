@@ -58,9 +58,14 @@ class Event
     private DateTime $createdAt;
 
     /**
-     * @ORM\Column(type="datetime", nullable=true)
+     * @ORM\Column(type="json", nullable=true)
      */
-    private ?DateTime $hiddenAt;
+    private ?array $hidden = null;
+
+    /**
+     * @ORM\Column(type="json", nullable=true)
+     */
+    private ?array $approved = null;
 
     /**
      * @ORM\ManyToOne(targetEntity="User")
@@ -87,7 +92,6 @@ class Event
         $this->description = $description;
         $this->createdAt   = $createdAt ?: new DateTime();
         $this->attachments = $attachments;
-        $this->hiddenAt    = null;
         $this->longitude   = $longitude;
         $this->latitude    = $latitude;
         $this->params      = [];

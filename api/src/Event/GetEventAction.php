@@ -23,7 +23,7 @@ class GetEventAction extends AbstractController
     )
      )
      FROM event e
-    WHERE e.id = ? AND e.hidden_at IS NULL
+    WHERE e.id = ? AND e.hidden IS NULL AND approved IS NOT NULL
 SQL
             ,
             [$id]

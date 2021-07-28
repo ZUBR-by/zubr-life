@@ -24,7 +24,7 @@ class GetAdAction extends AbstractController
      )
      FROM ad a
 LEFT JOIN comment c on a.id = c.ad_id AND c.hidden_at IS NULL
-    WHERE a.id = ? AND a.hidden_at IS NULL
+    WHERE a.id = ? AND a.hidden IS NULL AND approved IS NOT NULL
 SQL
             ,
             [$id]
