@@ -4,8 +4,7 @@
             <div class="column is-two-fifth pl-1">
                 <div>
                     <a href="/" style="float: left">
-                        <img class="zbr-h-logo"
-                             :src="'/imgs/loshitsa-' + Math.floor(Math.random() * 3) +  '.png'">
+                        <img class="zbr-h-logo" :src="flag">
                     </a>
                     <a id="widget" style="float: left;padding-top:20px;padding-left: 5px"></a>
                 </div>
@@ -51,6 +50,22 @@ export default {
         return {
             hidden: false,
             routes: routes.filter(i => i.label)
+        }
+    },
+    computed: {
+        flag() {
+            const map = {
+                'loshitsa': [
+                    '0.png',
+                    '1.png',
+                    '2.png'
+                ],
+                'vitebsk' : [
+                    '1.jpg'
+                ]
+            }
+
+            return '/imgs/' + slug + '/' + map[slug][Math.floor(Math.random() * map[slug].length)];
         }
     },
     mounted() {

@@ -14,6 +14,11 @@ import {nextTick}                       from "vue";
 
 const routes = [
     {
+        path     : '/:pathMatch(.*)*',
+        name     : 'not-found',
+        component: Home
+    },
+    {
         path     : '/',
         name     : 'home',
         label    : 'Главная',
@@ -92,7 +97,6 @@ const router = createRouter({
 })
 router.afterEach(async (to, from) => {
     await nextTick()
-    console.log(to)
     document.title = to.meta.title
         ? to.meta.title + ' - Лошица ZUBR.life'
         : 'Экран локального сообщества - Лошица ZUBR.life';

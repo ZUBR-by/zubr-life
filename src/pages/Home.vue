@@ -21,10 +21,12 @@
                         </li>
                         <li>
                             <p>
-                                Авторизуйся через телеграм(кнопка выше), присоединись к локальным <a href="/about#chats">
-                                чатам</a>
+                                Авторизуйся через телеграм(кнопка выше), присоединись к локальным
+                                <a href="/about#chats">
+                                    чатам</a>
                                 (например <a href="https://t.me/loshitsa_united">Общий чат Лошицы</a>)
-                                и получи возможность <b><u>анонимно</u> комментировать</b>, <b>выставлять рейтинг</b>, а также
+                                и получи возможность <b><u>анонимно</u> комментировать</b>,
+                                <b>выставлять рейтинг</b>, а также
                                 добавлять <b>объявления</b>
                             </p>
                         </li>
@@ -203,11 +205,17 @@ export default {
         this.fetchFeed()
     },
     data() {
+        const community = typeof slug !== 'undefined' ? slug : 'unknown';
         return {
             map    : null,
             feature: null,
             feed   : [],
-            name   : 'Лошица'
+            community,
+            name   : {
+                'loshitsa': 'Лошица',
+                'vitebsk' : 'Витебск',
+                'unknown' : 'Терра Инкогнито',
+            }[community]
         }
     },
     mounted() {
