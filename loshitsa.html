@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Экран локального сообщества - Лошица ZUBR.life</title>
+    <meta name="title" content="Лошица ZUBR.life - Экран локального сообщества">
+    <meta name="description" content="Лошица ZUBR.life - Экран локального сообщества">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Лошица ZUBR.life - Экран локального сообщества">
+    <meta property="og:description" content="Лошица ZUBR.life - Экран локального сообщества">
+    <link rel="stylesheet" href="./src/assets/css/main.css">
+    <style>
+
+        .zbr-hdr {
+            position: fixed !important;
+            top: 0;
+            width: 100%;
+            background: transparent;
+            z-index: 10;
+        }
+
+        /*   Blured BG for header & menu   */
+        .zbr-hdr:after,
+        .brgr-nav:after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(10px);
+            z-index: -1;
+        }
+
+        /*   End   */
+
+        .zbr-h-logo {
+            display: inline-block;
+            width: 120px;
+        }
+
+        .zbr-promo {
+            margin-top: 100px;
+        }
+
+        .zbr-ftr-links {
+        }
+
+        .zbr-ftr-links a {
+            display: inline-block;
+            width: 32px;
+            height: 32px;
+        }
+
+        .zbr-f-logo {
+            display: inline-block;
+            width: 150px;
+        }
+
+        .zbr-hdr a,
+        .zbr-ftr a,
+        .zbr-type-selector-wrp {
+            color: #ff5c01;
+        }
+
+        .zbr-type-selector-wrp {
+        }
+
+        .zbr-t-slctr {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+        }
+
+        .zbr-t-slctr-icn,
+        .zbr-t-slctr-icn img {
+            display: block;
+            width: 32px;
+            height: 32px;
+        }
+
+        /*   Burger Menu from JRM   */
+        #brgrbtn {
+            position: absolute;
+            width: 0;
+            height: 0;
+            opacity: 0;
+            z-index: -1;
+        }
+
+        .burger-button {
+            position: absolute;
+            top: 50%;
+            right: 0;
+            display: inline-block;
+            width: 36px;
+            height: 36px;
+            vertical-align: middle;
+            margin-top: -18px;
+            transition: all 0.2s ease-in;
+            z-index: 10;
+        }
+
+        .burger-button-line {
+            position: absolute;
+            width: 30px;
+            height: 4px;
+            background: #ff5c01;
+            border-radius: 10px;
+            transition: all 0.3s ease-in;
+        }
+
+        .burger-button-line:first-child {
+            left: 3px;
+            top: 6px;
+        }
+
+        .burger-button-line:nth-child(2) {
+            left: 3px;
+            top: 16px;
+        }
+
+        .burger-button-line:last-child {
+            left: 3px;
+            bottom: 6px;
+        }
+
+        input#brgrbtn:checked + .burger-button,
+        .burger-button.close {
+            transform: rotate(90deg);
+        }
+
+        input#brgrbtn:checked + .burger-button .burger-button-line:first-child,
+        .burger-button.close .burger-button-line:first-child {
+            top: 16px;
+            transform: rotate(-45deg);
+        }
+
+        input#brgrbtn:checked + .burger-button .burger-button-line:nth-child(2),
+        .burger-button.close .burger-button-line:nth-child(2) {
+            opacity: 0;
+        }
+
+        input#brgrbtn:checked + .burger-button .burger-button-line:last-child,
+        .burger-button.close .burger-button-line:last-child {
+            bottom: 16px;
+            transform: rotate(45deg);
+        }
+
+        .brgr-nav {
+            position: fixed;
+            top: 0;
+            right: -100%;
+            width: 65%;
+            height: 100%;
+            background: transparent;
+            transition: all 0.35s ease-in;
+            opacity: 0;
+        }
+
+        input#brgrbtn:checked + label + .brgr-nav {
+            right: 0;
+            opacity: 1;
+        }
+
+    </style>
+</head>
+<body>
+<div id="app"></div>
+<div class="section zbr-ftr has-text-centered-mobile">
+    <div class="columns is-align-items-center">
+        <div class="column pl-6 pr-6">
+            <img class="zbr-f-logo" src="/imgs/icons/svg/zubr-f-logo.svg">
+        </div>
+        <div class="column pl-6 pr-6 has-text-right has-text-centered-mobile">
+            <div>
+                Мы в социальных сетях:
+            </div>
+            <div class="zbr-ftr-links">
+                <a href="https://www.youtube.com/channel/UC5sPqti8bakMgz5T5u6_o6A">
+                    <img src="/imgs/icons/yt.png">
+                </a>
+                <a class="ml-3" href="https://t.me/zubr_in">
+                    <img src="/imgs/icons/telegram.png">
+                </a>
+                <a class="ml-3" href="https://www.instagram.com/zubr_in/">
+                    <img src="/imgs/icons/in.png">
+                </a>
+                <a class="ml-3" href="https://www.facebook.com/zubrBY">
+                    <img src="/imgs/icons/fb.png">
+                </a>
+<!--                <a class="ml-3" href="https://www.patreon.com/zubr_by">-->
+<!--                    <img src="/imgs/icons/telegram.png">-->
+<!--                </a>-->
+<!--                <a class="ml-3" href="https://github.com/ZUBR-by/">-->
+<!--                    <img src="/imgs/icons/telegram.png">-->
+<!--                </a>-->
+            </div>
+        </div>
+    </div>
+</div>
+<script type="module" src="/src/main.js"></script>
+<link rel="stylesheet" href="./src/assets/css/all.min.css">
+</body>
+</html>

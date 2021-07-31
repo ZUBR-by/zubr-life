@@ -6,4 +6,3 @@ dist
 dist-ssr
 api/config/jwt/*.pem
 api/config/credentials/*.key
-.phpunit.result.cache

@@ -2,8 +2,18 @@ import {defineConfig} from 'vite'
 import vue            from '@vitejs/plugin-vue'
 import styleImport    from 'vite-plugin-style-import'
 
+const {resolve} = require('path')
+
 // https://vitejs.dev/config/
 export default defineConfig({
+    build  : {
+        rollupOptions: {
+            input: {
+                loshitsa: resolve(__dirname, 'loshitsa.html'),
+                vitebsk : resolve(__dirname, 'vitebsk.html')
+            }
+        }
+    },
     plugins: [
         vue(),
         styleImport({
@@ -21,8 +31,8 @@ export default defineConfig({
             }]
         })
     ],
-    css: {
-        preprocessorOptions : {
+    css    : {
+        preprocessorOptions: {
             scss: {
                 additionalData: `
 $--color-primary: #ff5c01;
