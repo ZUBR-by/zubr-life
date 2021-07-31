@@ -199,23 +199,34 @@ import {fromLonLat}   from 'ol/proj';
 import Style          from "ol/style/Style";
 import Icon           from "ol/style/Icon";
 
+const community = typeof slug !== 'undefined' ? slug : 'unknown';
+
+const communityMap = {
+    'loshitsa': {
+        name  : 'Лошица',
+        zoom  : 14.70,
+        center: [27.580935, 53.844329]
+    },
+    'vitebsk' : {
+        'name': 'Витебск',
+        zoom  : 12.70,
+        center: [30.2043, 55.1918]
+    },
+    'unknown' : 'Терра Инкогнито',
+}
 
 export default {
     created() {
         this.fetchFeed()
     },
     data() {
-        const community = typeof slug !== 'undefined' ? slug : 'unknown';
+
         return {
             map    : null,
             feature: null,
             feed   : [],
             community,
-            name   : {
-                'loshitsa': 'Лошица',
-                'vitebsk' : 'Витебск',
-                'unknown' : 'Терра Инкогнито',
-            }[community]
+            name   : communityMap[community].name
         }
     },
     mounted() {
@@ -278,10 +289,8 @@ export default {
             overlays    : [overlay],
             target      : 'map',
             view        : new View({
-                center: fromLonLat([
-                    27.580935, 53.844329
-                ]),
-                zoom  : 14.70
+                center: fromLonLat(communityMap[community].center),
+                zoom  : communityMap[community].zoom
             }),
         });
         this.map.on('singleclick', (evt) => {
