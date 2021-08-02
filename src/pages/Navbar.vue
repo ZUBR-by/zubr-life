@@ -64,7 +64,7 @@ export default {
                     '1.jpg'
                 ],
                 'bntu' : [
-                    '0.bntu'
+                    '0.gif'
                 ]
             }
 
