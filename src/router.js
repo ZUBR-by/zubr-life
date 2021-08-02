@@ -7,7 +7,7 @@ import People                           from './pages/People.vue'
 import Person                           from './pages/Person.vue'
 import Organizations                    from "./pages/Organizations.vue";
 import Organization                     from "./pages/Organization.vue";
-import About                            from "./pages/About.vue";
+
 import Events                           from "./pages/Events.vue";
 import Event                            from "./pages/Event.vue";
 import {nextTick}                       from "vue";
@@ -88,7 +88,7 @@ const routes = [
         meta     : {
             title: 'О проекте'
         },
-        component: About,
+        component: () => import('./pages/' + slug + '/About.vue'),
     },
 ]
 const router = createRouter({
