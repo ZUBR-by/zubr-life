@@ -30,7 +30,7 @@ pipeline {
             DATABASE_URL           = credentials('LIFE_DATABASE_URL')
             VITE_BOT_NAME          = credentials('LIFE_BOT_NAME')
             VITE_TELEGRAM_AUTH_URL = 'https://api.zubr.life/login'
-            VITE_TELEGRAM_API_URL  = 'https://api.zubr.life'
+            VITE_TELEGRAM_API_URL  = '/api'
             VITE_SENTRY_DSN        = credentials('SENTRY_DSN')
             S3_SECRET              = credentials('API_S3_SECRET')
             S3_KEY                 = credentials('API_S3_KEY')
