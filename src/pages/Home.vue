@@ -214,7 +214,7 @@ const communityMap = {
     },
     'bntu' : {
         'name': 'БНТУ',
-        zoom  : 12.70,
+        zoom  : 15.70,
         center: [27.593069412931786, 53.92111407553088]
     },
     'unknown' : {
