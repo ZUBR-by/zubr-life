@@ -212,7 +212,16 @@ const communityMap = {
         zoom  : 12.70,
         center: [30.2043, 55.1918]
     },
-    'unknown' : 'Терра Инкогнито',
+    'bntu' : {
+        'name': 'БНТУ',
+        zoom  : 12.70,
+        center: [27.593069412931786, 53.92111407553088]
+    },
+    'unknown' : {
+        'name': 'Терра Инкогнито',
+        zoom  : 12.70,
+        center: [0, 0]
+    }
 }
 
 export default {

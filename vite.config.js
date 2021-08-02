@@ -10,7 +10,8 @@ export default defineConfig({
         rollupOptions: {
             input: {
                 loshitsa: resolve(__dirname, 'loshitsa.html'),
-                vitebsk : resolve(__dirname, 'vitebsk.html')
+                vitebsk : resolve(__dirname, 'vitebsk.html'),
+                bntu : resolve(__dirname, 'bntu.html')
             }
         }
     },

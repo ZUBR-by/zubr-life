@@ -62,6 +62,9 @@ export default {
                 ],
                 'vitebsk' : [
                     '1.jpg'
+                ],
+                'bntu' : [
+                    '0.svg'
                 ]
             }
 
