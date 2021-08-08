@@ -2,6 +2,7 @@
 
 namespace App\Auth;
 
+use App\BotTokenFactory;
 use App\Entity\User;
 use Doctrine\ORM\EntityManagerInterface;
 use Firebase\JWT\JWT;
@@ -17,7 +18,7 @@ class LoginAction extends AbstractController
 {
     public function __invoke(
         Request $request,
-        string $botToken,
+        BotTokenFactory $botTokenFactory,
         string $domain,
         string $publicKey,
         EntityManagerInterface $em,
@@ -26,7 +27,7 @@ class LoginAction extends AbstractController
     ) : Response {
         $credentials = $request->query->all();
         $response    = new RedirectResponse('https://' . $domain, Response::HTTP_FOUND);
-        $error       = $this->checkCredentials($credentials, $botToken);
+        $error       = $this->checkCredentials($credentials, $botTokenFactory->current());
         if ($error) {
             $logger->error($error->__toString());
             $response->setTargetUrl('https://' . $domain . '?error=auth');
@@ -59,7 +60,7 @@ class LoginAction extends AbstractController
     public function checkCredentials(array $credentials, string $botToken) : ?Throwable
     {
         if (! isset($credentials['hash'], $credentials['id'])) {
-            return new InvalidCredentials();
+            return new InvalidCredentials('Not found hash or id');
         }
         $checkHash = $credentials['hash'];
         unset($credentials['hash']);

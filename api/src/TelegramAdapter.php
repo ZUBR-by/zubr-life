@@ -15,14 +15,14 @@ class TelegramAdapter
      */
     private LoggerInterface $logger;
 
-    public function __construct(string $botToken, array $allowedGroups, LoggerInterface $logger)
+    public function __construct(BotTokenFactory $botTokenFactory, array $allowedGroups, LoggerInterface $logger)
     {
-        $this->api           = new Api($botToken);
+        $this->api           = new Api($botTokenFactory->current());
         $this->allowedGroups = $allowedGroups;
         $this->logger        = $logger;
     }
 
-    public function isUserInAllowedGroups(int $userId): bool
+    public function isUserInAllowedGroups(int $userId) : bool
     {
         foreach ($this->allowedGroups as $group) {
             try {

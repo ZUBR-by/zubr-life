@@ -17,7 +17,7 @@ compose-composer-dev:
 		composer install --no-interaction --no-scripts
 
 compose-phpunit:
-	docker exec --user "$$(id -u):$$(id -g)" locality_php_1 vendor/bin/phpunit
+	docker exec --user "$$(id -u):$$(id -g)" locality_php_1 vendor/bin/phpunit --configuration api/phpunit.xml
 
 compose-up-ci:
 	COMPOSE_PROJECT_NAME=locality \
