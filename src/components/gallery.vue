@@ -19,6 +19,15 @@
                      style="width: 340px;height: 180px;"
                      :alt="'Видео ' + (index + 1)"/>
             </a>
+            <a v-if="item.type === 'youtube'"
+                data-lg-size="1280-720"
+                :data-src="item.value"
+            >
+                <img src="/imgs/video-thumb.jpg"
+                     class="pl-1"
+                     style="width: 340px;height: 180px;"
+                     :alt="'Видео ' + (index + 1)"/>
+            </a>
         </template>
 
     </lightgallery>

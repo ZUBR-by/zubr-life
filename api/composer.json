@@ -38,7 +38,8 @@
         "symfony/validator": "5.2.*",
         "symfony/yaml": "5.2.*",
         "aws/aws-sdk-php": "3.147.*",
-        "paragonie/halite": "^4.0"
+        "paragonie/halite": "^4.0",
+        "symfony/css-selector" : "^5.0"
     },
     "require-dev": {
         "doctrine/doctrine-fixtures-bundle": "^3.4",

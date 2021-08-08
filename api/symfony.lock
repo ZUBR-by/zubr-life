@@ -354,6 +354,9 @@
             "bin/console"
         ]
     },
+    "symfony/css-selector": {
+        "version": "v5.2.12"
+    },
     "symfony/debug-pack": {
         "version": "v1.0.9"
     },
