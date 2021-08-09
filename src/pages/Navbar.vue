@@ -76,7 +76,7 @@ export default {
         let telegramScript = document.createElement('script')
         telegramScript.setAttribute('src', 'https://telegram.org/js/telegram-widget.js?14')
         telegramScript.setAttribute('async', '')
-        telegramScript.setAttribute('data-telegram-login', import.meta.env.VITE_BOT_NAME)
+        telegramScript.setAttribute('data-telegram-login', 'zubr_life_' + slug + '_bot')
         telegramScript.setAttribute('data-userpic', 'false')
         telegramScript.setAttribute('data-size', 'medium')
         telegramScript.setAttribute('data-auth-url', import.meta.env.VITE_TELEGRAM_AUTH_URL)
