@@ -25,7 +25,7 @@ pipeline {
     }
     stage('Build') {
         environment {
-            LOSHITSA_TOKEN         = credentials('loshista_BOT_TOKEN')
+            LOSHITSA_TOKEN         = credentials('loshitsa_BOT_TOKEN')
             VITEBSK_TOKEN          = credentials('vitebsk_BOT_TOKEN')
             BNTU_TOKEN             = credentials('bntu_BOT_TOKEN')
             LOCALITY_GROUP_ID      = credentials('LOCALITY_GROUP_ID')
@@ -54,7 +54,7 @@ DOMAIN=loshitsa.zubr.life
 APP_ENV=prod
 JWT_SECRET_KEY=%kernel.project_dir%/config/jwt/private.pem
 JWT_PUBLIC_KEY=%kernel.project_dir%/config/jwt/public.pem
-CORS_ALLOW_ORIGIN='^https?://(new.zubr.life|loshitsa.zubr.life)'
+CORS_ALLOW_ORIGIN='^https?://(new.zubr.life|loshitsa.zubr.life|vitebsk.zubr.life|bntu.zubr.life)'
 S3_BUCKET=lifeloshitsa
 AWS_SECRET=${S3_SECRET}
 AWS_KEY=${S3_KEY}
