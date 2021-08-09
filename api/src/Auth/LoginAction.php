@@ -27,11 +27,11 @@ class LoginAction extends AbstractController
         string $privateKey
     ) : Response {
         $credentials = $request->query->all();
-        $response    = new RedirectResponse('https://' . $domain, Response::HTTP_FOUND);
+        $response    = $this->redirect('/');
         $error       = $this->checkCredentials($credentials, $botTokenFactory->current());
         if ($error) {
             $logger->error($error->__toString(), ['slug' => $slug, 'token' => $botTokenFactory->current()]);
-            $response->setTargetUrl('https://' . $domain . '?error=auth');
+            $response->setTargetUrl($response->getTargetUrl() . '?error=auth');
             return $response;
         }
         $user = $em->getRepository(User::class)->find($credentials['id']);
