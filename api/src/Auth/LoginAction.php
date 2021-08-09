@@ -20,6 +20,7 @@ class LoginAction extends AbstractController
         Request $request,
         BotTokenFactory $botTokenFactory,
         string $domain,
+        string $slug,
         string $publicKey,
         EntityManagerInterface $em,
         LoggerInterface $logger,
@@ -29,7 +30,7 @@ class LoginAction extends AbstractController
         $response    = new RedirectResponse('https://' . $domain, Response::HTTP_FOUND);
         $error       = $this->checkCredentials($credentials, $botTokenFactory->current());
         if ($error) {
-            $logger->error($error->__toString());
+            $logger->error($error->__toString(), ['slug' => $slug, 'token' => $botTokenFactory->current()]);
             $response->setTargetUrl('https://' . $domain . '?error=auth');
             return $response;
         }
