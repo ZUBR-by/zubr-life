@@ -4,13 +4,15 @@
 </template>
 
 <script>
-import Navbar from "./pages/Navbar.vue";
+import {defineAsyncComponent, defineComponent} from 'vue'
 
-export default {
+export default defineComponent({
     components: {
-        Navbar
+        navbar: defineAsyncComponent(() =>
+            import('./pages/' + slug + '/Navbar.vue')
+        )
     }
-}
+})
 </script>
 
 <style>
