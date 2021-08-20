@@ -6,7 +6,7 @@
     "minimum-stability": "dev",
     "prefer-stable": true,
     "require": {
-        "php": ">=7.4",
+        "php": ">=8.0",
         "ext-ctype": "*",
         "ext-iconv": "*",
         "azjezz/psl": "^1.0",
@@ -39,7 +39,8 @@
         "symfony/yaml": "5.2.*",
         "aws/aws-sdk-php": "3.147.*",
         "paragonie/halite": "^4.0",
-        "symfony/css-selector" : "^5.0"
+        "symfony/css-selector" : "^5.0",
+        "firebase/php-jwt": "^5.0"
     },
     "require-dev": {
         "doctrine/doctrine-fixtures-bundle": "^3.4",

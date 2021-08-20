@@ -18,6 +18,10 @@ services:
       $privateKey: '%private_key%'
       $publicKey: '%env(resolve:PUBLIC_KEY)%'
       $jwtPublicKey: '%env(resolve:JWT_PUBLIC_KEY)%'
+      $graphPrivateKey: '%env(resolve:GRAPH_PRIVATE_KEY)%'
+      $graphJwtAlgo: '%env(GRAPH_JWT_ALGO)%'
+      $graphqlUrl: '%env(GRAPHQL_URL)%'
+      $accessToken: '%env(ACCESS_TOKEN)%'
 
   App\:
     resource: '../src/'

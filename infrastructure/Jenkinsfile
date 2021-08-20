@@ -11,9 +11,11 @@ pipeline {
             sh 'touch api/.env'
             withCredentials([file(credentialsId: 'LIFE_PRIVATE_KEY', variable: 'jwt_privkey'),
                              file(credentialsId: 'LIFE_PUBLIC_KEY', variable: 'jwt_pubkey'),
+                             file(credentialsId: 'GRAPH_PRIVATE_KEY', variable: 'g_privkey'),
                              file(credentialsId: 'LIFE_PUBLIC_KEY_USERS', variable: 'pubkey')
                             ]
             ) {
+                writeFile file: 'api/config/jwt/graph.pem', text: readFile(g_privkey)
                 writeFile file: 'api/config/jwt/private.pem', text: readFile(jwt_privkey)
                 writeFile file: 'api/config/jwt/public.pem', text: readFile(jwt_pubkey)
                 writeFile file: 'api/config/credentials/public.key', text: readFile(pubkey)
@@ -37,6 +39,8 @@ pipeline {
             S3_SECRET              = credentials('API_S3_SECRET')
             S3_KEY                 = credentials('API_S3_KEY')
             PUBLIC_KEY             = credentials('LIFE_PUBLIC_KEY_USERS')
+            JWT_ALGO               = credentials('JWT_ALGO')
+            ACCESS_TOKEN           = credentials('BACKEND_ACCESS_TOKEN')
         }
         steps {
             sh 'yarn'
@@ -59,6 +63,9 @@ S3_BUCKET=lifeloshitsa
 AWS_SECRET=${S3_SECRET}
 AWS_KEY=${S3_KEY}
 PUBLIC_KEY=%kernel.project_dir%/config/credentials/public.key
+GRAPH_JWT_ALGO=${JWT_ALGO}
+GRAPH_PRIVATE_KEY=%kernel.project_dir%/config/jwt/graph.pem
+ACCESS_TOKEN=${ACCESS_TOKEN}
 """
             }
         }

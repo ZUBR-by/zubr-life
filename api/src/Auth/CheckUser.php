@@ -22,12 +22,18 @@ class CheckUser implements EventSubscriberInterface
      * @var EntityManagerInterface
      */
     private EntityManagerInterface $em;
+    private string $accessToken;
 
-    public function __construct(TelegramAdapter $adapter, string $jwtPublicKey, EntityManagerInterface $em)
-    {
+    public function __construct(
+        TelegramAdapter $adapter,
+        string $jwtPublicKey,
+        EntityManagerInterface $em,
+        string $accessToken
+    ) {
         $this->adapter       = $adapter;
         $this->publicKeyPath = $jwtPublicKey;
         $this->em            = $em;
+        $this->accessToken   = $accessToken;
     }
 
     public function onKernelController(ControllerEvent $event) : void
@@ -37,7 +43,12 @@ class CheckUser implements EventSubscriberInterface
         if (is_array($controller)) {
             $controller = $controller[0];
         }
-
+        if ($controller instanceof BotAuthentication) {
+            $request = $event->getRequest();
+            if ($request->headers->get('Authorization') !== 'Bearer ' . $this->accessToken) {
+                throw new NotAuthorized();
+            }
+        }
         if ($controller instanceof ActionRequiresAuthorization) {
             $request = $event->getRequest();
             if (! $request->cookies->has('AUTH_TOKEN')) {

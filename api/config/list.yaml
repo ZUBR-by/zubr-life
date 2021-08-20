@@ -98,3 +98,53 @@ unrate:
   path: /unrate/{entity}/{id}
   controller: App\UnrateAction
   methods: [ POST ]
+
+activity_list:
+  path: /activity
+  controller: App\Activity\GetActivities
+  methods: [ GET ]
+
+activity_create:
+  path: /activity
+  controller: App\Activity\CreateActivity
+  methods: [ POST ]
+
+activity_moderate:
+  path: /activity/moderation
+  controller: App\Activity\ModerateActivity
+  methods: [ POST ]
+
+activity_validate:
+  path: /activity/validate
+  controller: App\Activity\ValidateActivity
+  methods: [ GET ]
+
+activity_get_for_moderation:
+  path: /activity/moderation
+  controller: \App\Activity\GetActivityForModeration
+  methods: [ GET ]
+
+activity_update_location:
+  path: /activity/location
+  controller: App\Activity\UpdateActivityLocation
+  methods: [ POST ]
+
+get_user:
+  path: /auth/user
+  controller: App\User\GetUser
+  methods: [GET]
+
+register_user:
+  path: /auth/user
+  controller: App\User\RegisterUser
+  methods: [POST]
+
+update_user:
+  path: /auth/user
+  controller: App\User\UpdateUser
+  methods: [PATCH]
+
+register_admin:
+  path: /auth/admin
+  controller: App\User\RegisterUser
+  methods: [POST]

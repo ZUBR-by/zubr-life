@@ -1,0 +1,44 @@
+<?php
+
+namespace App\User;
+
+use App\Auth\BotAuthentication;
+use App\GraphQLClient;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Request;
+
+class GetUser extends AbstractController implements BotAuthentication
+{
+    public function __invoke(Request $request, GraphQLClient $graphQLClient) : JsonResponse
+    {
+        $botId = $request->get('botId');
+        if (empty($botId)) {
+            return new JsonResponse(['error' => 'missing bot id']);
+        }
+        $query = /** @lang GraphQL */
+            <<<'GraphQL'
+query($uid: Int!)  {
+    telegram_user_by_pk(user_id: $uid) {
+        blocked
+        token
+    }
+}
+GraphQL;
+        $data  = $graphQLClient->requestAuth($query, ['uid' => $botId]);
+        if ($data['telegram_user_by_pk'] === null) {
+            return new JsonResponse(['result' => null, 'status' => 'get-user-error']);
+        }
+
+        return new JsonResponse(
+            [
+                'result' => [
+                    '_id'    => $data['telegram_user_by_pk']['user_id'],
+                    'active' => $data['telegram_user_by_pk']['blocked'] === null,
+                    'admin'  => ! empty($data['telegram_user_by_pk']['token']),
+                ],
+                'status' => 'get-user-success',
+            ]
+        );
+    }
+}
