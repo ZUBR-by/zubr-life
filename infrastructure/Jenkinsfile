@@ -41,6 +41,7 @@ pipeline {
             PUBLIC_KEY             = credentials('LIFE_PUBLIC_KEY_USERS')
             JWT_ALGO               = credentials('JWT_ALGO')
             ACCESS_TOKEN           = credentials('BACKEND_ACCESS_TOKEN')
+            GRAPHQL_URL            = credentials('GRAPHQL_URL')
         }
         steps {
             sh 'yarn'
@@ -66,6 +67,7 @@ PUBLIC_KEY=%kernel.project_dir%/config/credentials/public.key
 GRAPH_JWT_ALGO=${JWT_ALGO}
 GRAPH_PRIVATE_KEY=%kernel.project_dir%/config/jwt/graph.pem
 ACCESS_TOKEN=${ACCESS_TOKEN}
+GRAPHQL_URL=${GRAPHQL_URL}
 """
             }
         }
