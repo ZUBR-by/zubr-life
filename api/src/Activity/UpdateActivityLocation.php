@@ -35,7 +35,7 @@ GraphQL;
             return new JsonResponse(['error' => 'not found lng or lat']);
         }
         try {
-            $graphQLClient->request(
+            $graphQLClient->requestAuth(
                 $query,
                 [
                     'uid'   => $payload['uniqueId'],
