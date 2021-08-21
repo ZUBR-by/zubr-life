@@ -5,9 +5,11 @@
                 <table class="table">
                     <thead>
                     <tr>
-                        <th><h3 class="content is-medium has-text-weight-bold">
-                            Лента новостей
-                        </h3></th>
+                        <th>
+                            <h3 class="content is-medium has-text-weight-bold">
+                                Лента новостей
+                            </h3>
+                        </th>
                         <th>Дата</th>
                         <th>
                             <button class="button" @click="dialogVisible = true">Добавить</button>
@@ -15,16 +17,14 @@
                     </tr>
                     </thead>
                     <tbody>
-                    <tr v-for="item of feed">
+                    <tr v-for="item of data.community_activity" v-if="data">
                         <th>
-                            <router-link :to="{name: item.type, params: {id: item.id}}">{{ item.name }}</router-link>
+                            <router-link :to="{name: 'activity', params: {id: item.id}}">
+                                {{ item.extra.name ? item.extra.name : item.description }}
+                            </router-link>
                         </th>
-                        <th>{{ item.created_at }}</th>
+                        <th>{{ formatDate(item.created_at) }}</th>
                         <th style="text-align: center">
-                            <div class="tag"
-                                 :class="{'is-primary' : item.type === 'ad', 'is-danger': item.type === 'event'}">
-                                {{ item.type === 'event' ? 'Событие' : 'Объявление' }}
-                            </div>
                         </th>
                     </tr>
                     </tbody>
@@ -111,90 +111,121 @@
 </template>
 
 <script>
+import {useQuery} from "@urql/vue";
 
 import {ElMessage, ElUpload, ElDialog, ElRadioButton, ElRadioGroup, ElButton} from 'element-plus';
-import datepicker                                                   from 'vue3-datepicker'
-import locale                                                       from 'date-fns/locale/ru'
+import datepicker                                                             from 'vue3-datepicker'
+import locale                                                                 from 'date-fns/locale/ru'
+import {defineComponent, ref, reactive}                                       from "vue";
 
 let emptyForm = {name: '', description: '', type: 'event', attachments: []};
 
-export default {
+export default defineComponent({
     components: {
         ElUpload, ElDialog, ElRadioButton, ElRadioGroup, datepicker, ElButton
     },
-    created() {
-        this.fetchFeed();
-    },
-    data() {
+    setup() {
+        const result = useQuery({
+                // language=GraphQL
+                query    : `
+query ($community: String!) {
+    community_activity(
+        where: {
+            category: {_in: ["PROTEST", "AD", "EVENT"]}
+            communities: {community_id: {_eq: $community}}
+        },
+        order_by: [{created_at: desc}]
+    ) {
+        attachments
+        id
+        description
+        extra
+        created_at
+    }
+}
+      `,
+                variables: {
+                    community: slug
+                }
+            }
+        )
+        const upload = ref(null);
+        let form     = reactive({
+            text       : '',
+            description: '',
+            attachments: [],
+            created_at : new Date(),
+            type       : 'event'
+        })
+
+        const refresh     = () => {
+            result.executeQuery({
+                requestPolicy: 'network-only',
+            });
+        }
+        let error         = ref(null)
+        let dialogVisible = ref(false)
+
         return {
-            feed         : [],
-            error        : null,
-            fileList     : [],
-            dialogVisible: false,
+            fetching: result.fetching,
+            data    : result.data,
+            error_1 : result.error,
+            feed    : [],
+            error,
+            fileList: [],
+            dialogVisible,
             locale,
-            form         : {
-                text       : '',
-                description: '',
-                attachments: [],
-                created_at : new Date(),
-                type       : 'event'
+            form,
+            refresh,
+            formatDate(raw) {
+                return raw.split('T')[0]
+            },
+            save() {
+                const formData = new FormData();
+                formData.append('description', form.description);
+                formData.append('name', form.name);
+                formData.append('type', form.type);
+                formData.append('created_at', form.created_at.toISOString());
+
+                form.attachments.forEach((elem, index) => {
+                    formData.append('attachment' + index, elem.raw);
+                })
+
+                fetch(import.meta.env.VITE_TELEGRAM_API_URL + '/feed', {
+                    method     : 'POST',
+                    credentials: 'include',
+                    body       : formData
+                }).then(r => r.json())
+                    .then(result => {
+                            if (result.error) {
+                                error = result.error;
+                                return;
+                            }
+
+                            form = Object.assign({}, emptyForm)
+                            upload.clearFiles()
+                            dialogVisible = false
+                            ElMessage.success({'message': 'Добавлено'})
+                        }
+                    )
+                    .catch(e => {
+                        ElMessage.error({'message': 'Произошла ошибка'})
+                        throw e;
+                    })
+            },
+            handleExceed(files, fileList) {
+                ElMessage.error('Максимум три файла!')
+            },
+            handleRemove(file) {
+                form.attachments = form.attachments.filter(i => file.uid !== i.uid)
+            },
+            onChange(file) {
+                form.attachments.push(file)
             },
         }
     },
-    methods: {
-        handleExceed(files, fileList) {
-            ElMessage.error('Максимум три файла!')
-        },
-        handleRemove(file) {
-            this.form.attachments = this.form.attachments.filter(i => file.uid !== i.uid)
-        },
-        onChange(file) {
-            this.form.attachments.push(file)
-        },
-        fetchFeed() {
-            fetch(import.meta.env.VITE_TELEGRAM_API_URL + '/feed')
-                .then(r => r.json())
-                .then(
-                    r => {
-                        this.feed = r.data;
-                    }
-                )
-        },
-        save() {
-            const formData = new FormData();
-            formData.append('description', this.form.description);
-            formData.append('name', this.form.name);
-            formData.append('type', this.form.type);
-            formData.append('created_at', this.form.created_at.toISOString());
+});
 
-            this.form.attachments.forEach((elem, index) => {
-                formData.append('attachment' + index, elem.raw);
-            })
-
-            fetch(import.meta.env.VITE_TELEGRAM_API_URL + '/feed', {
-                method     : 'POST',
-                credentials: 'include',
-                body       : formData
-            }).then(r => r.json())
-                .then(result => {
-                        if (result.error) {
-                            this.error = result.error;
-                            return;
-                        }
-                        this.fetchFeed();
-                        this.form = Object.assign({}, emptyForm)
-                        this.$refs.upload.clearFiles()
-                        this.dialogVisible = false
-                        ElMessage.success({'message': 'Добавлено'})
-                    }
-                )
-                .catch(e => {
-                    ElMessage.error({'message': 'Произошла ошибка'})
-                    throw e;
-                })
-        }
-    }
-}
 </script>
 
 <style>

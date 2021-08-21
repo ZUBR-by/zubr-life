@@ -8,9 +8,8 @@ import Person                           from './pages/Person.vue'
 import Organizations                    from "./pages/Organizations.vue";
 import Organization                     from "./pages/Organization.vue";
 
-import Events                           from "./pages/Events.vue";
-import Event                            from "./pages/Event.vue";
-import {nextTick}                       from "vue";
+import Activity   from "./pages/Activity.vue";
+import {nextTick} from "vue";
 
 const routes = [
     {
@@ -72,14 +71,9 @@ const routes = [
         component: Organization,
     },
     {
-        path     : '/event',
-        name     : 'events',
-        component: Events,
-    },
-    {
-        path     : '/event/:id',
-        name     : 'event',
-        component: Event,
+        path     : '/activity/:id',
+        name     : 'activity',
+        component: Activity,
     },
     {
         path     : '/about',

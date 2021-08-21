@@ -46,7 +46,7 @@
                         Последние новости
                     </h1>
                     <div class="announcements">
-                        <router-link :to="{name: item.type, params: {id: item.id}}"
+                        <router-link :to="{name: 'activity', params: {id: item.id}}"
                                      class="box"
                                      v-for="item of feed">
                             <div class="is-size-7 has-text-grey">{{ item.created_at }}</div>
