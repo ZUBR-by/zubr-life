@@ -34,6 +34,7 @@ query($timestamp: timestamp!)  {
         description
         extra
         category
+        geometry
     }
 }
 GraphQL;
@@ -53,6 +54,8 @@ GraphQL;
                     'thumb'       => $item['attachments'][0]['thumb'] ?? '',
                     'lat'         => $item['geometry']['coordinates'][1] ?? null,
                     'lng'         => $item['geometry']['coordinates'][0] ?? null,
+                    'attachments' => $item['attachments'],
+                    'geometry'    => $item['geometry'],
                     'description' => $item['description'],
                     'area'        => $item['extra']['area'] ?? '',
                     'region'      => $item['extra']['region'] ?? '',
