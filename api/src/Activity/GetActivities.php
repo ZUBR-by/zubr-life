@@ -35,6 +35,9 @@ query($timestamp: timestamp!)  {
         extra
         category
         geometry
+        communities {
+            community_id
+        }
     }
 }
 GraphQL;
@@ -59,6 +62,7 @@ GraphQL;
                     'description' => $item['description'],
                     'area'        => $item['extra']['area'] ?? '',
                     'region'      => $item['extra']['region'] ?? '',
+                    'community'   => $item['communities']['community_id'] ?? 'belarus',
                 ]
             ),
             'statusText' => 'success',
