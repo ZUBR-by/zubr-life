@@ -25,7 +25,11 @@ class GetActivities extends AbstractController
 query($timestamp: timestamp!)  {
     community_activity(
         where: {
-            _and: [{status: {_eq: "APPROVED"}}, {validated_at: {_gte: $timestamp}}]
+            _and: [
+            {status: {_eq: "APPROVED"}}, 
+            {validated_at: {_gte: $timestamp}},
+            {category: {_in: ["PROTEST","EVENT","ART"]}}
+        ]
         },
         order_by: [{validated_at: desc}]
     ) {
