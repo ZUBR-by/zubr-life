@@ -15,10 +15,12 @@ class GetActivities extends AbstractController
     public function __invoke(Request $request, GraphQLClient $graphQLClient) : JsonResponse
     {
         $date  = [
-                'month' => '-1 month',
-                'day'   => '-1 day',
-                'week'  => '-1 week',
-                'day3'  => '-3 days',
+                'month'  => '-1 month',
+                'month3' => '-3 month',
+                'month6' => '-6 month',
+                'day'    => '-1 day',
+                'week'   => '-1 week',
+                'day3'   => '-3 days',
             ][$request->get('time')] ?? '-1 month';
         $query = /** @lang GraphQL */
             <<<'GraphQL'
@@ -57,10 +59,10 @@ GraphQL;
                     '_id'         => $item['id'],
                     'direction'   => lowercase($item['category']),
                     'type'        => $item['attachments'][0]['type'] ?? 'text',
-                    'url'         => $item['attachments'][0]['url'] ?? '',
-                    'thumb'       => $item['attachments'][0]['thumb'] ?? '',
-                    'lat'         => $item['geometry']['coordinates'][1] ?? null,
-                    'lng'         => $item['geometry']['coordinates'][0] ?? null,
+//                    'url'         => $item['attachments'][0]['url'] ?? '',
+//                    'thumb'       => $item['attachments'][0]['thumb'] ?? '',
+//                    'lat'         => $item['geometry']['coordinates'][1] ?? null,
+//                    'lng'         => $item['geometry']['coordinates'][0] ?? null,
                     'attachments' => $item['attachments'],
                     'geometry'    => $item['geometry'],
                     'description' => $item['description'],
