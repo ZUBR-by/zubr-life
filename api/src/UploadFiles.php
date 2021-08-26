@@ -74,7 +74,7 @@ class UploadFiles extends Command
                             SET attachments = JSON_ARRAY_APPEND(
                                     attachments,
                                     '$',
-                                    JSON_OBJECT('type', ?, 'value', ?)
+                                    JSON_OBJECT('type', ?, 'url', ?)
                                 ) 
                           WHERE id = ?",
                         [explode('/', $mime)[0], $response['ObjectURL'], $parts[0]]

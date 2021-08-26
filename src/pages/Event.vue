@@ -25,8 +25,8 @@
                             {{ event.description }}
                         </p>
                         <ul>
-                            <li v-for="link of links" :key="link.value">
-                                <a :href="link.value">{{ link.name ? link.name : link.value }}</a>
+                            <li v-for="link of links" :key="link.url">
+                                <a :href="link.url">{{ link.name ? link.name : link.url }}</a>
                             </li>
                         </ul>
                     </article>
