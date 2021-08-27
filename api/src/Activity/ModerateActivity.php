@@ -34,7 +34,7 @@ GraphQL;
             [
                 'status' => $payload['moderationStatus'],
                 'id'     => $payload['id'],
-                'json'   => ['locked' => false],
+                'json'   => ['locked' => false, 'declineReason' => $payload['declineReason'] ?? ''],
                 'date'   => date(DATE_ATOM),
             ]
         );
