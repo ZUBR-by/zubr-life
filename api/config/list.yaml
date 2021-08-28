@@ -79,6 +79,12 @@ activity_list:
   controller: App\Activity\GetActivities
   methods: [ GET ]
 
+activity_last:
+  path: /activity/last
+  controller: App\Activity\GetLastActivity
+  methods: [ GET ]
+
+
 activity_create:
   path: /activity
   controller: App\Activity\CreateActivity
