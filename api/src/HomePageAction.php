@@ -5,61 +5,84 @@ namespace App;
 use Doctrine\DBAL\Connection;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Request;
 
 class HomePageAction extends AbstractController
 {
-    public function __invoke(Connection $connection) : JsonResponse
+    public function __invoke(Request $request, Connection $connection, GraphQLClient $graphQLClient) : JsonResponse
     {
-        $data = $connection->fetchOne(<<<SQL
-SELECT JSON_OBJECT(
-        'type', 'FeatureCollection',
-        'features', JSON_ARRAYAGG(
-         JSON_OBJECT(
-             'type', 'Feature',
-            'id', CONCAT(type,id),
-            'properties', JSON_OBJECT(
-                'id', id, 
-                'name', name, 
-                'type', type,
-                'rating', rating,
-                'created_at', created_at
-            ),
-            'geometry', JSON_OBJECT(
-                 'type', 'Point',
-                 'coordinates', JSON_ARRAY(longitude, latitude)
-             )
-           )
-       )
-      )
- FROM (
-   SELECT o.id, name, longitude, latitude, null as created_at, 
-          SUM(IF(rp.type = 'upvote', 1, IF(rp.type IS NULL, 0, -1))) as rating,
-          'organization' as type 
-     FROM organization o
-LEFT JOIN rating_point rp on o.id = rp.organization_id 
-    WHERE longitude is NOT NULL
- GROUP BY o.id
- UNION ALL
-SELECT id, name, longitude, latitude, DATE_FORMAT(created_at, '%d.%m.%Y') as created_at,
-       0 as rating,
-       'event' as type
-  FROM event
- WHERE longitude is NOT NULL AND hidden IS NULL AND approved IS NOT NULL
- UNION ALL
-SELECT id, name, longitude, latitude, null as created_at,
-       0 as rating,
-       'ad' as type
-  FROM ad
- WHERE longitude is NOT NULL AND hidden IS NULL AND approved IS NOT NULL
- UNION ALL
-SELECT id, name, longitude, latitude, null as created_at, 
-       0 as rating,
-       'place' as type
-  FROM place
- WHERE longitude is NOT NULL
-) as f
-SQL
+        $community = $request->get('community');
+        $query     = /** @lang GraphQL */
+            <<<'GraphQL'
+query($community: String!)  {
+    activities: community_activity(
+        where: {
+            _and: [
+            {communities: {community_id: {_eq: $community}}}
+        ]
+        },
+        order_by: [{created_at: desc}]
+    ) {
+        id
+        attachments
+        description
+        extra
+        category
+        geometry
+        created_at
+    }
+    organization(
+        where: {
+            _and: [
+                {communities: {community_id: {_eq: $community}}}, 
+                {coordinates: {_is_null: false}}
+            ]
+        }
+    ){
+        id
+        name
+        geometry: coordinates
+    }
+}
+
+GraphQL;
+        $data      = $graphQLClient->request(
+            $query,
+            ['community' => $community ?: 'belarus']
         );
-        return JsonResponse::fromJsonString($data ?: '{"data":{}}}');
+
+        return new JsonResponse([
+            'type'     => 'FeatureCollection',
+            'features' => (function (array $data) {
+                $features = [];
+                foreach ($data['activities'] as $activity) {
+                    $features[] = [
+                        'type'       => 'Feature',
+                        'id'         => 'activity' . $activity['id'],
+                        'properties' => [
+                            'id'         => $activity['id'],
+                            'name'       => $activity['extra']['name'] ?? $activity['description'],
+                            'type'       => $activity['category'],
+                            'created_at' => $activity['created_at'],
+                        ],
+                        'geometry' => $activity['geometry']
+                    ];
+                }
+                foreach ($data['organization'] as $organization) {
+                    $features[] = [
+                        'type'       => 'Feature',
+                        'id'         => 'activity' . $organization['id'],
+                        'properties' => [
+                            'id'         => $organization['id'],
+                            'name'       => $organization['name'],
+                            'type'       => 'organization'
+                        ],
+                        'geometry' => $organization['geometry']
+                    ];
+                }
+
+                return $features;
+            })($data),
+        ]);
     }
 }

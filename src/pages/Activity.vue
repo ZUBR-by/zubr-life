@@ -20,7 +20,7 @@
                     <hr>
                     <template v-if="data && data.activity">
                         <article class="pl-5">
-                            <h3 class="is-size-4">{{ data.activity.name }}</h3>
+                            <h3 class="is-size-4" v-if="data.activity.extra.name">{{ data.activity.extra.name }}</h3>
                             <p> {{ data.activity.created_at.split('T')[0] }} </p>
                             <p>
                                 {{ data.activity.description }}
@@ -95,11 +95,6 @@ query ($id: Int!) {
         category
         geometry
         created_at
-        comments {
-            id
-            attachments
-            text
-        }
     }
 }
       `,

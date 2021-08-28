@@ -1,11 +1,3 @@
-widget:
-  path: /private/widget
-  controller: App\DisplayWidget
-
-index:
-  path: /
-  controller: App\DisplayWidget
-
 home:
   path: /home
   controller: App\HomePageAction
@@ -29,49 +21,19 @@ comment_list:
   controller: App\Comments\GetCommentsAction
   methods: [ GET ]
 
-place_get:
-  path: /place/{id}
-  controller: App\Place\GetPlaceAction
-  methods: [ GET ]
-
-person_list:
-  path: /person
-  controller: App\Person\GetPeopleAction
-  methods: [ GET ]
-
-person_get:
-  path: /person/{id}
-  controller: App\Person\GetPersonAction
-  methods: [ GET ]
-
-feed:
-  path: /feed
-  controller: App\GetFeedAction
-  methods: [ GET ]
-
 feed_add:
   path: /feed
   controller: App\AddFeedItemAction
   methods: [ POST ]
 
-organization_list:
-  path: /organization
-  controller: App\Organization\GetOrganizationsAction
-  methods: [ GET ]
-
-organization_get:
-  path: /organization/{id}
-  controller: App\Organization\GetOrganizationAction
-  methods: [ GET ]
-
 rate:
   path: /rate/{type}/{entity}/{id}
-  controller: App\RateAction
+  controller: App\Rating\RateAction
   methods: [ POST ]
 
 unrate:
   path: /unrate/{entity}/{id}
-  controller: App\UnrateAction
+  controller: App\Rating\UnrateAction
   methods: [ POST ]
 
 activity_list:

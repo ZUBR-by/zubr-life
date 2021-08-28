@@ -14,19 +14,19 @@
                     </tr>
                     </thead>
                     <tbody>
-                    <tr v-for="org of organizations">
-                        <td>
-                            <router-link :to="{name: 'organization', params: {id: org.id}}">
-                                {{ org.name }}
+                    <tr v-for="item of data.organization" v-if="data">
+                        <th>
+                            <router-link :to="{name: 'organization', params: {id: item.id}}">
+                                {{ item.name }}
                             </router-link>
-                        </td>
+                        </th>
                         <td style="vertical-align: middle;text-align: center"
                             :class="{
-                                'has-text-success': org.rating > 0,
-                                'has-text-danger': org.rating < 0
+                                'has-text-success': false,
+                                'has-text-danger': false
                             }"
                         >
-                            {{ org.rating }}
+                            0
                         </td>
                     </tr>
                     </tbody>
@@ -38,27 +38,41 @@
 
 <script>
 
-export default {
-    created() {
-        this.fetchOrganizations();
-    },
-    data() {
-        return {
-            organizations: [],
+import {defineComponent} from "vue";
+import {useQuery}        from "@urql/vue";
+
+export default defineComponent({
+    setup() {
+        const result = useQuery({
+                // language=GraphQL
+                query    : `
+query ($community: String!) {
+    organization(
+        where: {
+
+            communities: {community_id: {_eq: $community}}
         }
-    },
-    methods: {
-        fetchOrganizations() {
-            fetch(import.meta.env.VITE_TELEGRAM_API_URL + '/organization')
-                .then(r => r.json())
-                .then(
-                    r => {
-                        this.organizations = r.data;
-                    }
-                )
-        }
+    ) {
+        attachments
+        id
+        name
+        description
+        extra
     }
 }
+      `,
+                variables: {
+                    community: slug
+                }
+            }
+        )
+        return {
+            fetching: result.fetching,
+            data    : result.data,
+            error   : result.error
+        }
+    },
+})
 </script>
 
 <style scoped>

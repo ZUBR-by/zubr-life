@@ -45,16 +45,16 @@
                     <h1>
                         Последние новости
                     </h1>
-                    <div class="announcements">
+                    <div class="announcements" v-if="data && data.activities">
                         <router-link :to="{name: 'activity', params: {id: item.id}}"
                                      class="box"
-                                     v-for="item of feed">
-                            <div class="is-size-7 has-text-grey">{{ item.created_at }}</div>
+                                     v-for="item of data.activities">
+                            <div class="is-size-7 has-text-grey">{{ item.created_at.split('T')[0] }}</div>
                             <div class="tag"
-                                 :class="{'is-primary' : item.type === 'ad', 'is-danger': item.type === 'event'}">
+                                 :class="{'is-primary' : item.category === 'AD', 'is-danger': item.category !== 'AD'}">
                                 {{ item.type === 'event' ? 'Событие' : 'Объявление' }}
                             </div>
-                            <p>{{ item.name }}</p>
+                            <p>{{ item.extra.name ? item.extra.name : item.description }}</p>
                         </router-link>
                     </div>
                     <div class="pt-5">
@@ -163,17 +163,15 @@
             <div id="popup-content">
                 <template v-if="feature">
                     <p v-if="feature.type === 'event'">
-                        {{ feature.created_at }}
+                        {{ feature.created_at.split('T')[0] }}
                     </p>
                     <p><b>{{ feature.name }}</b></p>
-                    <p v-if="feature.type === 'organization'">
-                        Рейтинг: <b :class="{
-                                'has-text-success': feature.rating > 0,
-                                'has-text-danger': feature.rating < 0
-                            }"> {{ feature.rating }}</b>
-                    </p>
                     <p>
-                        <router-link :to="{name: feature.type, params: {id: feature.id}}">
+                        <router-link :to="{
+                            name: feature.type === 'organization'
+                                ? 'organization'
+                                : 'activity' ,
+                                params: {id: feature.id}}">
                             Подробности
                         </router-link>
                     </p>
@@ -185,19 +183,21 @@
 
 <script>
 import 'ol/ol.css';
-import Map            from 'ol/Map';
-import OSM            from 'ol/source/OSM';
-import VectorSource   from 'ol/source/Vector';
-import Overlay        from 'ol/Overlay';
-import TileLayer      from 'ol/layer/Tile';
-import VectorLayer    from 'ol/layer/Vector';
-import View           from 'ol/View';
-import MouseWheelZoom from 'ol/interaction/MouseWheelZoom';
-import {defaults}     from 'ol/interaction';
-import GeoJSON        from 'ol/format/GeoJSON';
-import {fromLonLat}   from 'ol/proj';
-import Style          from "ol/style/Style";
-import Icon           from "ol/style/Icon";
+import Map                               from 'ol/Map';
+import OSM                               from 'ol/source/OSM';
+import VectorSource                      from 'ol/source/Vector';
+import Overlay                           from 'ol/Overlay';
+import TileLayer                         from 'ol/layer/Tile';
+import VectorLayer                       from 'ol/layer/Vector';
+import View                              from 'ol/View';
+import MouseWheelZoom                    from 'ol/interaction/MouseWheelZoom';
+import {defaults}                        from 'ol/interaction';
+import GeoJSON                           from 'ol/format/GeoJSON';
+import {fromLonLat}                      from 'ol/proj';
+import Style                             from "ol/style/Style";
+import Icon                              from "ol/style/Icon";
+import {defineComponent, onMounted, ref} from "vue";
+import {useQuery}                        from "@urql/vue";
 
 const community = typeof slug !== 'undefined' ? slug : 'unknown';
 
@@ -212,7 +212,7 @@ const communityMap = {
         zoom  : 12.70,
         center: [30.2043, 55.1918]
     },
-    'bntu' : {
+    'bntu'    : {
         'name': 'БНТУ',
         zoom  : 15.70,
         center: [27.593069412931786, 53.92111407553088]
@@ -224,104 +224,115 @@ const communityMap = {
     }
 }
 
-export default {
-    created() {
-        this.fetchFeed()
-    },
-    data() {
-
-        return {
-            map    : null,
-            feature: null,
-            feed   : [],
-            community,
-            name   : communityMap[community].name
-        }
-    },
-    mounted() {
-        document.getElementById('map').innerHTML = '';
-
-        let container = document.getElementById('popup');
-        let closer    = document.getElementById('popup-closer');
-
-        var overlay = new Overlay({
-            element         : container,
-            autoPan         : true,
-            autoPanAnimation: {
-                duration: 250,
-            },
-        });
-
-        closer.onclick = function () {
-            overlay.setPosition(undefined);
-            closer.blur();
-            return false;
-        };
-
-        let i = new MouseWheelZoom();
-
-        var oldFn     = i.handleEvent;
-        i.handleEvent = function (e) {
-            let type = e.type;
-            if (type !== "wheel" && type !== "wheel") {
-                return true;
-            }
-
-            if (!e.originalEvent.ctrlKey) {
-                return true
-            }
-
-            oldFn.call(this, e);
-        }
-
-        this.map = new Map({
-            interactions: defaults({mouseWheelZoom: false}).extend([i]),
-            layers      : [
-                new TileLayer({
-                    source: new OSM(),
-                }),
-                new VectorLayer({
-                    source: new VectorSource({
-                        url   : import.meta.env.VITE_TELEGRAM_API_URL + '/home',
-                        format: new GeoJSON(),
-                    }),
-                    style : (feature) => {
-                        return [new Style({
-                            image: new Icon({
-                                scale: 0.4,
-                                src  : `/imgs/icons/marker/${feature.getProperties().type}.png`,
-                            }),
-                        })]
-                    },
-                })
-            ],
-            overlays    : [overlay],
-            target      : 'map',
-            view        : new View({
-                center: fromLonLat(communityMap[community].center),
-                zoom  : communityMap[community].zoom
-            }),
-        });
-        this.map.on('singleclick', (evt) => {
-            let coordinate = evt.coordinate;
-            this.map.forEachFeatureAtPixel(evt.pixel, baseFeature => {
-                this.feature = baseFeature.getProperties();
-                overlay.setPosition(coordinate);
-            })
-        });
-    },
-    methods: {
-        fetchFeed() {
-            fetch(import.meta.env.VITE_TELEGRAM_API_URL + '/feed?limit=3')
-                .then(r => r.json())
-                .then(
-                    r => {
-                        this.feed = r.data;
-                    }
-                )
-        }
+export default defineComponent({
+    setup() {
+        const result = useQuery({
+                // language=GraphQL
+                query    : `
+query ($community: String!) {
+    activities: community_activity(
+        where: {
+            category: {_in: ["PROTEST", "AD", "EVENT"]}
+            communities: {community_id: {_eq: $community}}
+        },
+        limit: 3
+        order_by: [{created_at: desc}]
+    ) {
+        id
+        description
+        extra
+        created_at
     }
 }
+      `,
+                variables: {
+                    community: slug
+                }
+            }
+        )
+        let feature  = ref(null);
+        onMounted(() => {
+            document.getElementById('map').innerHTML = '';
+
+            let container = document.getElementById('popup');
+            let closer    = document.getElementById('popup-closer');
+
+            var overlay = new Overlay({
+                element         : container,
+                autoPan         : true,
+                autoPanAnimation: {
+                    duration: 250,
+                },
+            });
+
+            closer.onclick = function () {
+                overlay.setPosition(undefined);
+                closer.blur();
+                return false;
+            };
+
+            let i = new MouseWheelZoom();
+
+            var oldFn     = i.handleEvent;
+            i.handleEvent = function (e) {
+                let type = e.type;
+                if (type !== "wheel" && type !== "wheel") {
+                    return true;
+                }
+
+                if (!e.originalEvent.ctrlKey) {
+                    return true
+                }
+
+                oldFn.call(this, e);
+            }
+
+            let map = new Map({
+                interactions: defaults({mouseWheelZoom: false}).extend([i]),
+                layers      : [
+                    new TileLayer({
+                        source: new OSM(),
+                    }),
+                    new VectorLayer({
+                        source: new VectorSource({
+                            url   : import.meta.env.VITE_TELEGRAM_API_URL + '/home?community=' + slug,
+                            format: new GeoJSON(),
+                        }),
+                        style : (featureStyle) => {
+                            return [new Style({
+                                image: new Icon({
+                                    scale: 0.4,
+                                    src  : `/imgs/icons/marker/${featureStyle.getProperties().type}.png`,
+                                }),
+                            })]
+                        },
+                    })
+                ],
+                overlays    : [overlay],
+                target      : 'map',
+                view        : new View({
+                    center: fromLonLat(communityMap[community].center),
+                    zoom  : communityMap[community].zoom
+                }),
+            });
+            map.on('singleclick', (evt) => {
+                let coordinate = evt.coordinate;
+                map.forEachFeatureAtPixel(evt.pixel, baseFeature => {
+                    feature.value = baseFeature.getProperties();
+                    overlay.setPosition(coordinate);
+                })
+            });
+        })
+        return {
+            fetching: result.fetching,
+            data    : result.data,
+            error   : result.error,
+            community,
+            name    : communityMap[community].name,
+            feature,
+        }
+    },
+})
 </script>
 <style>
 @media (max-height: 820px) {
