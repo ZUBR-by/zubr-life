@@ -39,7 +39,7 @@ class AddComment extends AbstractController implements ActionRequiresAuthorizati
             $link          = $fileUploader->uploadFile($file);
             $attachments[] = [
                 'type'  => $mime[0],
-                'value' => $link,
+                'url' => $link,
                 'mime'  => $file->getClientMimeType(),
             ];
         }

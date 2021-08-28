@@ -3,14 +3,14 @@
         <template v-for="(item, index) of collection">
             <a v-if="item.type === 'image'" :data-lg-size="item.size"
                class="gallery-item pl-1"
-               :data-src="item.value">
-                <img :src="item.value">
+               :data-src="item.url">
+                <img :src="item.url">
             </a>
             <a  v-if="item.type === 'video'"
                 data-lg-size="1280-720"
                 :data-video='JSON.stringify(
                     {
-                        "source": [{"src": item.value, "type":"video/mp4"}],
+                        "source": [{"src": item.url, "type":"video/mp4"}],
                         "attributes": {"preload": false, "controls": true}
                     })'
             >
@@ -21,7 +21,7 @@
             </a>
             <a v-if="item.type === 'youtube'"
                 data-lg-size="1280-720"
-                :data-src="item.value"
+                :data-src="item.url"
             >
                 <img src="/imgs/video-thumb.jpg"
                      class="pl-1"
