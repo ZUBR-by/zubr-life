@@ -2,7 +2,7 @@
     <div class="section zbr-promo">
         <div class="columns is-centered">
             <div class="column is-two-thirds">
-                <div class="panel" v-if="event.name">
+                <div class="panel">
                     <nav class="breadcrumb pt-5 pl-3 is-medium" aria-label="breadcrumbs">
                         <ul>
                             <li>
@@ -18,31 +18,45 @@
                         </ul>
                     </nav>
                     <hr>
-                    <article class="pl-5">
-                        <h3 class="is-size-4">{{ event.name }}</h3>
-                        <p> {{ event.created_at }} </p>
-                        <p>
-                            {{ event.description }}
-                        </p>
-                        <ul>
-                            <li v-for="link of links" :key="link.url">
-                                <a :href="link.url">{{ link.name ? link.name : link.url }}</a>
-                            </li>
-                        </ul>
-                    </article>
-                    <div class="pl-5 pt-3 pb-4 pr-5" style="min-height: 300px;">
-                        <el-tabs v-model="activeName">
-                            <el-tab-pane label="Галерея" name="media">
-                                <gallery :collection="media"></gallery>
-                            </el-tab-pane>
-                            <el-tab-pane label="Место" name="place" v-if="event.longitude">
-                                <place :latitude="event.latitude" :longitude="event.longitude"></place>
-                            </el-tab-pane>
-                            <el-tab-pane label="Комментарии" name="comments" v-if="event.id">
-                                <comments :type="'event'" :id="event.id"></comments>
-                            </el-tab-pane>
-                        </el-tabs>
-                    </div>
+                    <template v-if="data && data.activity">
+                        <article class="pl-5">
+                            <h3 class="is-size-4">{{ data.activity.name }}</h3>
+                            <p> {{ data.activity.created_at.split('T')[0] }} </p>
+                            <p>
+                                {{ data.activity.description }}
+                            </p>
+                            <ul>
+                                <li v-for="link of data.activity.attachments.filter(item => item.type === 'link')" :key="link.url">
+                                    <a :href="link.url">{{ link.name ? link.name : link.url }}</a>
+                                </li>
+                            </ul>
+                        </article>
+                        <div class="pl-5 pt-3 pb-4 pr-5" style="min-height: 300px;">
+                            <el-tabs v-model="activeName">
+                                <el-tab-pane label="Галерея" name="media">
+                                    <gallery :collection="data.activity.attachments.filter(item => item.type !== 'link')"></gallery>
+                                </el-tab-pane>
+                                <el-tab-pane label="Место" name="place" v-if="data.activity.geometry">
+                                    <place :feature="data.activity.geometry"></place>
+                                </el-tab-pane>
+                                <el-tab-pane label="Комментарии" name="comments" v-if="data.activity">
+                                    <comments :type="'event'" :id="data.activity.id"></comments>
+                                </el-tab-pane>
+                            </el-tabs>
+                        </div>
+                    </template>
+                    <template v-if="data && data.activity === null">
+                        <span class="pl-5 pb-5">Активность не найдена</span>
+                        <p>&nbsp;</p>
+                    </template>
+                    <template v-if="error">
+                        <span class="pl-5 pb-5">Произошла ошибка</span>
+                        <p>&nbsp;</p>
+                    </template>
+                    <template v-if="fetching">
+                        <span class="pl-5 pb-5">Идет загрузка...</span>
+                        <p>&nbsp;</p>
+                    </template>
                 </div>
             </div>
         </div>
@@ -52,11 +66,14 @@
 <script>
 
 import {ElTabPane, ElTabs, ElImage} from "element-plus";
+import {useRoute}                   from "vue-router";
+import {defineComponent, watch}     from "vue";
 import Map                          from "../components/place.vue";
 import gallery                      from "../components/gallery.vue";
 import Comments                     from "../components/comments.vue";
+import {useQuery}                   from "@urql/vue";
 
-export default {
+export default defineComponent({
     components: {
         Comments,
         gallery,
@@ -65,47 +82,48 @@ export default {
         ElTabs,
         ElImage
     },
-    created() {
-        this.fetchEvent();
-    },
-    computed: {
-        comments() {
-            return this.event.comments_count ? this.event.comments : [];
-        },
-        links() {
-            if (!this.event.attachments) {
-                return [];
-            }
-            return this.event.attachments.filter(item => item.type === 'link')
-        },
-        media() {
-            if (!this.event.attachments) {
-                return [];
-            }
-            return this.event.attachments.filter(item => item.type !== 'link')
+    setup() {
+        const result = useQuery({
+                // language=GraphQL
+                query    : `
+query ($id: Int!) {
+    activity: community_activity_by_pk(id: $id){
+        attachments
+        id
+        description
+        extra
+        category
+        geometry
+        created_at
+        comments {
+            id
+            attachments
+            text
         }
-    },
-    data() {
+    }
+}
+      `,
+                variables: {
+                    id: useRoute().params.id
+                }
+            }
+        )
+        watch(result.data, (value) => {
+            if (!value.activity) {
+                return
+            }
+            document.title = (value.activity.category === 'AD' ? 'Объявление' : 'Событие')
+                + ' "' + value.activity.description
+                + '"' + ' - Лошица ZUBR.life'
+        })
+
         return {
-            event     : {},
+            fetching  : result.fetching,
+            data      : result.data,
+            error     : result.error,
             activeName: 'place'
         }
-    },
-    methods: {
-        fetchEvent() {
-            fetch(import.meta.env.VITE_TELEGRAM_API_URL + '/event/' + this.$route.params.id)
-                .then(r => r.json())
-                .then(
-                    r => {
-                        this.event = r.data;
-                        if (!this.event.longitude) {
-                            this.activeName = 'media'
-                        }
-                        document.title = 'Событие "' + this.event.name + '"' + ' - Лошица ZUBR.life'
-                    }
-                )
-        },
-    },
+    }
 
-}
+})
 </script>

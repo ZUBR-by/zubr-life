@@ -1,15 +1,13 @@
 import {createRouter, createWebHistory} from 'vue-router'
 import Home                             from './pages/Home.vue'
 import Feed                             from './pages/Feed.vue'
-import Ad                               from './pages/Ad.vue'
 import Place                            from './pages/Place.vue'
 import People                           from './pages/People.vue'
 import Person                           from './pages/Person.vue'
 import Organizations                    from "./pages/Organizations.vue";
 import Organization                     from "./pages/Organization.vue";
-
-import Activity   from "./pages/Activity.vue";
-import {nextTick} from "vue";
+import Activity                         from "./pages/Activity.vue";
+import {nextTick}                       from "vue";
 
 const routes = [
     {
@@ -31,11 +29,6 @@ const routes = [
         meta     : {
             title: 'Лента новостей'
         },
-    },
-    {
-        path     : '/ad/:id',
-        name     : 'ad',
-        component: Ad,
     },
     {
         path     : '/place/:id',

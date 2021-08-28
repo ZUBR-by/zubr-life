@@ -157,26 +157,24 @@ query ($community: String!) {
             created_at : new Date(),
             type       : 'event'
         })
-
-        const refresh     = () => {
-            result.executeQuery({
-                requestPolicy: 'network-only',
-            });
-        }
         let error         = ref(null)
         let dialogVisible = ref(false)
 
         return {
-            fetching: result.fetching,
-            data    : result.data,
-            error_1 : result.error,
-            feed    : [],
+            fetching  : result.fetching,
+            data      : result.data,
+            errorQuery: result.error,
+            feed      : [],
             error,
-            fileList: [],
+            fileList  : [],
             dialogVisible,
             locale,
             form,
-            refresh,
+            refresh() {
+                result.executeQuery({
+                    requestPolicy: 'network-only',
+                });
+            },
             formatDate(raw) {
                 return raw.split('T')[0]
             },

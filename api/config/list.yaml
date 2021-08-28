@@ -29,21 +29,6 @@ comment_list:
   controller: App\Comments\GetCommentsAction
   methods: [ GET ]
 
-ad_add:
-  path: /ad
-  controller: App\Ad\AddAdAction
-  methods: [ POST, OPTIONS ]
-
-ad_list:
-  path: /ad
-  controller: App\Ad\GetAdsAction
-  methods: [ GET ]
-
-ad_get:
-  path: /ad/{id}
-  controller: App\Ad\GetAdAction
-  methods: [ GET ]
-
 place_get:
   path: /place/{id}
   controller: App\Place\GetPlaceAction
@@ -57,16 +42,6 @@ person_list:
 person_get:
   path: /person/{id}
   controller: App\Person\GetPersonAction
-  methods: [ GET ]
-
-event_list:
-  path: /event
-  controller: App\Event\GetEventsAction
-  methods: [ GET ]
-
-event_get:
-  path: /event/{id}
-  controller: App\Event\GetEventAction
   methods: [ GET ]
 
 feed:
@@ -132,19 +107,19 @@ activity_update_location:
 get_user:
   path: /auth/user
   controller: App\User\GetUser
-  methods: [GET]
+  methods: [ GET ]
 
 register_user:
   path: /auth/user
   controller: App\User\RegisterUser
-  methods: [POST]
+  methods: [ POST ]
 
 update_user:
   path: /auth/user
   controller: App\User\UpdateUser
-  methods: [PATCH]
+  methods: [ PATCH ]
 
 register_admin:
   path: /auth/admin
   controller: App\User\RegisterUser
-  methods: [POST]
+  methods: [ POST ]
