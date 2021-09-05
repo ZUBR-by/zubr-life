@@ -146,7 +146,7 @@ register_user:
   methods: [POST]
 
 update_user:
-  path: /auth/user
+  path: /user
   controller: App\User\UpdateUser
   methods: [PATCH]
 
