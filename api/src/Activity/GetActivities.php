@@ -29,6 +29,7 @@ query($timestamp: timestamp!)  {
         where: {
             _and: [
             {status: {_eq: "APPROVED"}}, 
+            {geometry: {_is_null: false}},
             {validated_at: {_gte: $timestamp}},
             {category: {_in: ["PROTEST","EVENT","ART"]}}
         ]
