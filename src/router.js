@@ -19,7 +19,7 @@ const routes = [
         path     : '/',
         name     : 'home',
         label    : 'Главная',
-        component: Home,
+        component: () => import('./pages/' + slug + '/Home.vue'),
     },
     {
         path     : '/feed',
