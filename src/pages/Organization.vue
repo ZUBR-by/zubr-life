@@ -55,8 +55,7 @@
                                     <table class="table is-fullwidth is-striped">
                                         <tbody>
                                         <tr v-for="item of data.organization.people"
-                                            :key="item.person.id"
-                                            v-if="data.organization.people_count > 0">
+                                            :key="item.person.id">
                                             <td style="vertical-align: middle;width: 80px">
                                                 <div class="grid-image">
                                                     <img :src="item.person.photo_url
@@ -71,7 +70,7 @@
                                                 </router-link>
                                             </td>
                                             <td style="vertical-align: middle">
-                                                <template v-if="item.person.description">{{ item.person.description }}</template>
+                                                <template v-if="item.position">{{ item.position }}</template>
                                             </td>
                                         </tr>
                                         </tbody>
@@ -120,8 +119,10 @@ query ($id: Int!) {
         description
         extra
         people: persons {
+            position
             person {
                 id
+                photo_url
                 full_name
                 description
             }
