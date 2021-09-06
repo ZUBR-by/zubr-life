@@ -17,7 +17,8 @@ import Icon         from "ol/style/Icon";
 export default {
     props: {
         longitude: Number,
-        latitude : Number
+        latitude : Number,
+        feature  : Object
     },
     mounted() {
         document.getElementById('map').innerHTML = '';
@@ -30,7 +31,7 @@ export default {
             target      : 'map',
             view        : new View({
                 center: fromLonLat([
-                    this.longitude, this.latitude
+                    ...this.feature.coordinates
                 ]),
                 zoom  : 16.55
             }),
@@ -42,8 +43,8 @@ export default {
                 features: [
                     new Feature({
                         geometry: new Point(fromLonLat([
-                            this.longitude, this.latitude,
-                        ])),
+                            ...this.feature.coordinates
+                        ])) ,
                     }),
                 ],
             }),

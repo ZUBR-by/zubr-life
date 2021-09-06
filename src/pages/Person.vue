@@ -18,7 +18,7 @@
                         </ul>
                     </nav>
                     <hr>
-                    <template v-if="person.full_name">
+                    <template v-if="data">
                         <div class="columns pl-3">
                             <div class="column pl-5">
                                 <div class="person-photo">
@@ -26,11 +26,11 @@
                                 </div>
                             </div>
                             <div class="column is-four-fifths">
-                                <h3 class="is-size-3">{{ person.full_name }}</h3>
-                                <rating :entity="person.rating"
-                                        @change="fetchPerson"
-                                        :type="'person'"
-                                        :id="person.id"></rating>
+                                <h3 class="is-size-3">{{ data.person.full_name }}</h3>
+<!--                                <rating :entity="data.person.rating"-->
+<!--                                        @change="fetchPerson"-->
+<!--                                        :type="'person'"-->
+<!--                                        :id="person.id"></rating>-->
                                 <div v-if="links" class="pt-4">
                                     <ul>
                                         <li v-for="link of links" :key="link.value">
@@ -47,21 +47,20 @@
                                 <el-tab-pane label="Организации" name="orgs" style="overflow-x: auto">
                                     <table class="table is-fullwidth is-striped">
                                         <tbody>
-                                        <tr v-for="org of person.organizations"
-                                            :key="org.id"
-                                            v-if="person.organizations_count > 0">
+                                        <tr v-for="item of data.person.organizations"
+                                            :key="item.organization.id">
                                             <td>
-                                                {{ person.description }} в
-                                                <router-link :to="{name: 'organization', params: {id: org.id}}">
-                                                    {{ org.name }}
+                                                {{ item.position }} в
+                                                <router-link :to="{name: 'organization', params: {id: item.organization.id}}">
+                                                    {{ item.organization.name }}
                                                 </router-link>
                                             </td>
                                         </tr>
                                         </tbody>
                                     </table>
                                 </el-tab-pane>
-                                <el-tab-pane label="Комментарии" name="comments" v-if="person.id">
-                                    <comments :id="person.id" :type="'person'"></comments>
+                                <el-tab-pane label="Комментарии" name="comments" v-if="data.person.id">
+                                    <comments :id="data.person.id" :type="'person'"></comments>
                                 </el-tab-pane>
                             </el-tabs>
                         </div>
@@ -80,8 +79,72 @@
 import {ElTabPane, ElTabs, ElCard, ElImage} from "element-plus";
 import Comments                             from "../components/comments.vue";
 import Rating                               from "../components/rating.vue";
+import {useQuery}                           from "@urql/vue";
+import {useRoute}                           from "vue-router";
+import {computed, watch}                    from "vue";
 
 export default {
+    setup() {
+        const result = useQuery({
+                // language=GraphQL
+                query    : `
+query ($id: Int!, $community: String!) {
+    person: person_by_pk(
+        id: $id,
+
+    ) {
+        attachments
+        id
+        full_name
+        photo_url
+        description
+        extra
+        organizations: organizations(where: {organization: {
+            communities: {community_id: {_eq: $community}}
+        }}) {
+            position
+            organization {
+                id
+                name
+            }
+        }
+    }
+}
+      `,
+                variables: {
+                    id: useRoute().params.id,
+                    community: slug
+                }
+            }
+        )
+        const links  = computed(() => {
+            if (!result.data || !result.data.person) {
+                return [];
+            }
+            return result.data.person.attachments.filter(i => i.type === 'link')
+        })
+        const photo  = computed(() => {
+            if (!result.data || !result.data.person || !result.data.person.photo_url) {
+                return 'https://zubr.in/assets/images/user.svg';
+            }
+            return result.data.person.photo_url
+        })
+        watch(result.data, (value) => {
+            if (!value.person) {
+                return
+            }
+            document.title = value.person.full_name + ' - Лошица ZUBR.life'
+        })
+        return {
+            fetching  : result.fetching,
+            data      : result.data,
+            error     : result.error,
+            activeName: 'orgs',
+            map       : null,
+            links,
+            photo
+        }
+    },
     components: {
         Rating,
         Comments,
@@ -90,42 +153,6 @@ export default {
         ElCard,
         ElImage
     },
-    created() {
-        this.fetchPerson();
-    },
-    computed: {
-        photo() {
-            return this.person.photo_url ? this.person.photo_url : 'https://zubr.in/assets/images/user.svg'
-        },
-        links() {
-            if (!this.person.attachments) {
-                return [];
-            }
-            return this.person.attachments.filter(i => i.type === 'link')
-        }
-    },
-    data() {
-        return {
-            person    : {},
-            error     : null,
-            activeName: 'orgs'
-        }
-    },
-    methods: {
-        fetchPerson() {
-            fetch(import.meta.env.VITE_TELEGRAM_API_URL + '/person/' + this.$route.params.id,
-                {
-                    'credentials': 'include'
-                })
-                .then(r => r.json())
-                .then(
-                    r => {
-                        this.person = r.data;
-                        document.title    = this.person.full_name + 'Лошица ZUBR.life'
-                    }
-                )
-        }
-    }
 }
 </script>
 
