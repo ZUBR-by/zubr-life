@@ -22,15 +22,16 @@
                         <div class="columns pl-3">
                             <div class="column pl-5">
                                 <div class="person-photo">
-                                    <el-image :src="photo" :preview-src-list="[photo]"></el-image>
+                                    <el-image :src="data.person.photo_url ? data.person.photo_url: 'https://zubr.in/assets/images/user.svg'"
+                                              :preview-src-list="[data.person.photo_url ? data.person.photo_url: 'https://zubr.in/assets/images/user.svg']"></el-image>
                                 </div>
                             </div>
                             <div class="column is-four-fifths">
                                 <h3 class="is-size-3">{{ data.person.full_name }}</h3>
-<!--                                <rating :entity="data.person.rating"-->
-<!--                                        @change="fetchPerson"-->
-<!--                                        :type="'person'"-->
-<!--                                        :id="person.id"></rating>-->
+                                <!--                                <rating :entity="data.person.rating"-->
+                                <!--                                        @change="fetchPerson"-->
+                                <!--                                        :type="'person'"-->
+                                <!--                                        :id="person.id"></rating>-->
                                 <div v-if="links" class="pt-4">
                                     <ul>
                                         <li v-for="link of links" :key="link.value">
@@ -89,10 +90,7 @@ export default {
                 // language=GraphQL
                 query    : `
 query ($id: Int!, $community: String!) {
-    person: person_by_pk(
-        id: $id,
-
-    ) {
+    person: person_by_pk(id: $id) {
         attachments
         id
         full_name
@@ -112,7 +110,7 @@ query ($id: Int!, $community: String!) {
 }
       `,
                 variables: {
-                    id: useRoute().params.id,
+                    id       : useRoute().params.id,
                     community: slug
                 }
             }

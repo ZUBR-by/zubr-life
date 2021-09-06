@@ -1,13 +1,13 @@
 <template>
-    <div>
-        <el-card class="box-card mt-2 mb-2" v-for="comment of comments">
+    <div v-if="data">
+        <el-card class="box-card mt-2 mb-2" v-for="comment of data.comments">
             <template #header>
                 <div class="clearfix pl-2">
                     <el-button class="button"
                                type="text" style="font-size: 14px">Анонимный автор
                     </el-button>
                     <el-button class="button"
-                               v-if="comment.can_delete"
+                               v-if="false"
                                @click="archiveComment(comment.id)"
                                style="float: right;padding-left: 10px;padding-right: 10px"
                                icon="el-icon-close"
@@ -16,12 +16,11 @@
                     <el-button class="button"
                                :title="comment.created_at"
                                style="float: right; padding: 0;font-size: 14px"
-                               type="text">{{ comment.created_at_formatted }}
+                               type="text">{{ comment.created_at.split('T')[0] }}
                     </el-button>
                 </div>
             </template>
-            <p class="pr-2 comment-text" v-html="linkify(comment.text)">
-            </p>
+            <p class="pr-2 comment-text" v-html="linkify(comment.text)"></p>
             <template v-for="link of comment.attachments.filter(i => i.type === 'link')">
                 <a :href="link.value">
                     {{ link.name ? link.name : link.value }}
@@ -38,9 +37,9 @@
             </template>
         </el-card>
         <a @click="showAll = true" v-if="!showAll" class="mt-3">
-            Показать все комментарии({{ list.length }})...
+            Показать все комментарии({{ data.comments.length }})...
         </a>
-        <form @submit.prevent="save" class="pt-3">
+        <form @submit.prevent="save" class="pt-3" v-show="false">
             <div class="field is-grouped">
                 <p class="control is-expanded">
                     <el-input
@@ -77,7 +76,7 @@
                         </button>
                     </el-upload>
                 </div>
-                <p class="control" >
+                <p class="control">
                     <button class="button is-outlined" :class="{'is-loading': isLoading}"
                             :disabled="form.text.length === 0"
                             type="submit">
@@ -87,17 +86,16 @@
                         <span>Отправить</span>
                     </button>
                 </p>
-
             </div>
         </form>
     </div>
-
-
 </template>
 
 <script>
 import {ElButton, ElCard, ElUpload, ElMessage, ElIcon, ElInput} from "element-plus";
 import linkifyHtml                                              from 'linkifyjs/html';
+import {useQuery}                                               from "@urql/vue";
+import {reactive}                                               from "vue";
 
 const emptyComment = {
     text       : '',
@@ -112,8 +110,52 @@ export default {
         type: String,
         id  : Number
     },
-    created() {
-        this.fetchComments()
+    setup(props) {
+        const result = useQuery({
+                // language=GraphQL
+                query    : `
+query ($where: comment_bool_exp!) {
+    comments:comment(
+        where: $where
+    ) {
+        id
+        text
+        created_at
+        attachments
+    }
+}
+      `,
+                variables: {
+                    where: {
+                        [props.type]: {
+                            'id': {
+                                '_eq': props.id
+                            }
+                        }
+                    }
+                }
+            }
+        )
+        const form   = reactive(
+            {
+                text       : '',
+                attachments: [],
+            }
+        )
+        return {
+            fetching     : result.fetching,
+            data         : result.data,
+            error        : result.error,
+            map          : null,
+            fileList     : [],
+            showAll      : true,
+            dialogVisible: false,
+            isLoading    : false,
+            form,
+            linkify(text) {
+                return linkifyHtml(text);
+            },
+        }
     },
     computed: {
         comments() {
@@ -121,9 +163,6 @@ export default {
         }
     },
     methods : {
-        linkify(text) {
-            return linkifyHtml(text);
-        },
         handleRemove(file) {
             this.form.attachments = this.form.attachments.filter(i => file.uid !== i.uid)
         },
@@ -162,20 +201,6 @@ export default {
                 throw e;
             })
         },
-        fetchComments() {
-            fetch(import.meta.env.VITE_TELEGRAM_API_URL + '/comment/' + this.type + '/' + this.id,
-                {credentials: 'include'}
-            )
-                .then(r => r.json())
-                .then(
-                    r => {
-                        this.list = r.data;
-                        if (this.list.length > 2) {
-                            this.showAll = false
-                        }
-                    }
-                )
-        },
         archiveComment(id) {
             fetch(import.meta.env.VITE_TELEGRAM_API_URL + '/comment/' + id,
                 {
@@ -191,19 +216,6 @@ export default {
                 )
         }
     },
-    data() {
-        return {
-            form         : {
-                text       : '',
-                attachments: [],
-            },
-            isLoading    : false,
-            fileList     : [],
-            list         : [],
-            showAll      : true,
-            dialogVisible: false
-        }
-    }
 }
 </script>
 
