@@ -31,9 +31,6 @@ services:
       - '../src/Kernel.php'
       - '../src/Tests/'
 
-  App\DisplayWidget:
-    tags: [ 'controller.service_arguments' ]
-
   App\HomePageAction:
     tags: [ 'controller.service_arguments' ]
 

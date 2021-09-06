@@ -49,7 +49,7 @@ export default {
     data() {
         return {
             hidden: false,
-            routes: routes.filter(i => i.label && i.name !== 'people')
+            routes: routes.filter(i => i.label && i.name !== 'people' && i.name !== 'organizations')
         }
     },
     computed: {
