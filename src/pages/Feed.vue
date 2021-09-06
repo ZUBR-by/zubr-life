@@ -12,7 +12,10 @@
                         </th>
                         <th>Дата</th>
                         <th>
-                            <button class="button" @click="dialogVisible = true">Добавить</button>
+                            <a href="https://t.me/moydvor_bybot">
+                                <button class="button">Добавить</button>
+                            </a>
+
                         </th>
                     </tr>
                     </thead>
