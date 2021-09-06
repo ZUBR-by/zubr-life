@@ -21,13 +21,13 @@ $container   = $kernel->getContainer();
 $application = new Application($kernel);
 $application->setAutoExit(false);
 $output = new \Symfony\Component\Console\Output\ConsoleOutput();
-$application->run(new ArrayInput(
-    ['command' => 'doctrine:database:create', '--if-not-exists' => true, '-vvv' => true]),
-    $output
-);
-$application->run(new ArrayInput(['command' => 'doctrine:schema:drop', '--force' => true, '-vvv' => true]), $output);
-$application->run(new ArrayInput(['command' => 'doctrine:schema:create', '-vvv' => true]), $output);
-$application->run(new ArrayInput(['command' => 'doctrine:fixtures:load', '-n' => true, '-vvv' => true]), $output);
+//$application->run(new ArrayInput(
+//    ['command' => 'doctrine:database:create', '--if-not-exists' => true, '-vvv' => true]),
+//    $output
+//);
+//$application->run(new ArrayInput(['command' => 'doctrine:schema:drop', '--force' => true, '-vvv' => true]), $output);
+//$application->run(new ArrayInput(['command' => 'doctrine:schema:create', '-vvv' => true]), $output);
+//$application->run(new ArrayInput(['command' => 'doctrine:fixtures:load', '-n' => true, '-vvv' => true]), $output);
 
 
 

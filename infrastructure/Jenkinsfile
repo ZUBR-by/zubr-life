@@ -31,7 +31,6 @@ pipeline {
             VITEBSK_TOKEN          = credentials('vitebsk_BOT_TOKEN')
             BNTU_TOKEN             = credentials('bntu_BOT_TOKEN')
             LOCALITY_GROUP_ID      = credentials('LOCALITY_GROUP_ID')
-            DATABASE_URL           = credentials('LIFE_DATABASE_URL')
             VITE_BOT_NAME          = credentials('LIFE_BOT_NAME')
             VITE_TELEGRAM_AUTH_URL = '/api/login'
             VITE_TELEGRAM_API_URL  = '/api'
@@ -55,7 +54,6 @@ loshitsa_BOT_TOKEN=${LOSHITSA_TOKEN}
 vitebsk_BOT_TOKEN=${VITEBSK_TOKEN}
 bntu_BOT_TOKEN=${BNTU_TOKEN}
 GROUPS='${LOCALITY_GROUP_ID}'
-DATABASE_URL="${DATABASE_URL}"
 DOMAIN=loshitsa.zubr.life
 APP_ENV=prod
 JWT_SECRET_KEY=%kernel.project_dir%/config/jwt/private.pem

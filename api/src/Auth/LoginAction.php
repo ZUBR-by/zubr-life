@@ -3,13 +3,11 @@
 namespace App\Auth;
 
 use App\BotTokenFactory;
-use App\Entity\User;
-use Doctrine\ORM\EntityManagerInterface;
+use App\Users;
 use Firebase\JWT\JWT;
 use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Cookie;
-use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Throwable;
@@ -22,7 +20,7 @@ class LoginAction extends AbstractController
         string $domain,
         string $slug,
         string $publicKey,
-        EntityManagerInterface $em,
+        Users $users,
         LoggerInterface $logger,
         string $privateKey
     ) : Response {
@@ -33,12 +31,6 @@ class LoginAction extends AbstractController
             $logger->error($error->__toString(), ['slug' => $slug, 'token' => $botTokenFactory->current()]);
             $response->setTargetUrl($response->getTargetUrl() . '?error=auth');
             return $response;
-        }
-        $user = $em->getRepository(User::class)->find($credentials['id']);
-        if (! $user) {
-            $user = new User($credentials['id']);
-            $em->persist($user);
-            $em->flush();
         }
 
         $response->headers->setCookie(

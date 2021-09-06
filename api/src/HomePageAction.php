@@ -2,14 +2,13 @@
 
 namespace App;
 
-use Doctrine\DBAL\Connection;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 
 class HomePageAction extends AbstractController
 {
-    public function __invoke(Request $request, Connection $connection, GraphQLClient $graphQLClient) : JsonResponse
+    public function __invoke(Request $request, GraphQLClient $graphQLClient) : JsonResponse
     {
         $community = $request->get('community');
         $query     = /** @lang GraphQL */

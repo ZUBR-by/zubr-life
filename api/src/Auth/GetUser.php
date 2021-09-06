@@ -2,10 +2,9 @@
 
 namespace App\Auth;
 
-use App\Entity\User;
+use App\User;
 use App\Users;
 use Firebase\JWT\JWT;
-use Psr\Log\LoggerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Controller\ArgumentValueResolverInterface;
 use Symfony\Component\HttpKernel\ControllerMetadata\ArgumentMetadata;
@@ -13,16 +12,13 @@ use UnexpectedValueException;
 
 class GetUser implements ArgumentValueResolverInterface
 {
-    private LoggerInterface $logger;
     private string $jwtPublicKey;
     private Users $users;
 
     public function __construct(
-        LoggerInterface $logger,
         Users $users,
         string $jwtPublicKey
     ) {
-        $this->logger       = $logger;
         $this->jwtPublicKey = file_get_contents($jwtPublicKey);
         $this->users        = $users;
     }
@@ -44,6 +40,6 @@ class GetUser implements ArgumentValueResolverInterface
             $request->cookies->remove('AUTH_TOKEN');
         }
 
-        yield ! isset($decoded) ? new User('0') : $this->users->getById($decoded['id']);
+        yield ! isset($decoded) ? new User() : $this->users->getById($decoded['id']);
     }
 }

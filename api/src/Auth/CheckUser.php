@@ -2,9 +2,9 @@
 
 namespace App\Auth;
 
-use App\Entity\User;
 use App\TelegramAdapter;
-use Doctrine\ORM\EntityManagerInterface;
+use App\User;
+use App\Users;
 use Firebase\JWT\JWT;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpKernel\Event\ControllerEvent;
@@ -18,22 +18,19 @@ class CheckUser implements EventSubscriberInterface
      */
     private TelegramAdapter $adapter;
     private string $publicKeyPath;
-    /**
-     * @var EntityManagerInterface
-     */
-    private EntityManagerInterface $em;
     private string $accessToken;
+    private Users $users;
 
     public function __construct(
         TelegramAdapter $adapter,
         string $jwtPublicKey,
-        EntityManagerInterface $em,
+        Users $users,
         string $accessToken
     ) {
         $this->adapter       = $adapter;
         $this->publicKeyPath = $jwtPublicKey;
-        $this->em            = $em;
         $this->accessToken   = $accessToken;
+        $this->users         = $users;
     }
 
     public function onKernelController(ControllerEvent $event) : void
@@ -66,7 +63,7 @@ class CheckUser implements EventSubscriberInterface
                 }
                 $this->adapter->isUserInAllowedGroups($decoded['id']);
                 /** @var User|null $user */
-                $user = $this->em->getRepository(User::class)->find($decoded['id']);
+                $user = $this->users->find($decoded['id']);
                 if (! $user) {
                     return;
                 }
