@@ -134,7 +134,7 @@ export default defineComponent({
 query ($community: String!) {
     community_activity(
         where: {
-            category: {_in: ["PROTEST", "AD", "EVENT"]}
+            category: {_in: ["PROTEST", "AD", "EVENT", "ART"]}
             communities: {community_id: {_eq: $community}}
         },
         order_by: [{created_at: desc}]
