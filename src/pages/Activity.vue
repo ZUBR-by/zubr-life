@@ -26,8 +26,8 @@
                                 {{ data.activity.description }}
                             </p>
                             <ul>
-                                <li v-for="link of data.activity.attachments.filter(item => item.type === 'link')" :key="link.url">
-                                    <a :href="link.url">{{ link.name ? link.name : link.url }}</a>
+                                <li v-for="link of data.activity.attachments.filter(item => item.type === 'link')" :key="link.url ? link.url : link.value">
+                                    <a :href="link.url ? link.url : link.value">{{ link.name ? link.name : link.url }}</a>
                                 </li>
                             </ul>
                         </article>
