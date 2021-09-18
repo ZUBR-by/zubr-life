@@ -1,44 +1,46 @@
 <template>
-    <div v-if="data">
-        <el-card class="box-card mt-2 mb-2" v-for="comment of data.comments">
-            <template #header>
-                <div class="clearfix pl-2">
-                    <el-button class="button"
-                               type="text" style="font-size: 14px">Анонимный автор
-                    </el-button>
-                    <el-button class="button"
-                               v-if="false"
-                               @click="archiveComment(comment.id)"
-                               style="float: right;padding-left: 10px;padding-right: 10px"
-                               icon="el-icon-close"
-                               type="text">
-                    </el-button>
-                    <el-button class="button"
-                               :title="comment.created_at"
-                               style="float: right; padding: 0;font-size: 14px"
-                               type="text">{{ comment.created_at.split('T')[0] }}
-                    </el-button>
-                </div>
-            </template>
-            <p class="pr-2 comment-text" v-html="linkify(comment.text)"></p>
-            <template v-for="link of comment.attachments.filter(i => i.type === 'link')">
-                <a :href="link.value">
-                    {{ link.name ? link.name : link.value }}
-                </a>
-                &nbsp;
-            </template>
-            <template v-if="comment.attachments && comment.attachments.filter(i => i.type !== 'link').length > 0">
-                <hr style="margin-top:5px;margin-bottom: 5px">
-                <span class="pr-3" v-for="(attachment, index) of comment.attachments.filter(i => i.type !== 'link')">
+    <div>
+        <template v-if="data">
+            <el-card class="box-card mt-2 mb-2" v-for="comment of data.comments">
+                <template #header>
+                    <div class="clearfix pl-2">
+                        <el-button class="button"
+                                   type="text" style="font-size: 14px">Анонимный автор
+                        </el-button>
+                        <el-button class="button"
+                                   v-if="false"
+                                   @click="archiveComment(comment.id)"
+                                   style="float: right;padding-left: 10px;padding-right: 10px"
+                                   icon="el-icon-close"
+                                   type="text">
+                        </el-button>
+                        <el-button class="button"
+                                   :title="comment.created_at"
+                                   style="float: right; padding: 0;font-size: 14px"
+                                   type="text">{{ comment.created_at.split('T')[0] }}
+                        </el-button>
+                    </div>
+                </template>
+                <p class="pr-2 comment-text" v-html="linkify(comment.text)"></p>
+                <template v-for="link of comment.attachments.filter(i => i.type === 'link')">
+                    <a :href="link.value">
+                        {{ link.name ? link.name : link.value }}
+                    </a>
+                    &nbsp;
+                </template>
+                <template v-if="comment.attachments && comment.attachments.filter(i => i.type !== 'link').length > 0">
+                    <hr style="margin-top:5px;margin-bottom: 5px">
+                    <span class="pr-3" v-for="(attachment, index) of comment.attachments.filter(i => i.type !== 'link')">
                     <a :href="attachment.value" target="_blank" style="font-size: 13px">
                         Прикрепленный файл {{ index + 1 }}
                     </a>
                 </span>
-            </template>
-        </el-card>
-        <a @click="showAll = true" v-if="!showAll" class="mt-3">
-            Показать все комментарии({{ data.comments.length }})...
-        </a>
+                </template>
+            </el-card>
+            <a @click="showAll = true" v-if="!showAll" class="mt-3">
+                Показать все комментарии({{ data.comments.length }})...
+            </a>
+        </template>
         <form @submit.prevent="save" class="pt-3">
             <div class="field is-grouped">
                 <p class="control is-expanded">
