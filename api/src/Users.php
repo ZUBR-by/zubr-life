@@ -42,7 +42,7 @@ GraphQL;
         $data  = $this->graphQLClient->requestAuth($query, ['uid' => $id]);
 
         return $data['user']
-            ? new User($data['user_id'], empty($data['user']['blocked']))
+            ? new User($data['user']['user_id'], empty($data['user']['blocked']))
             : User::empty();
     }
 
