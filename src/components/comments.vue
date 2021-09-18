@@ -31,7 +31,7 @@
                 <template v-if="comment.attachments && comment.attachments.filter(i => i.type !== 'link').length > 0">
                     <hr style="margin-top:5px;margin-bottom: 5px">
                     <span class="pr-3" v-for="(attachment, index) of comment.attachments.filter(i => i.type !== 'link')">
-                    <a :href="attachment.value" target="_blank" style="font-size: 13px">
+                    <a :href="attachment.url" target="_blank" style="font-size: 13px">
                         Прикрепленный файл {{ index + 1 }}
                     </a>
                 </span>
