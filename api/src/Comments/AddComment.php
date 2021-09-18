@@ -57,11 +57,13 @@ mutation($comment: comment_insert_input!) {
 GraphQL
             ,
             [
-                $type . '_id' => $request->get('id'),
-                'user_id'     => $user->id(),
-                'text'        => $text,
-                'attachments' => $attachments,
-                'created_at'  => date(DATE_ATOM),
+                'comment' => [
+                    $type . '_id' => $request->get('id'),
+                    'user_id'     => $user->id(),
+                    'text'        => $text,
+                    'attachments' => $attachments,
+                    'created_at'  => date(DATE_ATOM),
+                ],
             ]
         );
 
