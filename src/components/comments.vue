@@ -187,12 +187,12 @@ query ($where: comment_bool_exp!) {
                 'body'       : formData,
                 'credentials': 'include'
             }).then((r) => r.json()).then((r) => {
+                console.log(r)
                 this.isLoading = false;
                 if (r.error) {
                     ElMessage.error(r.error)
                     return;
                 }
-                this.fetchComments()
                 Object.assign(this.form, emptyComment)
                 this.$refs.upload.clearFiles()
             }).catch(e => {
@@ -210,8 +210,8 @@ query ($where: comment_bool_exp!) {
             )
                 .then(r => r.json())
                 .then(
-                    () => {
-                        this.fetchComments()
+                    (r) => {
+                        console.log(r)
                     }
                 )
         }

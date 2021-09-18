@@ -4,6 +4,7 @@ namespace App\Comments;
 
 use App\Auth\ActionRequiresAuthorization;
 use App\FileUploader;
+use App\GraphQLClient;
 use App\User;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
@@ -13,14 +14,18 @@ use function Psl\Json\encode;
 
 class AddComment extends AbstractController implements ActionRequiresAuthorization
 {
-    public function __invoke(User $user, Request $request, FileUploader $fileUploader) : JsonResponse
-    {
+    public function __invoke(
+        User $user,
+        Request $request,
+        FileUploader $fileUploader,
+        GraphQLClient $graphQLClient
+    ) : JsonResponse {
         $type = $request->get('type');
         $text = $request->get('text');
         if (empty($text)) {
             return new JsonResponse(['error' => 'Текст комментария обязателен']);
         }
-        if (! in_array($type, ['person', 'organization', 'event', 'place', 'ad'])) {
+        if (! in_array($type, ['person', 'organization', 'activity'])) {
             return JsonResponse::fromJsonString(encode(['error' => 'Неправильный тип']));
         }
         $attachments = [];
@@ -42,6 +47,23 @@ class AddComment extends AbstractController implements ActionRequiresAuthorizati
                 'mime' => $file->getClientMimeType(),
             ];
         }
+
+        $graphQLClient->requestAuth(/** @lang GraphQL */ <<<'GraphQL'
+mutation($comment: comment_insert_input!) {
+    insert_comment_one(object: $comment) {
+        id
+    }
+}
+GraphQL
+            ,
+            [
+                $type . '_id' => $request->get('id'),
+                'user_id'     => $user->id(),
+                'text'        => $text,
+                'attachments' => $attachments,
+                'created_at'  => date(DATE_ATOM),
+            ]
+        );
 
         return new JsonResponse([]);
     }
