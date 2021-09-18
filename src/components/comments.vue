@@ -39,7 +39,7 @@
         <a @click="showAll = true" v-if="!showAll" class="mt-3">
             Показать все комментарии({{ data.comments.length }})...
         </a>
-        <form @submit.prevent="save" class="pt-3" v-show="false">
+        <form @submit.prevent="save" class="pt-3">
             <div class="field is-grouped">
                 <p class="control is-expanded">
                     <el-input

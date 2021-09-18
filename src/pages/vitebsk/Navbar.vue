@@ -80,7 +80,7 @@ export default {
         telegramScript.setAttribute('data-userpic', 'false')
         telegramScript.setAttribute('data-size', 'medium')
         telegramScript.setAttribute('data-auth-url', import.meta.env.VITE_TELEGRAM_AUTH_URL)
-        // document.getElementById("widget").appendChild(telegramScript)
+        document.getElementById("widget").appendChild(telegramScript)
     }
 }
 </script>

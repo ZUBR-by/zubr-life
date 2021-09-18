@@ -32,7 +32,8 @@ class LoginAction extends AbstractController
             $response->setTargetUrl($response->getTargetUrl() . '?error=auth');
             return $response;
         }
-
+        $credentials['id'] = (int) $credentials['id'];
+        $users->add($credentials['id']);
         $response->headers->setCookie(
             new Cookie(
                 'AUTH_TOKEN',

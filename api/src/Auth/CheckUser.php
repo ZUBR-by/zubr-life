@@ -62,16 +62,15 @@ class CheckUser implements EventSubscriberInterface
                     throw new NotAuthorized();
                 }
                 $this->adapter->isUserInAllowedGroups($decoded['id']);
-                /** @var User|null $user */
-                $user = $this->users->find($decoded['id']);
-                if (! $user) {
+                $user = $this->users->getById((int) $decoded['id']);
+                if ($user->isEmpty()) {
                     return;
                 }
                 if ($user->isBanned()) {
                     throw new Banned();
                 }
 
-            } catch (UnexpectedValueException $e) {
+            } catch (UnexpectedValueException) {
                 $request->cookies->remove('AUTH_TOKEN');
                 throw new NotAuthorized();
             }
