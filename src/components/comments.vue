@@ -129,7 +129,7 @@ query ($where: comment_bool_exp!) {
       `,
                 variables: {
                     where: {
-                        [props.type]: {
+                        [props.type + '_id']: {
                             'id': {
                                 '_eq': props.id
                             }
