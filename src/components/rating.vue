@@ -1,5 +1,5 @@
 <template>
-    <button class="button is-success is-small"
+    <button disabled class="button is-success is-small"
             :title="this.entity.upvotes"
             :class="{'is-outlined' : !entity.is_upvoted}"
             @click="upvote">
@@ -8,7 +8,7 @@
     <span class="pl-3 pr-3 pt-3">
         {{ rating }}
     </span>
-    <button class="button is-danger is-small"
+    <button disabled class="button is-danger is-small"
             :title="this.entity.downvotes"
             :class="{'is-outlined' : !entity.is_downvoted}"
             @click="downvote">

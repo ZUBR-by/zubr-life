@@ -28,10 +28,9 @@
                             </div>
                             <div class="column is-four-fifths">
                                 <h3 class="is-size-3">{{ data.person.full_name }}</h3>
-                                <!--                                <rating :entity="data.person.rating"-->
-                                <!--                                        @change="fetchPerson"-->
-                                <!--                                        :type="'person'"-->
-                                <!--                                        :id="person.id"></rating>-->
+                                <rating :entity="{is_upvoted: false, is_downvotes: false, upvotes: 0, downvotes: 0}"
+                                        :type="'person'"
+                                        :id="data.person.id"></rating>
                                 <div v-if="links" class="pt-4">
                                     <ul>
                                         <li v-for="link of links" :key="link.value">
