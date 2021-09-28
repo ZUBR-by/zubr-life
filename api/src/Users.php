@@ -29,6 +29,9 @@ GraphQL;
 
     public function getById(int $id) : User
     {
+        if ($id === 0) {
+            return User::empty();
+        }
         $query = /** @lang GraphQL */
             <<<'GraphQL'
 query($uid: Int!)  {

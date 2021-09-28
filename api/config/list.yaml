@@ -91,3 +91,7 @@ register_admin:
   path: /auth/admin
   controller: App\User\RegisterUser
   methods: [ POST ]
+
+activity_comments:
+  path: /comments
+  controller: App\Comments\ForActivity

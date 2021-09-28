@@ -40,6 +40,6 @@ class GetUser implements ArgumentValueResolverInterface
             $request->cookies->remove('AUTH_TOKEN');
         }
 
-        yield ! isset($decoded) ? User::empty() : $this->users->getById($decoded['id']);
+        yield $this->users->getById(! isset($decoded) ? 0 : $decoded['id']);
     }
 }
