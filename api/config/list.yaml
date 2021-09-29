@@ -94,4 +94,4 @@ register_admin:
 
 activity_comments:
   path: /comments
-  controller: App\Comments\ForActivity
+  controller: App\Comments\GetListAction
