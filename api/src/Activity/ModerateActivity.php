@@ -32,7 +32,6 @@ GraphQL, strtoupper($payload['moderationStatus']));
         $data = $graphQLClient->requestAuth(
             $query,
             [
-                'status' => $payload['moderationStatus'],
                 'id'     => $payload['id'],
                 'json'   => ['locked' => false, 'declineReason' => $payload['declineReason'] ?? ''],
                 'date'   => date(DATE_ATOM),
