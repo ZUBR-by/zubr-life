@@ -54,7 +54,7 @@ mutation (
         }
     }
 }
-GraphQL, $payload['direction']);
+GraphQL, strtoupper($payload['direction']));
         $payload['community'] ??= 'belarus';
         $variables            = [
             'point'       => ($payload['lng'] ?? false) ? [
