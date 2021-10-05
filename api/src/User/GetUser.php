@@ -35,7 +35,7 @@ GraphQL;
 
         return new JsonResponse(
             [
-                'result' => merge(
+                'result' => array_merge(
                     [
                         'id' => $data['telegram_user_by_pk']['user_id'],
                         'active' => $data['telegram_user_by_pk']['blocked'] === null,
