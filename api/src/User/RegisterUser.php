@@ -22,7 +22,10 @@ class RegisterUser extends AbstractController implements BotAuthentication
         $query = /** @lang GraphQL */
             <<<'GraphQL'
 mutation($id: Int!, $token: String) {
-    insert_telegram_user_one(object: {user_id: $id, token: $token}) {
+    insert_telegram_user_one(
+        object: {user_id: $id, token: $token}, 
+        on_conflict: {update_columns: [user_id], constraint: telegram_user_id_pk}
+    ) {
         user_id
     }
 }
