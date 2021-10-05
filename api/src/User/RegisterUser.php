@@ -15,8 +15,8 @@ class RegisterUser extends AbstractController implements BotAuthentication
     {
         /** @psalm-suppress PossiblyInvalidArgument */
         $payload = decode($request->getContent());
-        if (! isset($payload['id'], $payload['moderationStatus'])) {
-            return new JsonResponse(['error' => 'missing id or status']);
+        if (! isset($payload['botId'])) {
+            return new JsonResponse(['error' => 'missing botId']);
         }
 
         $query = /** @lang GraphQL */
