@@ -16,7 +16,7 @@ class ModerateActivity extends AbstractController implements BotAuthentication
         /** @psalm-suppress PossiblyInvalidArgument */
         $payload = decode($request->getContent());
         if (! isset($payload['id'], $payload['moderationStatus'])) {
-            return new JsonResponse(['error' => 'missing id or status']);
+            return new JsonResponse(['error' => 'missing id or status', 'payload' => $payload]);
         }
 
         $query = /** @lang GraphQL */
