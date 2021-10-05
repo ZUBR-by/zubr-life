@@ -34,10 +34,10 @@ GraphQL;
                 $query,
                 [
                     'json' => [
-                        'lng'    => $payload['lng'] ?? null,
-                        'lat'    => $payload['lat'] ?? null,
-                        'area'   => $payload['area'] ?? '',
-                        'region' => $payload['region'] ?? '',
+                        'lng'    => $payload['newData']['lng'] ?? null,
+                        'lat'    => $payload['newData']['lat'] ?? null,
+                        'area'   => $payload['newData']['area'] ?? '',
+                        'region' => $payload['newData']['region'] ?? '',
                     ],
                     'id'   => $payload['botId'],
                 ]
