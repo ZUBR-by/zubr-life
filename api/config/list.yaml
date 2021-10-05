@@ -73,7 +73,7 @@ activity_update_location:
   methods: [ POST ]
 
 get_user:
-  path: /auth/user
+  path: /user
   controller: App\User\GetUser
   methods: [ GET ]
 
