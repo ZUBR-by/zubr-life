@@ -57,7 +57,7 @@ GraphQL;
             'result'     => map(
                 $data['community_activity'],
                 fn (array $item) : array => [
-                    '_id'         => $item['id'],
+                    'id'         => $item['id'],
                     'direction'   => lowercase($item['category']),
                     'type'        => $item['attachments'][0]['type'] ?? 'text',
                     'attachments' => $item['attachments'],

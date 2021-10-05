@@ -28,7 +28,7 @@ query($user: Int!)  {
         order_by: [{created_at: desc}]
         limit: 1
     ) {
-        id
+        id:id
         attachments
         extra
         description

@@ -37,7 +37,7 @@ GraphQL;
             [
                 'result' => merge(
                     [
-                        '_id' => $data['telegram_user_by_pk']['user_id'],
+                        'id' => $data['telegram_user_by_pk']['user_id'],
                         'active' => $data['telegram_user_by_pk']['blocked'] === null,
                         'admin' => !empty($data['telegram_user_by_pk']['token']),
                     ],
