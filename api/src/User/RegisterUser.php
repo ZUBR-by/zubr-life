@@ -24,7 +24,7 @@ class RegisterUser extends AbstractController implements BotAuthentication
 mutation($id: Int!, $token: String) {
     insert_telegram_user_one(
         object: {user_id: $id, token: $token}, 
-        on_conflict: {update_columns: [user_id], constraint: telegram_user_id_pk}
+        on_conflict: {update_columns: [user_id, token], constraint: telegram_user_id_pk}
     ) {
         user_id
     }
