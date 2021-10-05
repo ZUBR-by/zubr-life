@@ -20,14 +20,14 @@ class ModerateActivity extends AbstractController implements BotAuthentication
         }
 
         $query = /** @lang GraphQL */
-            <<<'GraphQL'
-mutation($status: community_activity_status, $id: Int!, $json: jsonb, $date: timestamp) {
-    update_community_activity_by_pk(_set: {status: $status, validated_at: $date}, _append: {extra: $json}, pk_columns: {id: $id})  {
+            sprintf(<<<'GraphQL'
+mutation($id: Int!, $json: jsonb, $date: timestamp) {
+    update_community_activity_by_pk(_set: {status: %s, validated_at: $date}, _append: {extra: $json}, pk_columns: {id: $id})  {
         id
         user_id
     }
 }
-GraphQL;
+GraphQL, strtoupper($payload['moderationStatus']));
 
         $data = $graphQLClient->requestAuth(
             $query,
