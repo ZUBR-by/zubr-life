@@ -20,6 +20,7 @@ class GetUser extends AbstractController implements BotAuthentication
             <<<'GraphQL'
 query($uid: Int!)  {
     telegram_user_by_pk(user_id: $uid) {
+        user_id
         blocked
         token
     }
