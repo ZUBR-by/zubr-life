@@ -23,14 +23,14 @@ class CreateActivity extends AbstractController implements BotAuthentication
             return new JsonResponse(['error' => 'missing bot_id or direction']);
         }
         $payload              = array_merge($payload['activityData'], $payload);
-        $query                = /** @lang GraphQL */
-            <<<'GraphQL'
+        $query                =
+            sprintf(
+            /** @lang GraphQL */<<<'GraphQL'
 mutation (
     $point: geometry, 
     $communities: community_activity_relations_arr_rel_insert_input, 
     $extra: jsonb, 
     $date: timestamp, 
-    $category: community_activity_category,
     $description: String,
     $user: telegram_user_obj_rel_insert_input,
     $attachments: jsonb,
@@ -38,7 +38,7 @@ mutation (
 ) {
     insert_community_activity(
         objects: {
-            category: $category,
+            category: %s,
             extra: $extra,
             created_at: $date,
             geometry: $point,
@@ -54,7 +54,7 @@ mutation (
         }
     }
 }
-GraphQL;
+GraphQL, $payload['direction']);
         $payload['community'] ??= 'belarus';
         $variables            = [
             'point'       => ($payload['lng'] ?? false) ? [
@@ -73,7 +73,6 @@ GraphQL;
                     'update_columns' => ['user_id'],
                 ],
             ],
-            'category'    => $payload['direction'],
             'uniqueId'    => $payload['uniqueId'] ?? null,
             'description' => $payload['description'] ?? '',
             'attachments' => ($payload['url'] ?? false)
