@@ -28,14 +28,14 @@
                                 {{ person.full_name }}
                             </router-link>
                         </td>
-                        <!--                        <th style="vertical-align: middle;text-align: center"-->
-                        <!--                            :class="{-->
-                        <!--                                'has-text-success': person.rating > 0,-->
-                        <!--                                'has-text-danger': person.rating < 0-->
-                        <!--                            }"-->
-                        <!--                        >-->
-                        <!--                            {{ person.rating }}-->
-                        <!--                        </th>-->
+                        <th style="vertical-align: middle;text-align: center"
+                            :class="{
+                                'has-text-success': false,
+                                'has-text-danger': false
+                            }"
+                        >
+                            0
+                        </th>
                         <td style="vertical-align: middle">
                             <template v-for="item of person.organizations">
                                 {{ item.position }} в
