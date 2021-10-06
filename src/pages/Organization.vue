@@ -123,10 +123,10 @@ query ($id: Int!) {
         extra
         people: persons {
             position
+            extra
             person {
                 id
                 photo_url
-                extra
                 full_name
                 description
             }
