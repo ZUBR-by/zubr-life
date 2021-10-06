@@ -10,7 +10,6 @@
                     <tr>
                         <th>Название</th>
                         <th>Рейтинг</th>
-                        <th></th>
                     </tr>
                     </thead>
                     <tbody>
