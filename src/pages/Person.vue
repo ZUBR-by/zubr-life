@@ -103,6 +103,7 @@ query ($id: Int!, $community: String!) {
             communities: {community_id: {_eq: $community}}
         }}) {
             position
+            extra
             organization {
                 id
                 name
