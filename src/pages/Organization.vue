@@ -71,8 +71,8 @@
                                             </td>
                                             <td style="vertical-align: middle">
                                                 <template v-if="item.position">{{ item.position }}</template>
-                                                <template v-if="item.person.extra.department">
-                                                  ({{item.person.extra.department}})
+                                                <template v-if="item.extra.department">
+                                                  ({{item.extra.department}})
                                                 </template>
                                             </td>
                                         </tr>

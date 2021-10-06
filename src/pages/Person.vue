@@ -51,8 +51,8 @@
                                             :key="item.organization.id">
                                             <td>
                                                 {{ item.position }}
-                                            <template v-if="data.person.extra.department">
-                                              ({{data.person.extra.department}})
+                                            <template v-if="item.extra.department">
+                                              ({{item.extra.department}})
                                             </template> в
                                                 <router-link :to="{name: 'organization', params: {id: item.organization.id}}">
                                                     {{ item.organization.name }}
