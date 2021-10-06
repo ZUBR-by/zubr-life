@@ -50,7 +50,10 @@
                                         <tr v-for="item of data.person.organizations"
                                             :key="item.organization.id">
                                             <td>
-                                                {{ item.position }} в
+                                                {{ item.position }}
+                                            <template v-if="data.person.extra.department">
+                                              ({{data.person.extra.department}})
+                                            </template> в
                                                 <router-link :to="{name: 'organization', params: {id: item.organization.id}}">
                                                     {{ item.organization.name }}
                                                 </router-link>

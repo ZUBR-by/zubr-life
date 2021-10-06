@@ -71,6 +71,9 @@
                                             </td>
                                             <td style="vertical-align: middle">
                                                 <template v-if="item.position">{{ item.position }}</template>
+                                                <template v-if="item.person.extra.department">
+                                                  ({{item.person.extra.department}})
+                                                </template>
                                             </td>
                                         </tr>
                                         </tbody>
@@ -123,6 +126,7 @@ query ($id: Int!) {
             person {
                 id
                 photo_url
+                extra
                 full_name
                 description
             }
