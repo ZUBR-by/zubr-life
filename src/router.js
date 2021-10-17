@@ -3,7 +3,7 @@ import Feed                             from './pages/Feed.vue'
 import Place                            from './pages/Place.vue'
 import People                           from './pages/People.vue'
 import Person                           from './pages/Person.vue'
-import Organizations                    from "./pages/Organizations.vue";
+import Organizations                    from "./pages/Rating.vue";
 import Organization                     from "./pages/Organization.vue";
 import Activity                         from "./pages/Activity.vue";
 import page404                          from "./404.vue";
