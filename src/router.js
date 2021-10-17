@@ -1,78 +1,69 @@
 import {createRouter, createWebHistory} from 'vue-router'
-import Feed                             from './pages/Feed.vue'
-import Place                            from './pages/Place.vue'
-import People                           from './pages/People.vue'
-import Person                           from './pages/Person.vue'
-import Organizations                    from "./pages/Organizations.vue";
-import Organization                     from "./pages/Organization.vue";
-import Activity                         from "./pages/Activity.vue";
-import page404                          from "./404.vue";
-import {nextTick}                       from "vue";
+import Feed from './pages/Feed.vue'
+import Place from './pages/Place.vue'
+import Rating from "./pages/Rating.vue";
+import Person from "./pages/Person.vue";
+import Organization from "./pages/Organization.vue";
+import Activity from "./pages/Activity.vue";
+import page404 from "./404.vue";
+import {nextTick} from "vue";
 
 const routes = [
     {
-        path     : '/:pathMatch(.*)*',
-        name     : 'not-found',
+        path: '/:pathMatch(.*)*',
+        name: 'not-found',
         component: page404
     },
     {
-        path     : '/',
-        name     : 'home',
-        label    : 'Главная',
+        path: '/',
+        name: 'home',
+        label: 'Главная',
         component: () => import('./pages/' + slug + '/Home.vue'),
     },
     {
-        path     : '/feed',
-        name     : 'feed',
+        path: '/feed',
+        name: 'feed',
         component: Feed,
-        label    : 'Лента новостей',
-        meta     : {
+        label: 'Лента новостей',
+        meta: {
             title: 'Лента новостей'
         },
     },
     {
-        path     : '/place/:id',
-        name     : 'place',
+        path: '/place/:id',
+        name: 'place',
         component: Place,
     },
     {
-        path     : '/people',
-        name     : 'people',
-        label    : 'Люди',
-        meta     : {
-            title: 'Люди'
-        },
-        component: People,
-    },
-    {
-        path     : '/person/:id',
-        name     : 'person',
+        path: '/person/:id',
+        name: 'person',
         component: Person,
     },
     {
-        path     : '/org',
-        name     : 'organizations',
-        label    : 'Организации',
-        meta     : {
-            title: 'Организации'
+        path: '/rating',
+        name: 'rating',
+        label: 'Рейтинг',
+        meta: {
+            title: 'Рейтинг'
         },
-        component: Organizations,
+        component: Rating,
+        alias: ['/people', '/org']
     },
     {
-        path     : '/org/:id',
-        name     : 'organization',
+        path: '/org/:id',
+        name: 'organization',
         component: Organization,
     },
     {
-        path     : '/activity/:id',
-        name     : 'activity',
+        path: '/activity/:id',
+        name: 'activity',
         component: Activity,
     },
     {
-        path     : '/about',
-        name     : 'about',
-        label    : 'О проекте',
-        meta     : {
+        path: '/about',
+        name: 'about',
+        label: 'О проекте',
+        meta: {
             title: 'О проекте'
         },
         component: () => import('./pages/' + slug + '/About.vue'),
