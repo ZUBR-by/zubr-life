@@ -6,12 +6,12 @@
                     <nav class="breadcrumb pt-5 pl-3 is-medium" aria-label="breadcrumbs">
                         <ul>
                             <li>
-                                <router-link :to="{name: 'people'}">
+                                <router-link :to="{name: 'rating'}">
                                     <button class="button is-primary is-inverted">
                                         <span class="icon is-small">
                                           <i class="fas fa-arrow-left"></i>
                                         </span>
-                                        <span>Люди</span>
+                                        <span>Рейтинг</span>
                                     </button>
                                 </router-link>
                             </li>
