@@ -23,7 +23,7 @@
                             </p>
                             <ul class="menu-list">
                                 <li v-for="route of routes" :key="route.name">
-                                    <router-link :to="{name: route.name}" @click="hidden = false">
+                                    <router-link :to="{name: route.name}" @click="hidden = false" style="text-decoration: underline">
                                         {{ route.label }}
                                     </router-link>
                                 </li>
@@ -34,6 +34,7 @@
             </div>
             <div class="column is-three-fifths has-text-right has-text-weight-medium is-hidden-mobile">
                 <router-link class="ml-5"
+                             style="text-decoration: underline"
                              v-for="route of routes" :to="{name: route.name}" :key="route.name">
                     {{ route.label }}
                 </router-link>
