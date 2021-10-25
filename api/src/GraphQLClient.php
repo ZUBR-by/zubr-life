@@ -16,38 +16,41 @@ class GraphQLClient
 
     public function __construct(string $graphqlUrl, string $graphPrivateKey, string $graphJwtAlgo)
     {
-        $this->graphqlUrl      = $graphqlUrl;
+        $this->graphqlUrl = $graphqlUrl;
         $this->graphPrivateKey = $graphPrivateKey;
-        $this->graphJwtAlgo    = $graphJwtAlgo;
+        $this->graphJwtAlgo = $graphJwtAlgo;
     }
 
-    public function request(string $query, array $variables = []) : array
+    public function request(string $query, array $variables = []): array
     {
+        $request = [
+            'query' => $query
+        ];
+        if (!empty($variables)) {
+            $request['variables'] = $variables;
+        }
         $response = (new Client())->post(
             $this->graphqlUrl,
             [
-                'json' => [
-                    'query'     => $query,
-                    'variables' => $variables,
-                ],
+                'json' => $request,
             ]
         );
-        $raw      = decode($response->getBody()->getContents());
+        $raw = decode($response->getBody()->getContents());
         if (isset($raw['errors'])) {
             throw new GraphQLRequestError($raw['errors'], $variables);
         }
         return $raw['data'];
     }
 
-    public function requestAuth(string $query, array $variables = []) : array
+    public function requestAuth(string $query, array $variables = []): array
     {
-        $jwt      = JWT::encode(
+        $jwt = JWT::encode(
             [
                 'hasura' => [
                     'x-hasura-allowed-roles' => ['community_moderator'],
-                    'x-hasura-default-role'  => 'community_moderator',
+                    'x-hasura-default-role' => 'community_moderator',
                 ],
-                'exp'    => time() + 38 * 24 * 60 * 60,
+                'exp' => time() + 38 * 24 * 60 * 60,
             ],
             read_file($this->graphPrivateKey),
             $this->graphJwtAlgo
@@ -58,8 +61,8 @@ class GraphQLClient
                 'headers' => [
                     'Cookie' => 'AUTH=' . $jwt,
                 ],
-                'json'    => [
-                    'query'     => $query,
+                'json' => [
+                    'query' => $query,
                     'variables' => $variables,
                 ],
             ]
