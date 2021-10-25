@@ -95,3 +95,8 @@ register_admin:
 activity_comments:
   path: /comments
   controller: App\Comments\GetListAction
+
+get_communites:
+  path: /communities
+  controller: App\Community\GetCommunities
+  methods: [ GET ]
