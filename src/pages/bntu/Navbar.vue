@@ -22,7 +22,11 @@
                                 Разделы сайта
                             </p>
                             <ul class="menu-list">
-                                <li v-for="route of routes" :key="route.name">
+                                <li v-for="(route, i) of routes" :key="route.name">
+                                    <a href="https://drive.google.com/drive/folders/1J9NNrlqAKeDWA2a0bLqsvDk7nBmTEX-D"
+                                       v-if="i === (routes.length - 2)">
+                                      Репозиторий
+                                    </a>
                                     <router-link :to="{name: route.name}" @click="hidden = false">
                                         {{ route.label }}
                                     </router-link>
@@ -33,10 +37,17 @@
                 </div>
             </div>
             <div class="column is-three-fifths has-text-right has-text-weight-medium is-hidden-mobile">
-                <router-link class="ml-5"
-                             v-for="route of routes" :to="{name: route.name}" :key="route.name">
-                    {{ route.label }}
-                </router-link>
+                <template v-for="(route, i) of routes" :key="route.name">
+                    <a class="ml-5"
+                       target="_blank"
+                       href="https://drive.google.com/drive/folders/1J9NNrlqAKeDWA2a0bLqsvDk7nBmTEX-D"
+                       v-if="i === (routes.length - 2)">
+                      Репозиторий
+                    </a>
+                    <router-link :to="{name: route.name}" class="ml-5">
+                        {{ route.label }}
+                    </router-link>
+                </template>
             </div>
         </div>
     </div>
