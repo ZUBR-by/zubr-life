@@ -15,7 +15,7 @@
             <template #body="{node}">
               <template v-if="node.type">
                 <router-link :to="{name: 'organization', params: {id: node.key}}" class="pl-5">
-                  {{ node.data.name }}({{ node.data.count }})
+                  {{ node.data.name }}
                 </router-link>
               </template>
               <div v-else class="ml-5" style="float: left">
@@ -32,13 +32,13 @@
                   </div>
                   <div class="pl-2 pt-3" style="float: left">
                     <span tabindex="0" class="p-rating-icon pi pi-star"></span>
-                    &nbsp;0
+                    &nbsp;{{node.data.rating}}
                   </div>
                 </template>
                 <template v-else>
                   <div class="pt-1">
                     <router-link :to="{name: 'organization', params: {id: node.data.org_id}}">
-                      Посмотреть всех
+                      Посмотреть весь состав
                     </router-link>
                   </div>
                 </template>
@@ -70,20 +70,22 @@ query ($community: String!) {
     organization(
         where: {
             communities: {community_id: {_eq: $community}},
-
         },
-        order_by: [{persons_aggregate: {count: desc}}]
+        order_by: [{name: asc}]
     ) {
         attachments
         id
         name
         description
         extra
-        persons(limit: 3, order_by: [{person: {full_name: asc}}]) {
+        persons(limit: 3, order_by: [{person: {rating: {overall: desc_nulls_last}, full_name: asc}}]) {
             person {
                 name: full_name
                 id
                 photo_url
+                rating {
+                    overall
+                }
             }
         }
         persons_aggregate {
@@ -128,7 +130,8 @@ query ($community: String!) {
             data: {
               id: sub.person.id,
               name: sub.person.name,
-              photo_url: sub.person.photo_url
+              photo_url: sub.person.photo_url,
+              rating: sub.person.rating ? sub.person.rating.overall : 0
             }
           }
         });

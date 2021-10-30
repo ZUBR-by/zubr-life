@@ -28,9 +28,8 @@
                             </div>
                             <div class="column is-four-fifths">
                                 <h3 class="is-size-3">{{ data.person.full_name }}</h3>
-                                <rating :entity="{is_upvoted: false, is_downvotes: false, upvotes: 0, downvotes: 0}"
-                                        :type="'person'"
-                                        :id="data.person.id"></rating>
+                                <rating :id="data.person.id"
+                                        :stats="data.person.rating ? data.person.rating : {upvotes: 0, downvotes: 0}"></rating>
                                 <div v-if="links" class="pt-4">
                                     <ul>
                                         <li v-for="link of links" :key="link.value">
@@ -40,28 +39,23 @@
                                         </li>
                                     </ul>
                                 </div>
+                                <div>
+                                  <p v-for="item of data.person.organizations"
+                                      :key="item.organization.id">
+                                      {{ item.position }}
+                                      <template v-if="item.extra.department">
+                                        ({{item.extra.department}})
+                                      </template> в
+                                      <router-link :to="{name: 'organization', params: {id: item.organization.id}}">
+                                        {{ item.organization.name }}
+                                      </router-link>
+
+                                  </p>
+                                </div>
                             </div>
                         </div>
                         <div class="pl-5 pt-3 pb-4 pr-5" style="min-height: 300px;">
                             <el-tabs v-model="activeName">
-                                <el-tab-pane label="Организации" name="orgs" style="overflow-x: auto">
-                                    <table class="table is-fullwidth is-striped">
-                                        <tbody>
-                                        <tr v-for="item of data.person.organizations"
-                                            :key="item.organization.id">
-                                            <td>
-                                                {{ item.position }}
-                                            <template v-if="item.extra.department">
-                                              ({{item.extra.department}})
-                                            </template> в
-                                                <router-link :to="{name: 'organization', params: {id: item.organization.id}}">
-                                                    {{ item.organization.name }}
-                                                </router-link>
-                                            </td>
-                                        </tr>
-                                        </tbody>
-                                    </table>
-                                </el-tab-pane>
                                 <el-tab-pane label="Комментарии" name="comments" v-if="data.person.id">
                                     <comments :id="data.person.id" :type="'person'"></comments>
                                 </el-tab-pane>
@@ -99,6 +93,11 @@ query ($id: Int!, $community: String!) {
         photo_url
         description
         extra
+        rating {
+            overall
+            downvotes
+            upvotes
+        }
         organizations: organizations(where: {organization: {
             communities: {community_id: {_eq: $community}}
         }}) {
@@ -140,7 +139,7 @@ query ($id: Int!, $community: String!) {
             fetching  : result.fetching,
             data      : result.data,
             error     : result.error,
-            activeName: 'orgs',
+            activeName: 'comments',
             map       : null,
             links,
             photo

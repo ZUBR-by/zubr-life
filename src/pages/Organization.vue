@@ -27,11 +27,11 @@
                 <p class="pt-2 pl-3" v-if="data.organization.address">
                   <b>Адрес:</b> {{ data.organization.address }}
                 </p>
-                <div class="pt-2 pb-2 pl-3">
-                  <rating :entity="{is_upvoted: false, is_downvotes: false, upvotes: 0, downvotes: 0}"
-                          :type="'organization'"
-                          :id="data.organization.id"></rating>
-                </div>
+<!--                <div class="pt-2 pb-2 pl-3">-->
+<!--                  <rating :entity="{is_upvoted: false, is_downvotes: false, upvotes: 0, downvotes: 0}"-->
+<!--                          :type="'organization'"-->
+<!--                          :id="data.organization.id"></rating>-->
+<!--                </div>-->
                 <div class="pl-3">
                   <ul>
                     <li v-for="link of data.organization.attachments.filter(i => i.type === 'link')"
@@ -50,7 +50,7 @@
             </div>
             <div class="pl-5 pt-3 pb-4 pr-5" style="min-height: 300px;">
               <el-tabs v-model="activeName">
-                <el-tab-pane label="Лица относящиеся к организации" name="people" style="overflow-x: auto">
+                <el-tab-pane label="Состав" name="people" style="overflow-x: auto">
                   <table class="table is-fullwidth is-striped">
                     <tbody>
                     <tr v-for="item of data.organization.people"

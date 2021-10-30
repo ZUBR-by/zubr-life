@@ -3,7 +3,6 @@
 namespace App\Auth;
 
 use App\TelegramAdapter;
-use App\User;
 use App\Users;
 use Firebase\JWT\JWT;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
@@ -13,21 +12,15 @@ use UnexpectedValueException;
 
 class CheckUser implements EventSubscriberInterface
 {
-    /**
-     * @var TelegramAdapter
-     */
-    private TelegramAdapter $adapter;
     private string $publicKeyPath;
     private string $accessToken;
     private Users $users;
 
     public function __construct(
-        TelegramAdapter $adapter,
         string $jwtPublicKey,
         Users $users,
         string $accessToken
     ) {
-        $this->adapter       = $adapter;
         $this->publicKeyPath = $jwtPublicKey;
         $this->accessToken   = $accessToken;
         $this->users         = $users;
@@ -61,7 +54,6 @@ class CheckUser implements EventSubscriberInterface
                     $request->cookies->remove('AUTH_TOKEN');
                     throw new NotAuthorized();
                 }
-                $this->adapter->isUserInAllowedGroups($decoded['id']);
                 $user = $this->users->getById((int) $decoded['id']);
                 if ($user->isEmpty()) {
                     return;
