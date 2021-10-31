@@ -4,7 +4,6 @@ namespace App\Auth;
 
 use App\BotTokenFactory;
 use App\Users;
-use Firebase\JWT\JWT;
 use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Cookie;
@@ -15,15 +14,15 @@ use Throwable;
 class LoginAction extends AbstractController
 {
     public function __invoke(
-        Request $request,
+        Request         $request,
         BotTokenFactory $botTokenFactory,
-        string $domain,
-        string $slug,
-        string $publicKey,
-        Users $users,
+        string          $domain,
+        string          $slug,
+        Users           $users,
         LoggerInterface $logger,
-        string $privateKey
-    ) : Response {
+        JWTFactory      $JWTFactory
+    ): Response
+    {
         $credentials = $request->query->all();
         $response    = $this->redirect('/');
         $error       = $this->checkCredentials($credentials, $botTokenFactory->current());
@@ -32,12 +31,12 @@ class LoginAction extends AbstractController
             $response->setTargetUrl($response->getTargetUrl() . '?error=auth');
             return $response;
         }
-        $credentials['id'] = (int) $credentials['id'];
+        $credentials['id'] = (int)$credentials['id'];
         $users->add($credentials['id']);
         $response->headers->setCookie(
             new Cookie(
-                'AUTH_TOKEN',
-                JWT::encode($credentials, file_get_contents($privateKey), 'RS256'),
+                'AUTH',
+                $JWTFactory->encode($credentials),
                 time() + 86400 * 30,
                 '/',
                 '.zubr.life',
@@ -51,9 +50,9 @@ class LoginAction extends AbstractController
         return $response;
     }
 
-    public function checkCredentials(array $credentials, string $botToken) : ?Throwable
+    public function checkCredentials(array $credentials, string $botToken): ?Throwable
     {
-        if (! isset($credentials['hash'], $credentials['id'])) {
+        if (!isset($credentials['hash'], $credentials['id'])) {
             return new InvalidCredentials('Not found hash or id');
         }
         $checkHash = $credentials['hash'];

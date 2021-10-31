@@ -2,9 +2,7 @@
 
 namespace App\Auth;
 
-use App\TelegramAdapter;
 use App\Users;
-use Firebase\JWT\JWT;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpKernel\Event\ControllerEvent;
 use Symfony\Component\HttpKernel\KernelEvents;
@@ -12,21 +10,22 @@ use UnexpectedValueException;
 
 class CheckUser implements EventSubscriberInterface
 {
-    private string $publicKeyPath;
     private string $accessToken;
     private Users $users;
+    private JWTFactory $JWTFactory;
 
     public function __construct(
-        string $jwtPublicKey,
-        Users $users,
-        string $accessToken
-    ) {
-        $this->publicKeyPath = $jwtPublicKey;
-        $this->accessToken   = $accessToken;
-        $this->users         = $users;
+        Users      $users,
+        JWTFactory $JWTFactory,
+        string     $accessToken
+    )
+    {
+        $this->accessToken = $accessToken;
+        $this->users       = $users;
+        $this->JWTFactory  = $JWTFactory;
     }
 
-    public function onKernelController(ControllerEvent $event) : void
+    public function onKernelController(ControllerEvent $event): void
     {
         $controller = $event->getController();
 
@@ -41,20 +40,16 @@ class CheckUser implements EventSubscriberInterface
         }
         if ($controller instanceof ActionRequiresAuthorization) {
             $request = $event->getRequest();
-            if (! $request->cookies->has('AUTH_TOKEN')) {
+            if (!$request->cookies->has('AUTH')) {
                 throw new NotAuthorized();
             }
             try {
-                $decoded = (array) JWT::decode(
-                    (string) $request->cookies->get('AUTH_TOKEN'),
-                    file_get_contents($this->publicKeyPath),
-                    ['RS256']
-                );
-                if (! isset($decoded['id'])) {
-                    $request->cookies->remove('AUTH_TOKEN');
+                $decoded = $this->JWTFactory->decode((string)$request->cookies->get('AUTH'));
+                if (!isset($decoded['id'])) {
+                    $request->cookies->remove('AUTH');
                     throw new NotAuthorized();
                 }
-                $user = $this->users->getById((int) $decoded['id']);
+                $user = $this->users->getById((int)$decoded['id']);
                 if ($user->isEmpty()) {
                     return;
                 }
@@ -63,13 +58,13 @@ class CheckUser implements EventSubscriberInterface
                 }
 
             } catch (UnexpectedValueException) {
-                $request->cookies->remove('AUTH_TOKEN');
+                $request->cookies->remove('AUTH');
                 throw new NotAuthorized();
             }
         }
     }
 
-    public static function getSubscribedEvents() : array
+    public static function getSubscribedEvents(): array
     {
         return [
             KernelEvents::CONTROLLER => 'onKernelController',

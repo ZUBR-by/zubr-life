@@ -1,6 +1,5 @@
 # https://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration
 parameters:
-  private_key: '%env(resolve:JWT_SECRET_KEY)%'
   loshitsaToken: "%env(loshitsa_BOT_TOKEN)%"
   vitebskToken: "%env(vitebsk_BOT_TOKEN)%"
   bntuToken: "%env(bntu_BOT_TOKEN)%"
@@ -15,11 +14,9 @@ services:
       $s3Key: "%env(AWS_KEY)%"
       $s3Secret: "%env(AWS_SECRET)%"
       $s3Bucket: "%env(S3_BUCKET)%"
-      $privateKey: '%private_key%'
+      $privateKey: '%env(resolve:PRIVATE_KEY)%'
       $publicKey: '%env(resolve:PUBLIC_KEY)%'
-      $jwtPublicKey: '%env(resolve:JWT_PUBLIC_KEY)%'
-      $graphPrivateKey: '%env(resolve:GRAPH_PRIVATE_KEY)%'
-      $graphJwtAlgo: '%env(GRAPH_JWT_ALGO)%'
+      $jwtAlgo: '%env(JWT_ALGO)%'
       $graphqlUrl: '%env(GRAPHQL_URL)%'
       $accessToken: '%env(ACCESS_TOKEN)%'
 

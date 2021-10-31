@@ -2,38 +2,31 @@
 
 namespace App;
 
-use Firebase\JWT\JWT;
+use App\Auth\JWTFactory;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use function Psl\Filesystem\read_file;
 
 class GenerateTokenCommand extends Command
 {
-    private string $graphPrivateKey;
-    private string $graphJwtAlgo;
+    private JWTFactory $JWTFactory;
 
-    public function __construct(string $graphPrivateKey, string $graphJwtAlgo)
+    public function __construct(JWTFactory $JWTFactory)
     {
-        $this->graphPrivateKey = $graphPrivateKey;
-        $this->graphJwtAlgo = $graphJwtAlgo;
-
+        $this->JWTFactory = $JWTFactory;
         parent::__construct('generate:token');
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        $output->writeln(JWT::encode(
-            [
-                'hasura' => [
-                    'x-hasura-allowed-roles' => ['community_moderator'],
-                    'x-hasura-default-role' => 'community_moderator',
-                ],
-                'exp' => time() + 38 * 24 * 60 * 60,
+        $output->writeln($this->JWTFactory->encode([
+            'hasura' => [
+                'x-hasura-allowed-roles' => ['community_moderator'],
+                'x-hasura-default-role'  => 'community_moderator',
+                'x-hasura-user-id'       => '12'
             ],
-            read_file($this->graphPrivateKey),
-            $this->graphJwtAlgo
-        ));
+            'exp'    => time() + 38 * 24 * 60 * 60,
+        ]));
 
         return 0;
     }
