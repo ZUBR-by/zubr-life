@@ -1,14 +1,15 @@
 <template>
   <div>
     <template v-if="data">
-      <el-card class="box-card mt-2 mb-2" v-for="comment of data.comments">
+      <el-card class="box-card mt-2 mb-2" v-for="comment of data.comment">
         <template #header>
           <div class="clearfix pl-2">
             <el-button class="button"
-                       type="text" style="font-size: 14px">Анонимный автор
+                       type="text" style="font-size: 14px">
+              Анонимный автор
             </el-button>
             <el-button class="button"
-                       v-if="false"
+                       v-if="comment.by_current_user"
                        @click="archiveComment(comment.id)"
                        style="float: right;padding-left: 10px;padding-right: 10px"
                        icon="el-icon-close"
@@ -113,23 +114,27 @@ export default {
     id: Number
   },
   setup(props) {
-    // noinspection GraphQLUnexpectedType
+    const variables = {
+      'where': {
+        [props.type]: {
+          'id': {_eq: props.id}
+        }
+      }
+    };
     const result = useQuery({
           // language=GraphQL
           query: `
-query($id: Int!) {
-    comments(id: $id, entity_type: ${props.type}) {
+query($where: comment_bool_exp) {
+    comment(where: $where, order_by: [{created_at: desc}]) {
         id
         text
-        by_user
+        by_current_user
         attachments
         created_at
     }
 }
       `,
-          variables: {
-            id: props.id
-          }
+          variables
         }
     )
     const form = reactive(
