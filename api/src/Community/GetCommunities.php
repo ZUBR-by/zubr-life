@@ -21,7 +21,7 @@ query {
     }
 }
 GraphQL;
-        $data = $graphQLClient->request($query);
+        $data = $graphQLClient->requestAuth($query);
 
         return new JsonResponse([
             'result' => $data['community'],

@@ -10,7 +10,6 @@ use Symfony\Component\HttpFoundation\Cookie;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Throwable;
-use function Psl\Dict\merge;
 
 class LoginAction extends AbstractController
 {
@@ -36,8 +35,8 @@ class LoginAction extends AbstractController
         $credentials = [
             'id'     => $id,
             'hasura' => [
-                'x-hasura-allowed-roles' => ['community_moderator'],
-                'x-hasura-default-role'  => 'community_moderator',
+                'x-hasura-allowed-roles' => ['life_user'],
+                'x-hasura-default-role'  => 'life_user',
                 'x-hasura-user-id'       => (string)$credentials['id']
             ],
             'exp'    => time() + 38 * 24 * 60 * 60,

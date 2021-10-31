@@ -21,8 +21,8 @@ class GenerateTokenCommand extends Command
     {
         $output->writeln($this->JWTFactory->encode([
             'hasura' => [
-                'x-hasura-allowed-roles' => ['community_moderator'],
-                'x-hasura-default-role'  => 'community_moderator',
+                'x-hasura-allowed-roles' => ['life_user'],
+                'x-hasura-default-role'  => 'life_user',
                 'x-hasura-user-id'       => '12'
             ],
             'exp'    => time() + 38 * 24 * 60 * 60,

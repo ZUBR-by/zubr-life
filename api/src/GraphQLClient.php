@@ -18,15 +18,28 @@ class GraphQLClient
         $this->JWTFactory = $JWTFactory;
     }
 
-    public function request(string $query, array $variables = []): array
+    public function requestUser(string $query, array $variables = []): array
     {
-        $request = ['query' => $query];
-        if (!empty($variables)) {
-            $request['variables'] = $variables;
-        }
+        $jwt      = $this->JWTFactory->encode(
+            [
+                'hasura' => [
+                    'x-hasura-allowed-roles' => ['life_user'],
+                    'x-hasura-default-role'  => 'life_user',
+                ],
+                'exp'    => time() + 38 * 24 * 60 * 60,
+            ]
+        );
         $response = (new Client())->post(
             $this->graphqlUrl,
-            ['json' => $request]
+            [
+                'headers' => [
+                    'Cookie' => 'AUTH=' . $jwt,
+                ],
+                'json'    => [
+                    'query'     => $query,
+                    'variables' => $variables,
+                ],
+            ]
         );
         $raw      = decode($response->getBody()->getContents());
         if (isset($raw['errors'])) {

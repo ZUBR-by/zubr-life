@@ -45,7 +45,7 @@ query($community: String!)  {
 }
 
 GraphQL;
-        $data      = $graphQLClient->request(
+        $data      = $graphQLClient->requestUser(
             $query,
             ['community' => $community ?: 'belarus']
         );
