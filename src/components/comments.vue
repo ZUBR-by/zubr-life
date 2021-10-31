@@ -1,5 +1,8 @@
 <template>
   <div>
+    <template v-if="fetching">
+      Загрузка...
+    </template>
     <template v-if="data">
       <el-card class="box-card mt-2 mb-2" v-for="comment of data.comment">
         <template #header>
