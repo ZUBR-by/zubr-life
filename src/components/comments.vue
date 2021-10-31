@@ -101,7 +101,7 @@
 import {ElButton, ElCard, ElUpload, ElMessage, ElIcon, ElInput} from "element-plus";
 import linkifyHtml from 'linkifyjs/html';
 import {useQuery} from "@urql/vue";
-import {reactive} from "vue";
+import {ref} from "vue";
 
 const emptyComment = {
   text: '',
@@ -140,12 +140,19 @@ query($where: comment_bool_exp) {
           variables
         }
     )
-    const form = reactive(
+    const form = ref(
         {
           text: '',
           attachments: [],
         }
     )
+    const isLoading = ref(false)
+    const refresh = () => {
+      result.executeQuery({
+        requestPolicy: 'network-only',
+      });
+    }
+    const upload = ref(null)
     return {
       fetching: result.fetching,
       data: result.data,
@@ -154,70 +161,69 @@ query($where: comment_bool_exp) {
       fileList: [],
       showAll: true,
       dialogVisible: false,
-      isLoading: false,
+      isLoading,
+      upload,
       form,
       linkify(text) {
         return linkifyHtml(text);
       },
+      handleExceed(files, fileList) {
+        ElMessage.error('Максимум три файла!')
+      },
+      save() {
+        const formData = new FormData();
+        formData.append('text', form.value.text);
+        formData.append('type', props.type);
+        formData.append('id', props.id + '');
+
+        this.form.attachments.forEach((elem, index) => {
+          formData.append('attachment' + index, elem.raw);
+        })
+        isLoading.value = true;
+        fetch(import.meta.env.VITE_TELEGRAM_API_URL + '/comment', {
+          'method': 'POST',
+          'body': formData,
+          'credentials': 'include'
+        }).then((r) => r.json()).then((r) => {
+          isLoading.value = false;
+          if (r.error) {
+            ElMessage.error(r.error)
+            return;
+          }
+          refresh()
+          Object.assign(form.value, emptyComment)
+          upload.value.clearFiles()
+        }).catch(e => {
+          isLoading.value = false;
+          ElMessage.error('Произошла ошибка')
+          throw e;
+        })
+      },
+      handleRemove(file) {
+        form.value.attachments = form.value.attachments.filter(i => file.uid !== i.uid)
+      },
+      onChange(file) {
+        form.value.attachments.push(file)
+      },
+      archiveComment(id) {
+        fetch(import.meta.env.VITE_TELEGRAM_API_URL + '/comment/' + id,
+            {
+              credentials: 'include',
+              method: 'DELETE'
+            }
+        )
+            .then(r => r.json())
+            .then(
+                (r) => {
+                  console.log(r)
+                }
+            )
+      }
     }
   },
   computed: {
     comments() {
       return this.showAll ? this.list : this.list.slice(0, 2)
-    }
-  },
-  methods: {
-    handleRemove(file) {
-      this.form.attachments = this.form.attachments.filter(i => file.uid !== i.uid)
-    },
-    onChange(file) {
-      this.form.attachments.push(file)
-    },
-    handleExceed(files, fileList) {
-      ElMessage.error('Максимум три файла!')
-    },
-    save() {
-      const formData = new FormData();
-      formData.append('text', this.form.text);
-      formData.append('type', this.type);
-      formData.append('id', this.id + '');
-
-      this.form.attachments.forEach((elem, index) => {
-        formData.append('attachment' + index, elem.raw);
-      })
-      this.isLoading = true;
-      fetch(import.meta.env.VITE_TELEGRAM_API_URL + '/comment', {
-        'method': 'POST',
-        'body': formData,
-        'credentials': 'include'
-      }).then((r) => r.json()).then((r) => {
-        console.log(r)
-        this.isLoading = false;
-        if (r.error) {
-          ElMessage.error(r.error)
-          return;
-        }
-        Object.assign(this.form, emptyComment)
-        this.$refs.upload.clearFiles()
-      }).catch(e => {
-        this.isLoading = false;
-        ElMessage.error('Произошла ошибка')
-        throw e;
-      })
-    },
-    archiveComment(id) {
-      fetch(import.meta.env.VITE_TELEGRAM_API_URL + '/comment/' + id,
-          {
-            credentials: 'include',
-            method: 'DELETE'
-          }
-      )
-          .then(r => r.json())
-          .then(
-              (r) => {
-                console.log(r)
-              }
-          )
     }
   },
 }
