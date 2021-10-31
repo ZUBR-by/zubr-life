@@ -34,6 +34,7 @@ class LoginAction extends AbstractController
         }
         $id          = $credentials['id'];
         $credentials = [
+            'id'     => $id,
             'hasura' => [
                 'x-hasura-allowed-roles' => ['community_moderator'],
                 'x-hasura-default-role'  => 'community_moderator',
