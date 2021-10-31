@@ -28,7 +28,7 @@ class JWTFactory
         return (array)JWT::decode(
             $jwt,
             read_file($this->publicKey),
-            ['RS256']
+            [$this->jwtAlgo]
         );
     }
 }

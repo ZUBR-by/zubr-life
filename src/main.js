@@ -11,7 +11,12 @@ const app = createApp(App)
 app.use(PrimeVue);
 app.use(
     urql,
-    ({url: import.meta.env.VITE_GRAPH_URL}),
+    ({
+        url: import.meta.env.VITE_GRAPH_URL,
+        fetchOptions: {
+            credentials: 'include'
+        },
+    }),
 );
 app.use(router)
 app.mount('#app')

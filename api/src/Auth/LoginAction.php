@@ -32,18 +32,16 @@ class LoginAction extends AbstractController
             $response->setTargetUrl($response->getTargetUrl() . '?error=auth');
             return $response;
         }
-        $credentials['id'] = (int)$credentials['id'];
-        $credentials       = array_merge($credentials,
-            [
-                'hasura' => [
-                    'x-hasura-allowed-roles' => ['community_moderator'],
-                    'x-hasura-default-role'  => 'community_moderator',
-                    'x-hasura-user-id'       => (string)$credentials['id']
-                ],
-                'exp'    => time() + 38 * 24 * 60 * 60,
-            ]
-        );
-        $users->add($credentials['id']);
+        $id          = $credentials['id'];
+        $credentials = [
+            'hasura' => [
+                'x-hasura-allowed-roles' => ['community_moderator'],
+                'x-hasura-default-role'  => 'community_moderator',
+                'x-hasura-user-id'       => (string)$credentials['id']
+            ],
+            'exp'    => time() + 38 * 24 * 60 * 60,
+        ];
+        $users->add($id);
         $response->headers->setCookie(
             new Cookie(
                 'AUTH',
