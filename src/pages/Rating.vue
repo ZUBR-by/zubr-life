@@ -10,7 +10,7 @@
                   header="Название"
                   :expander="true"
                   class="ml-3"
-                  style="font-size: 0.9rem;padding: 0.5rem 0.3rem"
+                  style="font-size: 0.9rem;padding: 0.5rem 0.3rem;min-width: 350px"
           >
             <template #body="{node}">
               <template v-if="node.type">
@@ -19,22 +19,18 @@
                 </router-link>
               </template>
               <div v-else class="ml-5" style="float: left">
-                <template v-if="!node.data.link">
-                  <div class="grid-image" style="float: left">
+                <div v-if="!node.data.link">
+                  <div class="grid-image" style="float:left;">
                     <img :src="node.data.photo_url
                                           ? node.data.photo_url
                                           : 'https://zubr.in/assets/images/user.svg'">
                   </div>
-                  <div class="pl-1 pt-3" style="float:left;">
+                  <div style="float:left;" class="pl-2 pt-2">
                     <router-link :to="{name: 'person', params: {id: node.data.id}}">
                       {{ node.data.name }}
                     </router-link>
                   </div>
-                  <div class="pl-2 pt-3" style="float: left">
-                    <span tabindex="0" class="p-rating-icon pi pi-star"></span>
-                    &nbsp;{{node.data.rating}}
-                  </div>
-                </template>
+                </div>
                 <template v-else>
                   <div class="pt-1">
                     <router-link :to="{name: 'organization', params: {id: node.data.org_id}}">
@@ -42,6 +38,25 @@
                     </router-link>
                   </div>
                 </template>
+              </div>
+            </template>
+          </Column>
+          <Column style="font-size: 0.9rem;padding: 0.5rem 0.3rem;width: 100px">
+            <template #body="{node}">
+              <div class="pl-2 pt-3" v-if="!node.type && !node.data.link">
+                    <span tabindex="0"
+                          class="p-rating-icon pi pi-star"
+                          :style="{color: node.data.rating >= 0 ? 'var(--green-600)' : 'var(--pink-500)'}"
+                          :class="{'pi-caret-up':  node.data.rating >= 0 , 'pi-caret-down': node.data.rating < 0}"></span>
+                &nbsp;{{ node.data.rating }}
+              </div>
+            </template>
+          </Column>
+          <Column header="Должность"
+                  style="font-size: 0.9rem;padding: 0.5rem 0.3rem">
+            <template #body="{node}">
+              <div class="pt-3" v-if="!node.type && !node.data.link">
+                {{ node.data.position }}
               </div>
             </template>
           </Column>
@@ -79,6 +94,7 @@ query ($community: String!) {
         description
         extra
         persons(limit: 3, order_by: [{person: {rating: {overall: desc_nulls_last}, full_name: asc}}]) {
+            position
             person {
                 name: full_name
                 id
@@ -108,7 +124,7 @@ query ($community: String!) {
       let tmp = {}
       let count = 0;
       for (let key in result.data.value.organization) {
-        if (count > 1) {
+        if (count > 2) {
           break;
         }
         tmp[result.data.value.organization[key].id] = true
@@ -130,6 +146,7 @@ query ($community: String!) {
             data: {
               id: sub.person.id,
               name: sub.person.name,
+              position: sub.position,
               photo_url: sub.person.photo_url,
               rating: sub.person.rating ? sub.person.rating.overall : 0
             }
