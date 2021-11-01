@@ -1,15 +1,15 @@
 <template>
   <button class="button is-success is-small"
-          :title="upvotes"
+          :title="modelValue !== null ? modelValue.upvotes : 0"
           :class="{'is-outlined' : false}"
           @click="upvote">
     <i class="fa fa-arrow-up"></i>
   </button>
   <span class="pl-3 pr-3 pt-3">
-        {{ rating }}
+    {{ modelValue !== null ? modelValue.upvotes - modelValue.downvotes : 0 }}
   </span>
   <button class="button is-danger is-small"
-          :title="downvotes"
+          :title="modelValue !== null ? modelValue.downvotes : 0"
           :class="{'is-outlined' : false}"
           @click="downvote">
     <i class="fa fa-arrow-down"></i>
@@ -17,14 +17,13 @@
 </template>
 <script>
 import {useMutation} from "@urql/vue";
-import {computed, ref} from "vue";
 
 export default {
   props: {
     id: Number,
-    stats: Object
+    modelValue: Object
   },
-  setup(props) {
+  setup(props, context) {
     const upvote = useMutation(`
       mutation ($id: Int!) {
         person_upvote(person_id: $id) {
@@ -43,22 +42,16 @@ export default {
         }
       }
     `);
-    const upvotes = ref(props.stats.upvotes);
-    const downvotes = ref(props.stats.downvotes);
-    const rating = computed(() => {
-      return upvotes.value - downvotes.value;
-    })
     return {
-      upvotes,
-      downvotes,
-      rating,
       upvote() {
         upvote.executeMutation({id: props.id}).then(result => {
           console.log(result)
+          context.emit("change")
         });
       },
       downvote() {
         downvote.executeMutation({id: props.id}).then(result => {
+          context.emit("change")
           console.log(result)
         });
       }
@@ -66,28 +59,6 @@ export default {
   },
   emits: ['change'],
   /*methods: {
-    downvote() {
-      if (this.entity.is_downvoted) {
-        this.unrate();
-        return;
-      }
-      fetch(import.meta.env.VITE_TELEGRAM_API_URL
-          + '/rate/downvote/'
-          + this.type
-          + '/'
-          + this.$route.params.id,
-          {
-            'method': 'POST',
-            'credentials': 'include',
-          }
-      )
-          .then(handle)
-          .then(
-              () => {
-                this.$emit('change');
-              }
-          )
-    },
     unrate() {
       fetch(import.meta.env.VITE_TELEGRAM_API_URL
           + '/unrate/'

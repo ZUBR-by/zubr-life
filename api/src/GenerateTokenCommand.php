@@ -25,6 +25,7 @@ class GenerateTokenCommand extends Command
                 'x-hasura-default-role'  => 'life_user',
                 'x-hasura-user-id'       => '12'
             ],
+            'id'     => 123,
             'exp'    => time() + 38 * 24 * 60 * 60,
         ]));
 

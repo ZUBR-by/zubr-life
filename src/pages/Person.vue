@@ -29,7 +29,8 @@
                             <div class="column is-four-fifths">
                                 <h3 class="is-size-3">{{ data.person.full_name }}</h3>
                                 <rating :id="data.person.id"
-                                        :stats="data.person.rating ? data.person.rating : {upvotes: 0, downvotes: 0}"></rating>
+                                        @change="refresh"
+                                        v-model="data.person.rating"></rating>
                                 <div v-if="links" class="pt-4">
                                     <ul>
                                         <li v-for="link of links" :key="link.value">
@@ -140,6 +141,11 @@ query ($id: Int!, $community: String!) {
             data      : result.data,
             error     : result.error,
             activeName: 'comments',
+            refresh(){
+              result.executeQuery({
+                requestPolicy: 'network-only',
+              });
+            },
             map       : null,
             links,
             photo
