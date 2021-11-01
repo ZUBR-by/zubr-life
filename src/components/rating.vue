@@ -1,7 +1,7 @@
 <template>
   <button class="button is-success is-small"
           :title="modelValue !== null ? modelValue.upvotes : 0"
-          :class="{'is-outlined' : false}"
+          :class="{'is-outlined' : !(modelValue !== null && modelValue.is_upvoted)}"
           @click="upvote">
     <i class="fa fa-arrow-up"></i>
   </button>
@@ -10,7 +10,7 @@
   </span>
   <button class="button is-danger is-small"
           :title="modelValue !== null ? modelValue.downvotes : 0"
-          :class="{'is-outlined' : false}"
+          :class="{'is-outlined' : !(modelValue !== null && modelValue.is_downvoted)}"
           @click="downvote">
     <i class="fa fa-arrow-down"></i>
   </button>

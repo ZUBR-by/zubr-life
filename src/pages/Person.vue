@@ -98,6 +98,8 @@ query ($id: Int!, $community: String!) {
             overall
             downvotes
             upvotes
+            is_upvoted
+            is_downvoted
         }
         organizations: organizations(where: {organization: {
             communities: {community_id: {_eq: $community}}
