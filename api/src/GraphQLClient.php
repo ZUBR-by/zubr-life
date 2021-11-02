@@ -20,7 +20,7 @@ class GraphQLClient
 
     public function requestUser(string $query, array $variables = []): array
     {
-        $jwt      = $this->JWTFactory->encode(
+        $jwt  = $this->JWTFactory->encode(
             [
                 'hasura' => [
                     'x-hasura-allowed-roles' => ['life_user'],
@@ -29,16 +29,17 @@ class GraphQLClient
                 'exp'    => time() + 38 * 24 * 60 * 60,
             ]
         );
+        $body = ['query' => $query];
+        if (!empty($variables)) {
+            $body['variables'] = $variables;
+        }
         $response = (new Client())->post(
             $this->graphqlUrl,
             [
                 'headers' => [
                     'Cookie' => 'AUTH=' . $jwt,
                 ],
-                'json'    => [
-                    'query'     => $query,
-                    'variables' => $variables,
-                ],
+                'json'    => $body,
             ]
         );
         $raw      = decode($response->getBody()->getContents());
@@ -50,7 +51,7 @@ class GraphQLClient
 
     public function requestAuth(string $query, array $variables = []): array
     {
-        $jwt      = $this->JWTFactory->encode(
+        $jwt  = $this->JWTFactory->encode(
             [
                 'hasura' => [
                     'x-hasura-allowed-roles' => ['community_moderator'],
@@ -59,16 +60,19 @@ class GraphQLClient
                 'exp'    => time() + 38 * 24 * 60 * 60,
             ]
         );
+        $body = [
+            'query' => $query,
+        ];
+        if (!empty($variables)) {
+            $body['variables'] = $variables;
+        }
         $response = (new Client())->post(
             $this->graphqlUrl,
             [
                 'headers' => [
                     'Cookie' => 'AUTH=' . $jwt,
                 ],
-                'json'    => [
-                    'query'     => $query,
-                    'variables' => $variables,
-                ],
+                'json'    => $body,
             ]
         );
         $raw      = decode($response->getBody()->getContents());
