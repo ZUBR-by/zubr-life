@@ -46,7 +46,7 @@ const routes = [
         meta: {
             title: 'Рейтинг'
         },
-        component: Rating,
+        component: slug === 'bntu' ? () => import('./pages/' + slug + '/Rating.vue') : Rating,
         alias: ['/people', '/org']
     },
     {
