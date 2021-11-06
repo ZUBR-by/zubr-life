@@ -1,7 +1,7 @@
 <template>
   <div class="section zbr-promo">
     <div class="columns is-centered">
-      <div class="column is-half" v-if="data">
+      <div class="column is-two-thirds" v-if="data">
         <h3 class="content has-text-weight-bold is-medium pl-3">
           Рейтинг
         </h3>
