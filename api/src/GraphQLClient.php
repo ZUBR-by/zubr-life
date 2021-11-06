@@ -18,14 +18,18 @@ class GraphQLClient
         $this->JWTFactory = $JWTFactory;
     }
 
-    public function requestUser(string $query, array $variables = []): array
+    public function requestUser(string $query, array $variables = [], User $user = null): array
     {
+        $head = [
+            'x-hasura-allowed-roles' => ['life_user'],
+            'x-hasura-default-role'  => 'life_user',
+        ];
+        if ($user) {
+            $head['x-hasura-user-id'] = (string)$user->id();
+        }
         $jwt  = $this->JWTFactory->encode(
             [
-                'hasura' => [
-                    'x-hasura-allowed-roles' => ['life_user'],
-                    'x-hasura-default-role'  => 'life_user',
-                ],
+                'hasura' => $head,
                 'exp'    => time() + 38 * 24 * 60 * 60,
             ]
         );

@@ -14,16 +14,23 @@
           @click="downvote">
     <i class="fa fa-arrow-down"></i>
   </button>
+  <toast></toast>
 </template>
 <script>
 import {useMutation} from "@urql/vue";
+import {useToast} from "primevue/usetoast";
+import Toast from "primevue/toast";
 
 export default {
   props: {
     id: Number,
     modelValue: Object
   },
+  components: {
+    Toast
+  },
   setup(props, context) {
+    const toast = useToast();
     const upvote = useMutation(`
       mutation ($id: Int!) {
         person_upvote(person_id: $id) {
@@ -42,41 +49,43 @@ export default {
         }
       }
     `);
+    const unrate = useMutation(`
+      mutation ($id: Int!) {
+        person_unrate(person_id: $id) {
+          downvotes
+          upvotes
+          rating
+        }
+      }
+    `);
+    const handler = (result) => {
+      if (result.error) {
+        let message = 'Произошла ошибка'
+        if (result.error.message === '[GraphQL] not_authorized') {
+          message = 'Вы не авторизованы'
+        }
+        toast.add({severity: 'error', summary: message, life: 3000});
+        return;
+      }
+      context.emit("change")
+    }
     return {
       upvote() {
-        upvote.executeMutation({id: props.id}).then(result => {
-          console.log(result)
-          context.emit("change")
-        });
+        if (props.modelValue && props.modelValue.is_upvoted) {
+          unrate.executeMutation({id: props.id}).then(handler);
+        } else {
+          upvote.executeMutation({id: props.id}).then(handler);
+        }
       },
       downvote() {
-        downvote.executeMutation({id: props.id}).then(result => {
-          context.emit("change")
-          console.log(result)
-        });
-      }
+        if (props.modelValue && props.modelValue.is_downvoted) {
+          unrate.executeMutation({id: props.id}).then(handler);
+        } else {
+          downvote.executeMutation({id: props.id}).then(handler);
+        }
+      },
     }
   },
-  emits: ['change'],
-  /*methods: {
-    unrate() {
-      fetch(import.meta.env.VITE_TELEGRAM_API_URL
-          + '/unrate/'
-          + this.type
-          + '/'
-          + this.$route.params.id,
-          {
-            'method': 'POST',
-            'credentials': 'include',
-          }
-      )
-          .then(handle)
-          .then(
-              () => {
-                this.$emit('change');
-              }
-          )
-    },
-  }*/
+  emits: ['change']
 }
 </script>

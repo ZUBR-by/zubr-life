@@ -7,8 +7,11 @@ import 'primevue/resources/themes/saga-orange/theme.css'       //theme
 import 'primevue/resources/primevue.min.css'                 //core css
 import 'primeicons/primeicons.css'
 import PrimeVue from 'primevue/config';
+import ToastService from 'primevue/toastservice';
+
 const app = createApp(App)
 app.use(PrimeVue);
+app.use(ToastService);
 app.use(
     urql,
     ({
@@ -20,6 +23,7 @@ app.use(
 );
 app.use(router)
 app.mount('#app')
+
 
 if (import.meta.env.MODE !== 'development') {
     import('./sentry').then(
