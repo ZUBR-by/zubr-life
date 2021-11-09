@@ -22,8 +22,8 @@
                         <div class="columns pl-3">
                             <div class="column pl-5">
                                 <div class="person-photo">
-                                    <el-image :src="data.person.photo_url ? data.person.photo_url: 'https://zubr.in/assets/images/user.svg'"
-                                              :preview-src-list="[data.person.photo_url ? data.person.photo_url: 'https://zubr.in/assets/images/user.svg']"></el-image>
+                                    <el-image :src="data.person.photo_url ? data.person.photo_url: '/imgs/user.svg'"
+                                              :preview-src-list="[data.person.photo_url ? data.person.photo_url: '/imgs/user.svg']"></el-image>
                                 </div>
                             </div>
                             <div class="column is-four-fifths">
@@ -128,7 +128,7 @@ query ($id: Int!, $community: String!) {
         })
         const photo  = computed(() => {
             if (!result.data || !result.data.person || !result.data.person.photo_url) {
-                return 'https://zubr.in/assets/images/user.svg';
+                return '/imgs/user.svg';
             }
             return result.data.person.photo_url
         })

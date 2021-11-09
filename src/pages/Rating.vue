@@ -23,7 +23,7 @@
                   <div class="grid-image" style="float:left;">
                     <img :src="node.data.photo_url
                                           ? node.data.photo_url
-                                          : 'https://zubr.in/assets/images/user.svg'">
+                                          : '/imgs/user.svg'">
                   </div>
                   <div style="float:left;" class="pl-2 pt-2">
                     <router-link :to="{name: 'person', params: {id: node.data.id}}">

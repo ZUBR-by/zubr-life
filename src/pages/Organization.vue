@@ -59,7 +59,7 @@
                         <div class="grid-image">
                           <img :src="item.person.photo_url
                                                                     ? item.person.photo_url
-                                                                    : 'https://zubr.in/assets/images/user.svg'">
+                                                                    : '/imgs/user.svg'">
                         </div>
 
                       </td>
