@@ -95,6 +95,7 @@
       </div>
     </form>
   </div>
+  <toast></toast>
 </template>
 
 <script>
@@ -102,6 +103,8 @@ import {ElButton, ElCard, ElUpload, ElMessage, ElIcon, ElInput} from "element-pl
 import linkifyHtml from 'linkifyjs/html';
 import {useQuery} from "@urql/vue";
 import {ref} from "vue";
+import {useToast} from "primevue/usetoast";
+import Toast from "primevue/toast";
 
 const emptyComment = {
   text: '',
@@ -110,13 +113,14 @@ const emptyComment = {
 
 export default {
   components: {
-    ElCard, ElButton, ElUpload, ElIcon, ElInput
+    ElCard, ElButton, ElUpload, ElIcon, ElInput, Toast
   },
   props: {
     type: String,
     id: Number
   },
   setup(props) {
+    const toast = useToast();
     const variables = {
       'where': {
         [props.type]: {
@@ -215,7 +219,11 @@ query($where: comment_bool_exp) {
             .then(r => r.json())
             .then(
                 (r) => {
-                  console.log(r)
+                  if (r.errors || r.error) {
+                    toast.add({severity: 'error', summary: 'Произошла ошибка', life: 3000});
+                    return
+                  }
+                  refresh()
                 }
             )
       }
