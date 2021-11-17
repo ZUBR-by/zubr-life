@@ -55,6 +55,6 @@ GraphQL;
             );
         }
 
-        return new JsonResponse(['result' => $data['update_community_activity_by_pk']]);
+        return new JsonResponse(['result' => $data['update_community_activity_by_pk'], 'status' => 'success']);
     }
 }
