@@ -10,7 +10,7 @@ use Symfony\Component\HttpFoundation\Request;
 
 class GetActivityForModeration extends AbstractController implements BotAuthentication
 {
-    public function __invoke(Request $request, GraphQLClient $graphQLClient) : JsonResponse
+    public function __invoke(Request $request, GraphQLClient $graphQLClient): JsonResponse
     {
         $query = /** @lang GraphQL */
             <<<'GraphQL'
@@ -43,7 +43,7 @@ GraphQL;
                 'type'        => $data['attachments'][0]['type'] ?? 'text',
                 'area'        => $data['extra']['area'] ?? '',
                 'region'      => $data['extra']['region'] ?? '',
-                'description' => $data['extra']['description'] ?? '',
+                'description' => $data['description'],
             ];
             $query = /** @lang GraphQL */
                 <<<'GraphQL'
