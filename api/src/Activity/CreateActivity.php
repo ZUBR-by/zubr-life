@@ -91,6 +91,7 @@ GraphQL, 'NEWS', strtoupper($payload['direction']));
         ];
         try {
             $data = $graphQLClient->requestAuth($query, $variables);
+            $logger->info('log', $data);
             if (isset($data['telegram_user']['token'])) {
                 $query = /** @lang GraphQL */
                     <<<'GraphQL'
@@ -104,7 +105,7 @@ GraphQL;
                 $graphQLClient->requestAuth(
                     $query,
                     [
-                        'id'   => $payload['id'],
+                        'id'   => $data['id'],
                         'json' => ['locked' => false, 'declineReason' => ''],
                         'date' => date(DATE_ATOM),
                     ]
