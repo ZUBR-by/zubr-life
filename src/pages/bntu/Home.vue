@@ -34,7 +34,7 @@
                    :class="{'is-primary' : item.category === 'AD', 'is-danger': item.category !== 'AD'}">
                 {{ item.type === 'event' ? 'Событие' : 'Объявление' }}
               </div>
-              <p>{{ item.extra.name ? item.extra.name : item.description }}</p>
+              <p><strong>{{ item.extra.name ? item.extra.name : item.description.substr(0, 100) }}</strong></p>
             </router-link>
           </div>
           <div class="pt-5">

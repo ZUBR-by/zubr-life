@@ -22,7 +22,7 @@
                         <article class="pl-5">
                             <h3 class="is-size-4" v-if="data.activity.extra.name">{{ data.activity.extra.name }}</h3>
                             <p> {{ data.activity.created_at.split('T')[0] }} </p>
-                            <p>
+                            <p style="white-space: pre-wrap;font-size: 18px">
                                 {{ data.activity.description }}
                             </p>
                             <ul>
