@@ -116,7 +116,7 @@ query ($id: Int!) {
             fetching  : result.fetching,
             data      : result.data,
             error     : result.error,
-            activeName: 'place'
+            activeName: 'media'
         }
     }
 
