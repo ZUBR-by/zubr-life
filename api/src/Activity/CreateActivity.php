@@ -12,6 +12,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Throwable;
 use function Psl\Json\decode;
+use function Psl\Json\encode;
 use function Psl\Str\replace;
 
 class CreateActivity extends AbstractController implements BotAuthentication
@@ -91,7 +92,7 @@ GraphQL, 'NEWS', strtoupper($payload['direction']));
         ];
         try {
             $data = $graphQLClient->requestAuth($query, $variables);
-            $logger->info('log', $data);
+            syslog(LOG_INFO, encode($data));
             if (isset($data['telegram_user']['token'])) {
                 $query = /** @lang GraphQL */
                     <<<'GraphQL'
