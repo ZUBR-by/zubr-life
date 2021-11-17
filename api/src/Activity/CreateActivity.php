@@ -68,7 +68,10 @@ GraphQL, 'NEWS', strtoupper($payload['direction']));
             ] : null,
             'communities' => ['data' => [['community_id' => $payload['community']]]],
             'extra'       => [
-                'region' => $payload['region'] ?? '', 'area' => $payload['area'] ?? '', 'locked' => false,
+                'region'   => $payload['region'] ?? '',
+                'area'     => $payload['area'] ?? '',
+                'locked'   => false,
+                'entities' => $payload['entities'] ?? []
             ],
             'date'        => date(DATE_ATOM),
             'user'        => [
