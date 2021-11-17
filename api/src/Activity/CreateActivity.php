@@ -91,7 +91,7 @@ GraphQL, 'NEWS', strtoupper($payload['direction']));
                 : [],
         ];
         try {
-            $data = $graphQLClient->requestAuth($query, $variables)['insert_community_activity']['returning'];
+            $data = $graphQLClient->requestAuth($query, $variables)['insert_community_activity']['returning'][0];
             syslog(LOG_INFO, encode($data));
             if (isset($data['telegram_user']['token'])) {
                 $query = /** @lang GraphQL */
