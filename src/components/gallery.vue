@@ -1,7 +1,7 @@
 <template>
     <lightgallery :settings="{ speed: 500, plugins: plugins }">
         <template v-for="(item, index) of collection">
-            <a v-if="item.type === 'image'" :data-lg-size="item.size"
+            <a v-if="item.type === 'image' || item.type === 'photo'" :data-lg-size="item.size"
                class="gallery-item pl-1"
                :data-src="item.url ? item.url : item.value">
                 <img :src="item.url ? item.url : item.value">
