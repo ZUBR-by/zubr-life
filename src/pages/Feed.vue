@@ -23,7 +23,7 @@
                     <tr v-for="item of data.community_activity" v-if="data">
                         <th>
                             <router-link :to="{name: 'activity', params: {id: item.id}}">
-                                {{ item.extra.name ? item.extra.name : item.description }}
+                                {{ item.title }}
                             </router-link>
                         </th>
                         <th>{{ formatDate(item.created_at) }}</th>
@@ -141,6 +141,7 @@ query ($community: String!) {
     ) {
         attachments
         id
+        title
         description
         extra
         created_at

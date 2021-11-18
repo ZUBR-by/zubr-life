@@ -34,7 +34,7 @@
                    :class="{'is-primary' : item.category === 'AD', 'is-danger': item.category !== 'AD'}">
                 {{ item.type === 'event' ? 'Событие' : 'Объявление' }}
               </div>
-              <p><strong>{{ item.extra.name ? item.extra.name : item.description.substr(0, 100) }}</strong></p>
+              <p><strong>{{ item.title }}</strong></p>
             </router-link>
           </div>
           <div class="pt-5">
@@ -90,6 +90,7 @@ query ($community: String!) {
         order_by: [{created_at: desc}]
     ) {
         id
+        title
         description
         extra
         created_at
