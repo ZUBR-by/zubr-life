@@ -6,7 +6,7 @@
           Рейтинг
         </h3>
         <TabView ref="tabview2" v-model:activeIndex="active1">
-          <TabPanel :header="item.data.name" v-for="(item) of tree">
+          <TabPanel :header="item.data.short_name" v-for="(item) of tree">
             <table>
               <tr v-for="(node) of item.children">
                 <td><div class="grid-image">
@@ -72,6 +72,7 @@ query ($community: String!) {
         attachments
         id
         name
+        short_name
         description
         extra
         persons(order_by: [{person: {full_name: asc}}]) {
@@ -137,7 +138,7 @@ query ($community: String!) {
           key: item.id,
           type: 'parent',
           data: {
-            name: item.name,
+            name: item.short_name,
             count: item.persons_aggregate.aggregate.count
           },
           children
