@@ -6,7 +6,7 @@
           Рейтинг
         </h3>
         <TabView ref="tabview2" v-model:activeIndex="active1">
-          <TabPanel :header="item.data.short_name" v-for="(item) of tree">
+          <TabPanel :header="item.data.name" v-for="(item) of tree">
             <table>
               <tr v-for="(node) of item.children">
                 <td><div class="grid-image">
