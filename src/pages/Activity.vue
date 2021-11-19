@@ -37,7 +37,7 @@
                                     <gallery :collection="data.activity.attachments.filter(item => item.type !== 'link')"></gallery>
                                 </el-tab-pane>
                                 <el-tab-pane label="Место" name="place" v-if="data.activity.geometry">
-                                    <place :feature="data.activity.geometry"></place>
+                                    <place ref="map" :feature="data.activity.geometry" v-if="mapInit"></place>
                                 </el-tab-pane>
                                 <el-tab-pane label="Комментарии" name="comments" v-if="data.activity">
                                     <comments :type="'activity'" :id="data.activity.id"></comments>
@@ -67,7 +67,7 @@
 
 import {ElTabPane, ElTabs, ElImage} from "element-plus";
 import {useRoute}                   from "vue-router";
-import {defineComponent, watch}     from "vue";
+import {defineComponent, watch, ref}     from "vue";
 import Map                          from "../components/place.vue";
 import gallery                      from "../components/gallery.vue";
 import Comments                     from "../components/comments.vue";
@@ -103,6 +103,19 @@ query ($id: Int!) {
                 }
             }
         )
+        const map = ref(null)
+        const activeName = ref('media')
+        const mapInit = ref(false)
+        watch(activeName, () => {
+          if (activeName.value !== 'place' && mapInit.value === true){
+            return
+          }
+          mapInit.value = true;
+          setTimeout(() => {
+            map.value.refresh()
+          }, 20)
+
+        });
         watch(result.data, (value) => {
             if (!value.activity) {
                 return
@@ -116,7 +129,9 @@ query ($id: Int!) {
             fetching  : result.fetching,
             data      : result.data,
             error     : result.error,
-            activeName: 'media'
+            activeName,
+            mapInit,
+            map
         }
     }
 
