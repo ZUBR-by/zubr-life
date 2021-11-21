@@ -14,7 +14,7 @@
                         "attributes": {"preload": false, "controls": true}
                     })'
             >
-                <img src="/imgs/video-thumb.jpg"
+                <img :src="item.thumb || '/imgs/video-thumb.jpg'"
                      class="pl-1"
                      style="width: 340px;height: 180px;"
                      :alt="'Видео ' + (index + 1)"/>
