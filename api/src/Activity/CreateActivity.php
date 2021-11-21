@@ -81,17 +81,9 @@ GraphQL, 'NEWS', strtoupper($payload['direction']));
                     'update_columns' => ['user_id'],
                 ],
             ],
-            'uniqueId'    => $payload['uniqueId'] ?? null,
+            'uniqueId'    => $payload['unique_id'] ?? null,
             'description' => $payload['description'] ?? '',
-            'attachments' => ($payload['url'] ?? false)
-                ? [
-                    [
-                        'type'  => $payload['type'],
-                        'url'   => $payload['url'],
-                        'thumb' => $payload['thumb'] ?? $payload['url'],
-                    ],
-                ]
-                : [],
+            'attachments' => $payload['attachments'] ?? [],
         ];
         try {
             $data = $graphQLClient->requestAuth($query, $variables)['insert_community_activity']['returning'][0];
