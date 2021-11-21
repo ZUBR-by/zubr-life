@@ -34,10 +34,20 @@ mutation (
     $extra: jsonb, 
     $date: timestamp, 
     $description: String,
-    $user: telegram_user_obj_rel_insert_input,
+    $user: Int,
     $attachments: jsonb,
     $uniqueId: String
 ) {
+    insert_telegram_user_one(
+        object: {user_id: $user}, 
+        on_conflict: {
+            update_columns: [extra], 
+            constraint: telegram_user_id_pk, 
+            where: {user_id: {_eq: -1}}
+        }
+    ) {
+        __typename
+    }
     insert_community_activity(
         objects: {
             category: NEWS,
@@ -45,7 +55,7 @@ mutation (
             created_at: $date,
             geometry: $point,
             description: $description,
-            telegram_user: $user,
+            user_id: $user,
             communities: $communities,
             attachments: $attachments,
             unique_id: $uniqueId
@@ -74,13 +84,7 @@ GraphQL, 'NEWS', strtoupper($payload['direction']));
                 'entities' => $payload['entities'] ?? []
             ],
             'date'        => date(DATE_ATOM),
-            'user'        => [
-                'data'        => ['user_id' => $payload['botId']],
-                'on_conflict' => [
-                    'constraint'     => 'telegram_user_id_pk',
-                    'update_columns' => [],
-                ],
-            ],
+            'user'        => $payload['botId'],
             'uniqueId'    => $payload['unique_id'] ?? null,
             'description' => $payload['description'] ?? '',
             'attachments' => $payload['attachments'] ?? [],
