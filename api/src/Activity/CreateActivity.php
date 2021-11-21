@@ -24,7 +24,30 @@ class CreateActivity extends AbstractController implements BotAuthentication
         if (!isset($payload['botId'], $payload['activityData']['direction'])) {
             return new JsonResponse(['error' => 'missing bot_id or direction']);
         }
-        $payload              = array_merge($payload['activityData'], $payload);
+        $payload = array_merge($payload['activityData'], $payload);
+        $data    = $graphQLClient->requestAuth(/** @lang GraphQL */ <<<'GraphQL'
+query ($user: Int!) {
+    telegram_user_by_pk(user_id: $user) {
+        user_id
+    }
+}
+GraphQL,
+            ['user' => $payload['botId']]
+        );
+        if (!$data['telegram_user_by_pk']) {
+            $graphQLClient->requestAuth(/** @lang GraphQL */ <<<'GraphQL'
+mutation ($user: Int!) {
+    insert_telegram_user_one(
+        object: {user_id: $user}
+    ) {
+        __typename
+    }
+}
+GraphQL
+                ,
+                ['user' => $payload['botId']]
+            );
+        }
         $query                =
             replace(
             /** @lang GraphQL */ <<<'GraphQL'
@@ -38,16 +61,6 @@ mutation (
     $attachments: jsonb,
     $uniqueId: String
 ) {
-    insert_telegram_user_one(
-        object: {user_id: $user}, 
-        on_conflict: {
-            update_columns: [extra], 
-            constraint: telegram_user_id_pk, 
-            where: {user_id: {_eq: -1}}
-        }
-    ) {
-        __typename
-    }
     insert_community_activity(
         objects: {
             category: NEWS,
