@@ -91,10 +91,11 @@ GraphQL, 'NEWS', strtoupper($payload['direction']));
             ] : null,
             'communities' => ['data' => [['community_id' => $payload['community']]]],
             'extra'       => [
-                'region'   => $payload['region'] ?? '',
-                'area'     => $payload['area'] ?? '',
-                'locked'   => false,
-                'entities' => $payload['entities'] ?? []
+                'region'     => $payload['region'] ?? '',
+                'area'       => $payload['area'] ?? '',
+                'locked'     => false,
+                'entities'   => $payload['entities'] ?? [],
+                'created_at' => $payload['created_at'] ?? null
             ],
             'date'        => date(DATE_ATOM),
             'user'        => $payload['botId'],
