@@ -78,7 +78,7 @@ GraphQL, 'NEWS', strtoupper($payload['direction']));
                 'data'        => ['user_id' => $payload['botId']],
                 'on_conflict' => [
                     'constraint'     => 'telegram_user_id_pk',
-                    'update_columns' => ['user_id'],
+                    'update_columns' => [],
                 ],
             ],
             'uniqueId'    => $payload['unique_id'] ?? null,
