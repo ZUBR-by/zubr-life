@@ -21,7 +21,7 @@
             <el-button class="button"
                        :title="comment.created_at"
                        style="float: right; padding: 0;font-size: 14px"
-                       type="text">{{ comment.created_at.split('T')[0] }}
+                       type="text">{{ formatDate(comment.created_at) }}
             </el-button>
           </div>
         </template>
@@ -105,6 +105,7 @@ import {useQuery} from "@urql/vue";
 import {ref} from "vue";
 import {useToast} from "primevue/usetoast";
 import Toast from "primevue/toast";
+import {formatDate} from "../date";
 
 const emptyComment = {
   text: '',
@@ -158,6 +159,7 @@ query($where: comment_bool_exp) {
     }
     const upload = ref(null)
     return {
+      formatDate,
       fetching: result.fetching,
       data: result.data,
       error: result.error,

@@ -29,7 +29,7 @@
             <router-link :to="{name: 'activity', params: {id: item.id}}"
                          class="box"
                          v-for="item of data.activities">
-              <div class="is-size-7 has-text-grey">{{ item.created_at.split('T')[0] }}</div>
+              <div class="is-size-7 has-text-grey">{{ formatDate(item.created_at.split) }}</div>
               <div class="tag"
                    :class="{'is-primary' : item.category === 'AD', 'is-danger': item.category !== 'AD'}">
                 {{ item.type === 'event' ? 'Событие' : 'Объявление' }}
@@ -49,6 +49,7 @@
 <script>
 import {defineComponent, ref} from "vue";
 import {useQuery} from "@urql/vue";
+import {formatDate} from "../../date";
 
 const community = typeof slug !== 'undefined' ? slug : 'unknown';
 
@@ -108,6 +109,7 @@ query ($community: String!) {
       data: result.data,
       error: result.error,
       community,
+      formatDate,
       name: communityMap[community].name,
       feature,
     }

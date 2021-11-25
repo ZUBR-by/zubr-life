@@ -32,7 +32,9 @@
                         <router-link :to="{name: 'activity', params: {id: item.id}}"
                                      class="box"
                                      v-for="item of data.activities">
-                            <div class="is-size-7 has-text-grey">{{ item.created_at.split('T')[0] }}</div>
+                            <div class="is-size-7 has-text-grey">
+                              {{ formatDate(item.created_at)}}
+                            </div>
                             <div class="tag"
                                  :class="{'is-primary' : item.category === 'AD', 'is-danger': item.category !== 'AD'}">
                                 {{ item.type === 'event' ? 'Событие' : 'Объявление' }}
@@ -146,7 +148,7 @@
             <div id="popup-content">
                 <template v-if="feature">
                     <p v-if="feature.type === 'event'">
-                        {{ feature.created_at.split('T')[0] }}
+                        {{ formatDate(feature.created_at) }}
                     </p>
                     <p><b>{{ feature.name }}</b></p>
                     <p>
@@ -181,6 +183,7 @@ import Style                             from "ol/style/Style";
 import Icon                              from "ol/style/Icon";
 import {defineComponent, onMounted, ref} from "vue";
 import {useQuery}                        from "@urql/vue";
+import {formatDate} from "../../date";
 
 const community = typeof slug !== 'undefined' ? slug : 'unknown';
 
@@ -312,6 +315,7 @@ query ($community: String!) {
             data    : result.data,
             error   : result.error,
             community,
+            formatDate,
             name    : communityMap[community].name,
             feature,
         }

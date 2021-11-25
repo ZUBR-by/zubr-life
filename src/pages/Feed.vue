@@ -120,6 +120,7 @@ import {ElMessage, ElUpload, ElDialog, ElRadioButton, ElRadioGroup, ElButton} fr
 import datepicker                                                             from 'vue3-datepicker'
 import locale                                                                 from 'date-fns/locale/ru'
 import {defineComponent, ref, reactive}                                       from "vue";
+import {formatDate} from "../date";
 
 let emptyForm = {name: '', description: '', type: 'event', attachments: []};
 
@@ -179,9 +180,7 @@ query ($community: String!) {
                     requestPolicy: 'network-only',
                 });
             },
-            formatDate(raw) {
-                return raw.split('T')[0]
-            },
+            formatDate,
             save() {
                 const formData = new FormData();
                 formData.append('description', form.description);

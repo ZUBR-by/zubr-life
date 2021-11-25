@@ -21,7 +21,7 @@
                     <template v-if="data && data.activity">
                         <article class="pl-5">
                             <h3 class="is-size-4" v-if="data.activity.extra.name">{{ data.activity.extra.name }}</h3>
-                            <p> {{ data.activity.created_at.split('T')[0] }} </p>
+                            <p> {{ formatDate(data.activity.created_at) }} </p>
                             <p style="white-space: pre-wrap;font-size: 18px">
                                 {{ data.activity.description }}
                             </p>
@@ -72,6 +72,7 @@ import Map                          from "../components/place.vue";
 import gallery                      from "../components/gallery.vue";
 import Comments                     from "../components/comments.vue";
 import {useQuery}                   from "@urql/vue";
+import {formatDate} from "../date";
 
 export default defineComponent({
     components: {
@@ -130,6 +131,7 @@ query ($id: Int!) {
             data      : result.data,
             error     : result.error,
             activeName,
+            formatDate,
             mapInit,
             map
         }
