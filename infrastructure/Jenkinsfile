@@ -3,6 +3,10 @@ pipeline {
   options {
     disableConcurrentBuilds()
   }
+  environment {
+    CONSUL_HTTP_TOKEN    = credentials('CONSUL_HTTP_TOKEN')
+    def FRONTEND_HOST = sh(script: "consul kv get ci/api-ip", returnStdout: true).trim()
+  }
   stages {
 
     stage('Test') {
@@ -67,9 +71,6 @@ GRAPHQL_URL=${GRAPHQL_URL}
         }
     }
     stage('Deploy') {
-        environment {
-            FRONTEND_HOST  = credentials('FRONTEND_HOST')
-        }
         steps {
             ansiblePlaybook(
                   playbook: 'infrastructure/deploy.yml',
