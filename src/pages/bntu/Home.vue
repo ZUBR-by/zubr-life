@@ -29,7 +29,7 @@
             <router-link :to="{name: 'activity', params: {id: item.id}}"
                          class="box"
                          v-for="item of data.activities">
-              <div class="is-size-7 has-text-grey">{{ formatDate(item.created_at.split) }}</div>
+              <div class="is-size-7 has-text-grey">{{ formatDate(item.created_at) }}</div>
               <div class="tag"
                    :class="{'is-primary' : item.category === 'AD', 'is-danger': item.category !== 'AD'}">
                 {{ item.type === 'event' ? 'Событие' : 'Объявление' }}
