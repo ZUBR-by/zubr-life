@@ -10,7 +10,7 @@
                                 Лента новостей
                             </h3>
                         </th>
-                        <th>Дата</th>
+                        <th style="width: 200px">Дата</th>
                         <th>
                             <a href="https://t.me/moydvor_bybot">
                                 <button class="button">Добавить</button>
