@@ -22,8 +22,7 @@
                         <article class="pl-5">
                             <h3 class="is-size-4" v-if="data.activity.extra.name">{{ data.activity.extra.name }}</h3>
                             <p> {{ formatDate(data.activity.created_at) }} </p>
-                            <p style="white-space: pre-wrap;font-size: 18px">
-                                {{ data.activity.description }}
+                            <p style="white-space: pre-wrap;font-size: 18px" v-html="data.activity.content">
                             </p>
                             <ul>
                                 <li v-for="link of data.activity.attachments.filter(item => item.type === 'link')" :key="link.url ? link.url : link.value">
@@ -92,6 +91,7 @@ query ($id: Int!) {
         attachments
         id
         description
+        content
         extra
         category
         geometry
