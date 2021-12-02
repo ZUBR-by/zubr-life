@@ -2,28 +2,35 @@
   <div class="bntu-home">
     <section class="bntu-sections">
       <div class="home-main">
-        <div class="main-content-wrapper">
-          <div class="main-content">
-            <h1 class="main-title">
-              Мы — независимое объединение студентов и работников Белорусского
-              национального технического университета, которые решили запустить
-              альтернативный сайт БНТУ
-            </h1>
-            <span class="main-text">
-              Мы отличаемся тем, что публикуем честные новости, размещаем
-              полезную информацию для студентов в разделе “Репозиторий” и
-              неравнодушием к проблемам университета.
-            </span>
-            <div class="buttons">
-              <div class="bntu-button bntu-button-main">Репозиторий</div>
-              <div class="bntu-button bntu-button-secondary">Люди</div>
-            </div>
+        <div class="main-content">
+          <h1 class="main-title">
+            Мы — независимое объединение студентов и работников Беларусского
+            национального технического университета, которые решили запустить
+            альтернативный сайт БНТУ
+          </h1>
+          <span class="main-text">
+            Мы отличаемся тем, что публикуем честные новости, размещаем полезную
+            информацию для студентов в разделе «Репозиторий» и неравнодушием к
+            проблемам университета.
+          </span>
+          <div class="buttons">
+            <a
+              href="https://t.me/bntu97_bot"
+              target="_blank"
+              class="bntu-button bntu-button-main"
+            >
+              Рассказать о проблеме
+            </a>
           </div>
         </div>
       </div>
       <div class="home-boxes">
         <div class="home-boxes-wrapper">
-          <div class="home-box home-box-repository">
+          <a
+            href="https://drive.google.com/drive/folders/1J9NNrlqAKeDWA2a0bLqsvDk7nBmTEX-D"
+            target="_blank"
+            class="home-box home-box-repository"
+          >
             <div class="home-box-background home-box-repository"></div>
             <div class="home-box-main-text">Репозиторий</div>
             <div class="home-box-main-secondary">
@@ -34,8 +41,8 @@
               необходима ваша помощь: если вам есть чем поделиться состудентами
               своей специальности — присылайте анонимно файл в наш телеграм-бот.
             </div>
-          </div>
-          <div class="home-box">
+          </a>
+          <router-link class="home-box" :to="'/rating'">
             <div class="home-box-main-text">Люди</div>
             <div class="home-box-background home-box-people"></div>
             <div class="home-box-main-secondary">
@@ -48,8 +55,8 @@
               Если вы хотите добавить своего преподавателя в раздел “Люди” —
               напишите в наш телеграм-бот.
             </div>
-          </div>
-          <div class="home-box">
+          </router-link>
+          <router-link class="home-box" :to="'/'">
             <div class="home-box-main-text">Проблемы</div>
             <div class="home-box-background home-box-problems"></div>
             <div class="home-box-main-secondary">
@@ -59,11 +66,10 @@
               значимость. Анонимно рассказать о проблеме можно в нашем
               телеграм-боте.
             </div>
-          </div>
+          </router-link>
         </div>
       </div>
       <div class="bntu-news">
-        <div class="bntu-news-line"></div>
         <div class="bntu-news-wrapper">
           <h2 class="bntu-news-title">Новости</h2>
           <div class="bntu-news-contents" v-if="data && data.activities">
@@ -72,12 +78,15 @@
               v-for="item of data.activities"
               v-bind:key="item"
             >
-              <span class="bntu-news-content-title">
-                {{ item.title }}
-              </span>
-              <!-- <span class="bntu-news-content-description">
-                {{ item.description.replace(item.title, "") }}
-              </span> -->
+              <div class="bntu-news-content-wrapper">
+                <span class="bntu-news-content-title">
+                  {{ item.title }}
+                </span>
+                <span class="bntu-news-content-description">
+                  {{ item.description.replace(item.title, "") }}
+                </span>
+              </div>
+
               <div class="bntu-news-bottom">
                 <div class="is-size-7 has-text-grey">
                   {{ formatDate(item.created_at) }}
@@ -90,17 +99,71 @@
               </div>
             </div>
           </div>
-          <router-link class="bntu-button bntu-button-white" :to="'/feed'"
-            >Читать больше</router-link
-          >
         </div>
+        <router-link class="bntu-button-news bntu-button-empty" :to="'/feed'"
+          >К другим новостям</router-link
+        >
+        <div class="bntu-news-line"></div>
       </div>
       <div class="bntu-contacts">
         <div class="bntu-contacts-wrapper">
           <h3 class="bntu-contacts-title">Контакты</h3>
-          <div class="bntu-contacts-content"></div>
+          <div class="bntu-contacts-content">
+            <div class="bntu-contacts-stach-wrapper">
+              <div class="bntu-contacts-stach">
+                <h4 class="bntu-contacts-stach-title">
+                  Связь с редакцией и стачкомом:
+                </h4>
+                <span class="bntu-contacts-stach-text"
+                  >тг
+                  <a
+                    href="https://t.me/bntu97_bot"
+                    target="_blank"
+                    class="bntu-contacts-stach-link"
+                    >@bntu97_bot</a
+                  ></span
+                >
+              </div>
+              <div class="bntu-contacts-stach">
+                <h4 class="bntu-contacts-stach-title">
+                  По вопросам сотрудничества:
+                </h4>
+                <span class="bntu-contacts-stach-text"
+                  >bntubelarus@gmail.com</span
+                >
+              </div>
+            </div>
+            <div class="bntu-contacts-social">
+              <div class="bntu-contacts-stach">
+                <h4 class="bntu-contacts-stach-title">Наши соц сети:</h4>
+                <div class="bntu-contacts-social-links">
+                  <a
+                    href="https://instagram.com/bntu97"
+                    class="bntu-contacts-social-link"
+                    target="_blank"
+                  >
+                    <img src="/imgs/bntu/inst.png" alt="instagram bntu97" />
+                  </a>
+                  <a
+                    target="_blank"
+                    href="https://t.me/bntu97"
+                    class="bntu-contacts-social-link"
+                  >
+                    <img
+                      src="/imgs/bntu/tg.png"
+                      alt="telegram bntu97"
+                      style="margin-left: -5px"
+                    />
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
+      <footer class="bntu-footer">
+        <span class="bntu-footer-text">© 2021 Все права защищены</span>
+      </footer>
     </section>
   </div>
 </template>
@@ -200,14 +263,6 @@ query ($community: String!) {
   background-position: center;
 }
 
-.main-content-wrapper {
-  width: 100%;
-  height: 430px;
-  background: rgba(0, 0, 0, 0.65);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
 .main-content {
   display: flex;
   flex-direction: column;
@@ -215,6 +270,7 @@ query ($community: String!) {
   width: 100%;
   max-width: 1480px;
   padding: 0 20px;
+  margin-top: -20px;
 }
 
 .main-title {
@@ -226,6 +282,7 @@ query ($community: String!) {
   color: #fff;
   text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
   margin-bottom: 18px;
+  margin-top: 0;
 }
 
 .main-text {
@@ -261,12 +318,23 @@ query ($community: String!) {
   transition: all 0.4s ease;
 }
 
-.bntu-button-white {
-  background: #fff;
-  color: #000;
-  border: 1px solid #000000;
+.bntu-button-empty {
+  background: transparent;
+  font-family: Fira Sans;
+  font-style: normal;
+  font-weight: 900;
+  font-size: 18px;
+  line-height: 22px;
+  /* identical to box height */
+
+  color: #ffffff;
+  border: none;
   transition: all 0.4s ease;
   text-decoration: none;
+}
+
+.bntu-button-empty:hover {
+  text-decoration: underline;
 }
 
 .bntu-button-main:hover {
@@ -395,10 +463,12 @@ query ($community: String!) {
 .bntu-news {
   padding: 115px 0;
   width: 100%;
+  margin-bottom: 115px;
   position: relative;
   display: flex;
   align-items: center;
   justify-content: center;
+  flex-direction: column;
 }
 
 .bntu-news-line {
@@ -408,9 +478,10 @@ query ($community: String!) {
   background: #d32121;
   top: 50%; /* position the top  edge of the element at the middle of the parent */
   left: 50%; /* position the left edge of the element at the middle of the parent */
-
+  border-radius: 0 0 15px 15px;
   transform: translate(-50%, -50%);
   z-index: -2;
+  transition: all 0.4s ease;
 }
 
 .bntu-news-wrapper {
@@ -486,6 +557,13 @@ query ($community: String!) {
   color: #000000;
   margin-bottom: 20px;
 }
+.bntu-news-content-description {
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-line-clamp: 6;
+  -webkit-box-orient: vertical;
+  margin-top: 20px;
+}
 .bntu-news-bottom {
   width: 100%;
   display: flex;
@@ -506,5 +584,119 @@ query ($community: String!) {
 
 .bntu-news-bottom-more:hover {
   text-decoration-line: none;
+}
+.bntu-button-news:hover + .bntu-news-line {
+  border-radius: 0 0 0 0;
+  height: calc(120% + 115px);
+}
+.bntu-contacts {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #383838;
+  padding: 50px 0;
+}
+
+.bntu-contacts-wrapper {
+  width: 100%;
+  max-width: 1480px;
+  padding: 0 20px;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  justify-content: center;
+}
+.bntu-contacts-title {
+  font-family: Fira Sans;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 34px;
+  line-height: 41px;
+  /* identical to box height */
+
+  text-decoration-line: underline;
+
+  color: #ffffff;
+  margin: 0;
+  margin-bottom: 40px;
+}
+
+.bntu-contacts-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: unset;
+  width: 100%;
+}
+
+.bntu-contacts-stach {
+  margin-bottom: 30px;
+}
+.bntu-contacts-stach-title {
+  margin: 0;
+  font-family: Fira Sans;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 22px;
+  line-height: 26px;
+
+  color: #ffffff;
+  margin-bottom: 6px;
+}
+.bntu-contacts-stach-text,
+.bntu-contacts-stach-link {
+  font-family: Source Sans Pro;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 20px;
+  line-height: 25px;
+
+  color: #ffffff;
+  transition: all 0.4s ease;
+  text-decoration: none;
+}
+
+.bntu-contacts-stach-link:hover {
+  color: #d32121;
+}
+
+.bntu-contacts-social-links {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+}
+
+.bntu-contacts-social-link {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 35px;
+  height: 35px;
+  cursor: pointer;
+  border-radius: 50%;
+  background: #ffffff;
+  margin-right: 15px;
+  transition: all 0.4s ease;
+}
+
+.bntu-contacts-social-link:hover {
+  transform: scale(1.1);
+}
+
+.bntu-footer {
+  width: 100%;
+  padding: 20px 20px;
+  background: #000000;
+  text-align: center;
+}
+
+.bntu-footer-text {
+  font-family: Fira Sans;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 22px;
+  line-height: 26px;
+
+  color: #cdcfce;
 }
 </style>
