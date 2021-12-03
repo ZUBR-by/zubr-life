@@ -105,6 +105,12 @@
         >
         <div class="bntu-news-line"></div>
       </div>
+      <div class="bntu-zubr">
+        <h3 class="bntu-zubr-title">ПРИ ПОДДЕРЖКЕ ZUBR</h3>
+        <a href="https://zubr.in/" target="_blank" class="bntu-zubr-link">
+          <img src="/imgs/bntu/zubr.svg" alt="zubr.in" />
+        </a>
+      </div>
       <div class="bntu-contacts">
         <div class="bntu-contacts-wrapper">
           <h3 class="bntu-contacts-title">Контакты</h3>
@@ -461,7 +467,7 @@ query ($community: String!) {
 }
 
 .bntu-news {
-  padding: 115px 0;
+  padding: 115px 0 90px 0;
   width: 100%;
   margin-bottom: 115px;
   position: relative;
@@ -587,8 +593,44 @@ query ($community: String!) {
 }
 .bntu-button-news:hover + .bntu-news-line {
   border-radius: 0 0 0 0;
-  height: calc(120% + 115px);
+  height: calc(120% + 90px);
 }
+
+.bntu-zubr {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 35px;
+}
+
+.bntu-zubr-title {
+  font-family: Fira Sans;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 34px;
+  line-height: 41px;
+  color: #828282;
+  text-transform: uppercase;
+}
+
+.bntu-zubr-link {
+  width: 106px;
+  height: 106px;
+  transition: all 0.4s ease;
+}
+
+.bntu-zubr-link:hover {
+  transform: scale(1.05);
+}
+
+.bntu-zubr-link img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
 .bntu-contacts {
   width: 100%;
   display: flex;
