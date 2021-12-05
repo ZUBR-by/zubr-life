@@ -214,8 +214,8 @@
       </div>
       <div class="bntu-zubr">
         <h3 class="bntu-zubr-title">ПРИ ПОДДЕРЖКЕ ZUBR</h3>
-        <a href="https://zubr.in/" target="_blank" class="bntu-zubr-link">
-          <img src="/imgs/bntu/zubr.svg" alt="zubr.in" />
+        <a href="https://t.me/zubr_in" target="_blank" class="bntu-zubr-link">
+          <img src="/imgs/icons/zubr.svg" alt="zubr.in" />
         </a>
       </div>
       <div class="bntu-contacts">
