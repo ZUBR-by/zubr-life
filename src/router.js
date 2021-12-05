@@ -75,9 +75,13 @@ const router = createRouter({
 })
 router.afterEach(async (to, from) => {
     await nextTick()
+    let name = 'Лошица';
+    if (slug === 'bntu') {
+        name = 'БНТУ'
+    }
     document.title = to.meta.title
-        ? to.meta.title + ' - Лошица ZUBR.life'
-        : 'Экран локального сообщества - Лошица ZUBR.life';
+        ? to.meta.title + ` - ${name} ZUBR.life`
+        : `Экран локального сообщества - ${name} ZUBR.life`;
 })
 export default router
 export {routes}
