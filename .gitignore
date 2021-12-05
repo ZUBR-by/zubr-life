@@ -8,3 +8,5 @@ api/config/jwt/*.pem
 api/config/credentials/*.key
 .graphqlconfig
 *.graphql
+.vscode
+.env
