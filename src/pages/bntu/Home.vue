@@ -1022,6 +1022,9 @@ query ($community: String!) {
   }
 }
 @media screen and (max-width: 560px) {
+  .bntu-home {
+    margin-top: 60px;
+  }
   .home-main {
     height: auto;
   }
@@ -1194,6 +1197,5 @@ query ($community: String!) {
   .bntu-news-bottom {
     flex-direction: column;
   }
-  
 }
 </style>
