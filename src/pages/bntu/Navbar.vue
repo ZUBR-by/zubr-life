@@ -20,6 +20,39 @@
           </router-link>
         </template>
       </div>
+      <div class="navbar-bntu-links-mobile">
+        <div
+          class="navbar-bntu-links-mobile-burger-wrapper"
+          v-on:click="myFilter()"
+          v-bind:class="{ active: isActive }"
+        >
+          <div class="navbar-bntu-links-mobile-burger"></div>
+        </div>
+
+        <div
+          class="navbar-bntu-links-mobile-wrapper"
+          v-bind:class="{ active: isActive }"
+        >
+          <template v-for="(route, i) of routes" :key="route.name">
+            <a
+              class="navbar-bntu-link"
+              target="_blank"
+              href="https://drive.google.com/drive/folders/1J9NNrlqAKeDWA2a0bLqsvDk7nBmTEX-D"
+              v-if="i === routes.length - 2"
+              v-on:click="myFilter()"
+            >
+              Репозиторий
+            </a>
+            <router-link
+              :to="{ name: route.name }"
+              class="navbar-bntu-link"
+              v-on:click="myFilter()"
+            >
+              {{ route.label }}
+            </router-link>
+          </template>
+        </div>
+      </div>
     </div>
   </div>
 </template>
@@ -32,7 +65,13 @@ export default {
     return {
       hidden: false,
       routes: routes.filter((i) => i.label),
+      isActive: false,
     };
+  },
+  methods: {
+    myFilter: function () {
+      this.isActive = !this.isActive;
+    },
   },
   computed: {
     flag() {
@@ -137,5 +176,122 @@ export default {
   width: 100%;
   height: 100%;
   object-fit: cover;
+}
+.navbar-bntu-links-mobile {
+  display: none;
+}
+@media screen and (max-width: 992px) {
+  .navbar-bntu-links {
+    display: none;
+  }
+  .navbar-bntu-links-mobile {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .navbar-bntu-links-mobile-burger-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 50px;
+    height: 32px;
+    cursor: pointer;
+    z-index: 2;
+  }
+  .navbar-bntu-links-mobile-burger-wrapper.active
+    .navbar-bntu-links-mobile-burger {
+    transform: rotate(45deg);
+  }
+  .navbar-bntu-links-mobile-burger-wrapper.active
+    .navbar-bntu-links-mobile-burger::before {
+    transform: rotate(-90deg);
+    top: 0;
+    opacity: 1;
+  }
+  .navbar-bntu-links-mobile-burger-wrapper.active
+    .navbar-bntu-links-mobile-burger::after {
+    opacity: 0;
+    transform: rotate(-90deg);
+    top: 0;
+  }
+  .navbar-bntu-links-mobile-burger {
+    width: 100%;
+    height: 3px;
+    background: #000000;
+    position: relative;
+    transition: all 0.4s ease;
+  }
+  .navbar-bntu-links-mobile-burger::before {
+    content: "";
+    position: absolute;
+    width: 100%;
+    height: 3px;
+    background: #000000;
+    top: 10px;
+    left: 0;
+    transition: all 0.4s ease;
+  }
+  .navbar-bntu-links-mobile-burger::after {
+    content: "";
+    position: absolute;
+    width: 100%;
+    height: 3px;
+    background: #000000;
+    top: -10px;
+    left: 0;
+    transition: all 0.4s ease;
+  }
+  .navbar-bntu-links-mobile-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 50vw;
+    height: 100vh;
+    background: #d32121;
+    z-index: 1;
+    transition: all 0.5s ease;
+  }
+
+  .navbar-bntu-links-mobile-wrapper.active {
+    top: 0;
+    left: 0;
+  }
+  .navbar-bntu-link {
+    color: #fff;
+    margin-right: 0;
+    margin-bottom: 40px;
+  }
+  .navbar-bntu-link:not(:last-child) {
+    margin-right: 0;
+  }
+  .navbar-bntu-link:first-child {
+    margin-top: 30px;
+  }
+  .navbar-bntu-link:hover {
+    color: #fff;
+  }
+}
+@media screen and (max-width: 560px) {
+  .bntu-navbar {
+    height: 60px;
+  }
+  .navbar-bntu-links-mobile-burger-wrapper {
+    width: 40px;
+  }
+  .navbar-bntu-links-mobile-wrapper {
+    width: 70vw;
+  }
+  .navbar-img-link {
+    width: 70px;
+    height: 45px;
+  }
+}
+@media screen and (max-width: 480px) {
+  .navbar-bntu-links-mobile-wrapper {
+    width: 80vw;
+  }
 }
 </style>

@@ -23,6 +23,22 @@
             </a>
           </div>
         </div>
+        <div class="main-content-bottom">
+          <span class="main-text">
+            Мы отличаемся тем, что публикуем честные новости, размещаем полезную
+            информацию для студентов в разделе «Репозиторий» и неравнодушием к
+            проблемам университета.
+          </span>
+          <div class="buttons">
+            <a
+              href="https://t.me/bntu97_bot"
+              target="_blank"
+              class="bntu-button bntu-button-main"
+            >
+              Рассказать о проблеме
+            </a>
+          </div>
+        </div>
       </div>
       <div class="home-boxes">
         <div class="home-boxes-wrapper">
@@ -67,6 +83,97 @@
               телеграм-боте.
             </div>
           </router-link>
+        </div>
+        <div class="home-boxes-wrapper-mobile">
+          <div class="home-box-mobile">
+            <div class="home-box-mobile-photo home-box-mobile-photo-repository">
+              Репозиторий
+            </div>
+            <p class="home-box-mobile-text">
+              <span
+                >Здесь собрана полезная литература, курсы, ссылки на
+                информационные ресурсы, а также готовые контрольные,
+                лабораторные, курсовые проекты для студентов всех
+                факультетов.</span
+              >
+              <br /><br />
+              <span
+                >Периодически мы будем обновлять репозиторий, для этого нам
+                необходима ваша помощь: если вам есть чем поделиться
+                состудентами своей специальности — присылайте анонимно файл в
+                наш телеграм-бот.</span
+              >
+            </p>
+            <a
+              href="https://drive.google.com/drive/folders/1J9NNrlqAKeDWA2a0bLqsvDk7nBmTEX-D"
+              target="_blank"
+              class="home-box-mobile-button"
+              >Перейти</a
+            >
+          </div>
+          <span class="home-box-mobile-span"
+            >Периодически мы будем обновлять репозиторий, для этого нам
+            необходима ваша помощь: если вам есть чем поделиться состудентами
+            своей специальности — присылайте анонимно файл в наш
+            телеграм-бот.</span
+          >
+          <div class="home-box-mobile">
+            <div class="home-box-mobile-photo home-box-mobile-photo-people">
+              Люди
+            </div>
+            <p class="home-box-mobile-text">
+              <span
+                >Здесь собрана информация о преподавателях и других работниках
+                университета. Тут можно узнать: что требует тот или иной
+                преподаватель от студентов, ведет ли учет посещаемости и как
+                относится к студентам.</span
+              >
+              <br /><br />
+              <span
+                >Под описанием каждый может оставить отзыв о работнике,
+                поставить ему оценку, что сформирует рейтинг. Мы должны знать
+                героев в лицо! Если вы хотите добавить своего преподавателя в
+                раздел “Люди” — напишите в наш телеграм-бот.</span
+              >
+            </p>
+            <router-link :to="'/rating'" class="home-box-mobile-button"
+              >Перейти</router-link
+            >
+          </div>
+          <span class="home-box-mobile-span"
+            >Под описанием каждый может оставить отзыв о работнике, поставить
+            ему оценку, что сформирует рейтинг. Мы должны знать героев в лицо!
+            Если вы хотите добавить своего преподавателя в раздел “Люди” —
+            напишите в наш телеграм-бот.</span
+          >
+          <div class="home-box-mobile">
+            <div class="home-box-mobile-photo home-box-mobile-photo-problems">
+              Проблемы
+            </div>
+            <p class="home-box-mobile-text">
+              <span
+                >Здесь мы рассказываем о проблемах в университете от лица
+                студентов и работников БНТУ, а также путях их решения.</span
+              >
+              <br /><br />
+              <span
+                >Каждый может написать комментарий под проблемой, чтобы повысить
+                ее значимость. Анонимно рассказать о проблеме можно в нашем
+                телеграм-боте.</span
+              >
+            </p>
+            <a
+              href="https://drive.google.com/drive/folders/1J9NNrlqAKeDWA2a0bLqsvDk7nBmTEX-D"
+              target="_blank"
+              class="home-box-mobile-button"
+              >Перейти</a
+            >
+          </div>
+          <span class="home-box-mobile-span"
+            >Каждый может написать комментарий под проблемой, чтобы повысить ее
+            значимость. Анонимно рассказать о проблеме можно в нашем
+            телеграм-боте.</span
+          >
         </div>
       </div>
       <div class="bntu-news">
@@ -250,6 +357,7 @@ query ($community: String!) {
   font-family: Fira Sans sans-serif !important;
   margin-top: 110px;
 }
+
 .bntu-sections {
   display: flex;
   flex-direction: column;
@@ -464,6 +572,10 @@ query ($community: String!) {
   background-size: cover;
   background-repeat: no-repeat;
   background-position: center;
+}
+
+.home-boxes-wrapper-mobile {
+  display: none;
 }
 
 .bntu-news {
@@ -740,5 +852,348 @@ query ($community: String!) {
   line-height: 26px;
 
   color: #cdcfce;
+}
+@media screen and (max-width: 1200px) {
+  .home-main {
+    min-height: auto;
+    height: 60vh;
+  }
+  .main-content {
+    align-items: center;
+    text-align: center;
+  }
+  .home-boxes {
+    margin-top: 70px;
+  }
+  .home-boxes-wrapper {
+    display: none;
+  }
+  .home-boxes-wrapper-mobile {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    padding: 0 20px;
+  }
+  .home-box-mobile {
+    width: 60%;
+    background: #ffffff;
+    box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.3);
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    text-align: center;
+    flex-direction: column;
+    justify-content: center;
+    padding: 40px;
+  }
+  .home-box-mobile:not(:last-child) {
+    margin-bottom: 50px;
+  }
+  .home-box-mobile-photo {
+    width: 100%;
+    height: 200px;
+    font-family: Fira Sans;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 30px;
+    line-height: 24px;
+    border-radius: 5px;
+    color: #ffffff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+  }
+  .home-box-mobile-photo-repository {
+    background: url("/imgs/bntu/repository.png");
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+  }
+  .home-box-mobile-photo-people {
+    background: url("/imgs/bntu/people.png");
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+  }
+  .home-box-mobile-photo-problems {
+    background: url("/imgs/bntu/problems.png");
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+  }
+  .home-box-mobile-text {
+    font-family: Fira Sans;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 25px;
+    line-height: 25px;
+    text-align: center;
+    width: 95%;
+    color: #000000;
+    margin-bottom: 50px;
+    margin-top: 50px;
+  }
+  .home-box-mobile-button {
+    all: unset;
+    display: block;
+    padding: 15px 60px;
+    background: #d32121;
+    width: fit-content;
+    border-radius: 10px;
+    color: #fff;
+    font-family: Fira Sans;
+    font-style: normal;
+    font-weight: 600;
+    font-size: 25px;
+    line-height: 19px;
+  }
+  .bntu-news-contents {
+    flex-direction: column;
+  }
+  .bntu-news-content {
+    width: 50%;
+  }
+  .bntu-news-content:not(:last-child) {
+    margin-bottom: 50px;
+  }
+}
+.main-content-bottom {
+  display: none;
+}
+.home-box-mobile-span {
+  display: none;
+}
+@media screen and (max-width: 767px) {
+  .home-main {
+    background: transparent;
+    flex-direction: column;
+    justify-content: flex-start;
+  }
+  .main-content {
+    background: url("/imgs/bntu/people.png");
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: top;
+    margin-top: 0;
+    padding: 50px 20px;
+  }
+  .main-content span {
+    display: none;
+  }
+  .main-content div {
+    display: none;
+  }
+  .main-content-bottom {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    padding: 20px;
+  }
+  .main-content h1 {
+    font-family: Fira Sans;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 35px;
+    line-height: 40px;
+    text-align: left;
+    color: #ffffff;
+  }
+  .main-content-bottom span {
+    font-family: Source Sans Pro;
+    font-style: normal;
+    font-weight: 600;
+    font-size: 25px;
+    line-height: 30px;
+    text-align: center;
+
+    color: #000000;
+  }
+  .home-boxes {
+    margin-top: 20px;
+  }
+  .home-box-mobile {
+    width: 90%;
+  }
+  .bntu-news-content {
+    width: 70%;
+  }
+}
+@media screen and (max-width: 560px) {
+  .home-main {
+    height: auto;
+  }
+  .bntu-contacts-content {
+    flex-direction: column;
+    align-items: center;
+  }
+  .bntu-contacts-stach {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  .home-box-mobile-text span:last-child {
+    display: none;
+  }
+  .home-box-mobile:not(:last-child) {
+    margin-bottom: 20px;
+  }
+  .home-box-mobile-span {
+    display: block;
+    font-family: Source Sans Pro;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 25px;
+    line-height: 30px;
+    text-align: center;
+    width: 90%;
+    color: #000000;
+    margin-bottom: 20px;
+  }
+  .home-box-mobile-text {
+    margin: 20px 0;
+  }
+  .home-box-mobile {
+    padding: 20px;
+  }
+  .bntu-button-main {
+    margin-right: 0;
+  }
+  .home-boxes {
+    margin-top: 40px;
+  }
+  .bntu-news-content {
+    width: 80%;
+  }
+}
+@media screen and (max-width: 480px) {
+  .main-content h1 {
+    font-family: Fira Sans;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 20px;
+    line-height: 24px;
+    color: #ffffff;
+  }
+  .main-content-bottom span {
+    font-family: Source Sans Pro;
+    font-style: normal;
+    font-weight: 600;
+    font-size: 16px;
+    line-height: 20px;
+    text-align: center;
+
+    color: #000000;
+  }
+  .bntu-button {
+    font-family: Fira Sans;
+    font-style: normal;
+    font-weight: 900;
+    font-size: 16px;
+    line-height: 19px;
+
+    color: #ffffff;
+  }
+  .home-box-mobile-photo {
+    height: 122px;
+    font-family: Fira Sans;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 20px;
+    line-height: 24px;
+
+    color: #ffffff;
+  }
+  .home-box-mobile-text {
+    font-family: Source Sans Pro;
+    font-style: normal;
+    font-weight: 600;
+    font-size: 15px;
+    line-height: 19px;
+    text-align: center;
+    width: 100%;
+    color: #000000;
+    margin: 10px 0;
+  }
+  .home-box-mobile-button {
+    font-family: Fira Sans;
+    font-style: normal;
+    font-weight: 900;
+    font-size: 16px;
+    line-height: 19px;
+
+    color: #ffffff;
+  }
+  .home-box-mobile-span {
+    font-family: Source Sans Pro;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 15px;
+    line-height: 19px;
+    text-align: center;
+
+    color: #000000;
+  }
+  .bntu-news-content {
+    width: 100%;
+    min-height: 400px;
+  }
+  .bntu-news-content-title {
+    font-family: Source Sans Pro;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 16px;
+    line-height: 20px;
+
+    color: #000000;
+  }
+  .bntu-news-content-description {
+    font-family: Roboto;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 14px;
+    line-height: 145%;
+    /* or 20px */
+
+    color: #000000;
+  }
+  .bntu-zubr-title {
+    font-family: Fira Sans;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 20px;
+    line-height: 24px;
+    /* identical to box height */
+
+    color: #828282;
+  }
+  .bntu-news {
+    margin-bottom: 20px;
+  }
+  .bntu-contacts-title {
+    font-family: Fira Sans;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 16px;
+    line-height: 19px;
+    text-decoration-line: underline;
+
+    color: #ffffff;
+  }
+  .bntu-contacts-stach-title {
+    font-family: Source Sans Pro;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 16px;
+    line-height: 20px;
+
+    color: #ffffff;
+  }
+  .bntu-news-bottom {
+    flex-direction: column;
+  }
+  
 }
 </style>
