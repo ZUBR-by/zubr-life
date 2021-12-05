@@ -728,8 +728,6 @@ query ($community: String!) {
 }
 
 .bntu-zubr-link {
-  width: 106px;
-  height: 106px;
   transition: all 0.4s ease;
 }
 
