@@ -9,4 +9,4 @@ api/config/credentials/*.key
 .graphqlconfig
 *.graphql
 .vscode
-.env
+frontend/.env
