@@ -466,6 +466,20 @@ query ($community: String!) {
   text-decoration: underline;
 }
 
+.bntu-button-empty-article {
+  color: #d32121;
+  border: 2px solid #d32121;
+  transition: all 0.3s ease;
+}
+
+.bntu-button-main-article,
+.bntu-button-empty-article {
+  padding: 10px 15px;
+  font-size: 14px;
+  font-weight: 400;
+  margin-right: 20px;
+}
+
 .bntu-button-main:hover {
   background: #f50909;
   border: 2px solid #ffffff;
@@ -1199,6 +1213,21 @@ query ($community: String!) {
     color: #ffffff;
   }
 
+  .bntu-button-empty-article {
+    color: #d32121;
+    border: 2px solid #d32121;
+    transition: all 0.3s ease;
+  }
+
+  .bntu-button-main-article,
+  .bntu-button-empty-article {
+    padding: 10px 15px;
+    font-size: 14px;
+    font-weight: 400;
+    margin-right: 0;
+    margin-bottom: 10px;
+    width: 100%;
+  }
   .home-box-mobile-photo {
     height: 122px;
     font-family: Fira Sans;

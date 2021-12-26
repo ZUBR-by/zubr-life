@@ -1,44 +1,57 @@
 <template>
   <div>
-    <template v-if="fetching">
-      Загрузка...
-    </template>
+    <template v-if="fetching"> Загрузка... </template>
     <template v-if="data">
       <el-card class="box-card mt-2 mb-2" v-for="comment of data.comment">
         <template #header>
           <div class="clearfix pl-2">
-            <el-button class="button"
-                       type="text" style="font-size: 14px">
+            <el-button class="button" type="text" style="font-size: 14px">
               Анонимный автор
             </el-button>
-            <el-button class="button"
-                       v-if="comment.by_current_user"
-                       @click="archiveComment(comment.id)"
-                       style="float: right;padding-left: 10px;padding-right: 10px"
-                       icon="el-icon-close"
-                       type="text">
+            <el-button
+              class="button"
+              v-if="comment.by_current_user"
+              @click="archiveComment(comment.id)"
+              style="float: right; padding-left: 10px; padding-right: 10px"
+              icon="el-icon-close"
+              type="text"
+            >
             </el-button>
-            <el-button class="button"
-                       :title="comment.created_at"
-                       style="float: right; padding: 0;font-size: 14px"
-                       type="text">{{ formatDate(comment.created_at) }}
+            <el-button
+              class="button"
+              :title="comment.created_at"
+              style="float: right; padding: 0; font-size: 14px"
+              type="text"
+              >{{ formatDate(comment.created_at) }}
             </el-button>
           </div>
         </template>
         <p class="pr-2 comment-text" v-html="linkify(comment.text)"></p>
-        <template v-for="link of comment.attachments.filter(i => i.type === 'link')">
+        <template
+          v-for="link of comment.attachments.filter((i) => i.type === 'link')"
+        >
           <a :href="link.value">
             {{ link.name ? link.name : link.value }}
           </a>
           &nbsp;
         </template>
-        <template v-if="comment.attachments && comment.attachments.filter(i => i.type !== 'link').length > 0">
-          <hr style="margin-top:5px;margin-bottom: 5px">
-          <span class="pr-3" v-for="(attachment, index) of comment.attachments.filter(i => i.type !== 'link')">
-                    <a :href="attachment.url" target="_blank" style="font-size: 13px">
-                        Прикрепленный файл {{ index + 1 }}
-                    </a>
-                </span>
+        <template
+          v-if="
+            comment.attachments &&
+            comment.attachments.filter((i) => i.type !== 'link').length > 0
+          "
+        >
+          <hr style="margin-top: 5px; margin-bottom: 5px" />
+          <span
+            class="pr-3"
+            v-for="(attachment, index) of comment.attachments.filter(
+              (i) => i.type !== 'link'
+            )"
+          >
+            <a :href="attachment.url" target="_blank" style="font-size: 13px">
+              Прикрепленный файл {{ index + 1 }}
+            </a>
+          </span>
         </template>
       </el-card>
       <a @click="showAll = true" v-if="!showAll" class="mt-3">
@@ -49,49 +62,50 @@
       <div class="field is-grouped">
         <p class="control is-expanded">
           <el-input
-              type="textarea"
-              :placeholder="''"
-              resize="vertical"
-              rows="3"
-              v-model="form.text"
-              maxlength="380"
-              show-word-limit
+            type="textarea"
+            :placeholder="''"
+            resize="vertical"
+            rows="3"
+            v-model="form.text"
+            maxlength="380"
+            show-word-limit
           >
           </el-input>
         </p>
       </div>
-      <div class="field is-grouped">
+      <div class="buttons-comments-bntu">
         <div class="control">
           <el-upload
-              class="upload-demo"
-              :auto-upload="false"
-              ref="upload"
-              action="https://jsonplaceholder.typicode.com/posts/"
-              :on-change="onChange"
-              :on-remove="handleRemove"
-              multiple
-              :limit="3"
-              accept="image/*,video/*,audio/*,application/pdf"
-              :on-exceed="handleExceed"
-              :file-list="fileList">
-            <button class="button is-inverted" ref="upload_btn" type="button">
-                            <span class="icon">
-                              <i class="fas fa-paperclip"></i>
-                            </span>
-              <span>Прикрепить файл(ы)</span>
+            class="upload-demo"
+            :auto-upload="false"
+            ref="upload"
+            action="https://jsonplaceholder.typicode.com/posts/"
+            :on-change="onChange"
+            :on-remove="handleRemove"
+            multiple
+            :limit="3"
+            accept="image/*,video/*,audio/*,application/pdf"
+            :on-exceed="handleExceed"
+            :file-list="fileList"
+          >
+            <button
+              class="bntu-button bntu-button-main bntu-button-main-article"
+              ref="upload_btn"
+              type="button"
+            >
+              Прикрепить файл(ы)
             </button>
           </el-upload>
         </div>
-        <p class="control">
-          <button class="button is-outlined" :class="{'is-loading': isLoading}"
-                  :disabled="form.text.length === 0"
-                  type="submit">
-                        <span class="icon">
-                          <i class="fas fa-paper-plane fa-lg"></i>
-                        </span>
-            <span>Отправить</span>
-          </button>
-        </p>
+
+        <button
+          class="bntu-button bntu-button-empty bntu-button-empty-article"
+          :class="{ 'is-loading': isLoading }"
+          :disabled="form.text.length === 0"
+          type="submit"
+        >
+          Отправить
+        </button>
       </div>
     </form>
   </div>
@@ -99,39 +113,51 @@
 </template>
 
 <script>
-import {ElButton, ElCard, ElUpload, ElMessage, ElIcon, ElInput} from "element-plus";
-import linkifyHtml from 'linkifyjs/html';
-import {useQuery} from "@urql/vue";
-import {ref} from "vue";
-import {useToast} from "primevue/usetoast";
+import {
+  ElButton,
+  ElCard,
+  ElUpload,
+  ElMessage,
+  ElIcon,
+  ElInput,
+} from "element-plus";
+import linkifyHtml from "linkifyjs/html";
+import { useQuery } from "@urql/vue";
+import { ref } from "vue";
+import { useToast } from "primevue/usetoast";
 import Toast from "primevue/toast";
-import {formatDate} from "../date";
+import { formatDate } from "../date";
 
 const emptyComment = {
-  text: '',
+  text: "",
   attachments: [],
-}
+};
 
 export default {
   components: {
-    ElCard, ElButton, ElUpload, ElIcon, ElInput, Toast
+    ElCard,
+    ElButton,
+    ElUpload,
+    ElIcon,
+    ElInput,
+    Toast,
   },
   props: {
     type: String,
-    id: Number
+    id: Number,
   },
   setup(props) {
     const toast = useToast();
     const variables = {
-      'where': {
+      where: {
         [props.type]: {
-          'id': {_eq: props.id}
-        }
-      }
+          id: { _eq: props.id },
+        },
+      },
     };
     const result = useQuery({
-          // language=GraphQL
-          query: `
+      // language=GraphQL
+      query: `
 query($where: comment_bool_exp) {
     comment(where: $where, order_by: [{created_at: desc}]) {
         id
@@ -142,22 +168,19 @@ query($where: comment_bool_exp) {
     }
 }
       `,
-          variables
-        }
-    )
-    const form = ref(
-        {
-          text: '',
-          attachments: [],
-        }
-    )
-    const isLoading = ref(false)
+      variables,
+    });
+    const form = ref({
+      text: "",
+      attachments: [],
+    });
+    const isLoading = ref(false);
     const refresh = () => {
       result.executeQuery({
-        requestPolicy: 'network-only',
+        requestPolicy: "network-only",
       });
-    }
-    const upload = ref(null)
+    };
+    const upload = ref(null);
     return {
       formatDate,
       fetching: result.fetching,
@@ -174,69 +197,74 @@ query($where: comment_bool_exp) {
         return linkifyHtml(text);
       },
       handleExceed(files, fileList) {
-        ElMessage.error('Максимум три файла!')
+        ElMessage.error("Максимум три файла!");
       },
       save() {
         const formData = new FormData();
-        formData.append('text', form.value.text);
-        formData.append('type', props.type);
-        formData.append('id', props.id + '');
+        formData.append("text", form.value.text);
+        formData.append("type", props.type);
+        formData.append("id", props.id + "");
 
         this.form.attachments.forEach((elem, index) => {
-          formData.append('attachment' + index, elem.raw);
-        })
+          formData.append("attachment" + index, elem.raw);
+        });
         isLoading.value = true;
-        fetch(import.meta.env.VITE_TELEGRAM_API_URL + '/comment', {
-          'method': 'POST',
-          'body': formData,
-          'credentials': 'include'
-        }).then((r) => r.json()).then((r) => {
-          isLoading.value = false;
-          if (r.error) {
-            ElMessage.error(r.error)
-            return;
-          }
-          refresh()
-          Object.assign(form.value, emptyComment)
-          upload.value.clearFiles()
-        }).catch(e => {
-          isLoading.value = false;
-          ElMessage.error('Произошла ошибка')
-          throw e;
+        fetch(import.meta.env.VITE_TELEGRAM_API_URL + "/comment", {
+          method: "POST",
+          body: formData,
+          credentials: "include",
         })
+          .then((r) => r.json())
+          .then((r) => {
+            isLoading.value = false;
+            if (r.error) {
+              ElMessage.error(r.error);
+              return;
+            }
+            refresh();
+            Object.assign(form.value, emptyComment);
+            upload.value.clearFiles();
+          })
+          .catch((e) => {
+            isLoading.value = false;
+            ElMessage.error("Произошла ошибка");
+            throw e;
+          });
       },
       handleRemove(file) {
-        form.value.attachments = form.value.attachments.filter(i => file.uid !== i.uid)
+        form.value.attachments = form.value.attachments.filter(
+          (i) => file.uid !== i.uid
+        );
       },
       onChange(file) {
-        form.value.attachments.push(file)
+        form.value.attachments.push(file);
       },
       archiveComment(id) {
-        fetch(import.meta.env.VITE_TELEGRAM_API_URL + '/comment/' + id,
-            {
-              credentials: 'include',
-              method: 'DELETE'
+        fetch(import.meta.env.VITE_TELEGRAM_API_URL + "/comment/" + id, {
+          credentials: "include",
+          method: "DELETE",
+        })
+          .then((r) => r.json())
+          .then((r) => {
+            if (r.errors || r.error) {
+              toast.add({
+                severity: "error",
+                summary: "Произошла ошибка",
+                life: 3000,
+              });
+              return;
             }
-        )
-            .then(r => r.json())
-            .then(
-                (r) => {
-                  if (r.errors || r.error) {
-                    toast.add({severity: 'error', summary: 'Произошла ошибка', life: 3000});
-                    return
-                  }
-                  refresh()
-                }
-            )
-      }
-    }
+            refresh();
+          });
+      },
+    };
   },
   computed: {
     comments() {
-      return this.showAll ? this.list : this.list.slice(0, 2)
-    }
+      return this.showAll ? this.list : this.list.slice(0, 2);
+    },
   },
-}
+};
 </script>
 
 <style>
@@ -247,7 +275,7 @@ query($where: comment_bool_exp) {
 .comment-text {
   word-wrap: break-word;
   white-space: pre-wrap;
-  font-size: 14px
+  font-size: 14px;
 }
 
 .clearfix:before,
@@ -257,6 +285,26 @@ query($where: comment_bool_exp) {
 }
 
 .clearfix:after {
-  clear: both
+  clear: both;
+}
+
+.buttons-comments-bntu {
+  display: flex;
+  align-items: center;
+}
+@media screen and (max-width: 480px) {
+  .buttons-comments-bntu {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  .control {
+    width: 100%;
+  }
+  .upload-demo {
+    width: 100%;
+  }
+  .el-upload--text {
+    width: 100% !important;
+  }
 }
 </style>
