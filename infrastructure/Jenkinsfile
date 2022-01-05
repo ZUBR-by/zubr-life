@@ -3,12 +3,7 @@ pipeline {
   options {
     disableConcurrentBuilds()
   }
-  environment {
-    CONSUL_HTTP_TOKEN    = credentials('CONSUL_HTTP_TOKEN')
-    def FRONTEND_HOST = sh(script: "consul kv get ci/api-ip", returnStdout: true).trim()
-  }
   stages {
-
     stage('Test') {
         steps {
             sh 'rm -rf api/.env'
@@ -27,6 +22,11 @@ pipeline {
     }
     stage('Build') {
         environment {
+            DIGITALOCEAN_ACCESS_TOKEN = credentials('DIGITALOCEAN_ACCESS_TOKEN')
+            def HOSTS = sh(
+                script: "doctl compute droplet list --format PublicIPv4 --no-header --tag-name zubr_life| tr '\n' ','",
+                returnStdout: true
+            ).trim()
             LOSHITSA_TOKEN         = credentials('loshitsa_BOT_TOKEN')
             VITEBSK_TOKEN          = credentials('vitebsk_BOT_TOKEN')
             BNTU_TOKEN             = credentials('bntu_BOT_TOKEN')
@@ -77,7 +77,7 @@ GRAPHQL_URL=${GRAPHQL_URL}
         steps {
             ansiblePlaybook(
                   playbook: 'infrastructure/deploy.yml',
-                  inventory: "$FRONTEND_HOST,",
+                  inventory: "$HOSTS",
                   credentialsId: "CURRENT_DEPLOY_KEY",
                   hostKeyChecking: false
             )
