@@ -22,11 +22,6 @@ pipeline {
     }
     stage('Build') {
         environment {
-            DIGITALOCEAN_ACCESS_TOKEN = credentials('DIGITALOCEAN_ACCESS_TOKEN')
-            def HOSTS = sh(
-                script: "doctl compute droplet list --format PublicIPv4 --no-header --tag-name zubr_life| tr '\n' ','",
-                returnStdout: true
-            ).trim()
             LOSHITSA_TOKEN         = credentials('loshitsa_BOT_TOKEN')
             VITEBSK_TOKEN          = credentials('vitebsk_BOT_TOKEN')
             BNTU_TOKEN             = credentials('bntu_BOT_TOKEN')
@@ -74,6 +69,13 @@ GRAPHQL_URL=${GRAPHQL_URL}
         }
     }
     stage('Deploy') {
+        environment{
+            DIGITALOCEAN_ACCESS_TOKEN = credentials('DIGITALOCEAN_ACCESS_TOKEN')
+            def HOSTS = sh(
+                script: "doctl compute droplet list --format PublicIPv4 --no-header --tag-name zubr_life| tr '\n' ','",
+                returnStdout: true
+            ).trim()
+        }
         steps {
             ansiblePlaybook(
                   playbook: 'infrastructure/deploy.yml',
