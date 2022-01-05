@@ -727,7 +727,7 @@ a.box:active {
       box-shadow: none; }
     .button.is-primary.is-inverted {
       background-color: #fff;
-      color: #ff5c01; }
+      color: #d32121; }
       .button.is-primary.is-inverted:hover, .button.is-primary.is-inverted.is-hovered {
         background-color: #f2f2f2; }
       .button.is-primary.is-inverted[disabled],
@@ -2933,7 +2933,7 @@ a.tag:hover {
   white-space: nowrap; }
   .breadcrumb a {
     align-items: center;
-    color: #ff5c01;
+    color: #d32121;
     display: flex;
     justify-content: center;
     padding: 0 0.75em; }

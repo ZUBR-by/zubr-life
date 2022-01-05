@@ -1,19 +1,17 @@
 <template>
-    <navbar></navbar>
-    <router-view/>
+  <navbar></navbar>
+  <router-view :key="$route.fullPath"></router-view>
 </template>
 
 <script>
-import {defineComponent} from 'vue'
+import { defineComponent } from "vue";
 import Navbar from "./Navbar.vue";
 
 export default defineComponent({
-    components: {
-        navbar: Navbar
-    }
-})
+  components: {
+    navbar: Navbar,
+  },
+});
 </script>
 
-<style>
-
-</style>
+<style></style>
