@@ -2,8 +2,8 @@ import { createRouter, createWebHistory } from 'vue-router';
 import Feed from './pages/Feed.vue';
 import Place from '@zubr-life/main/src/pages/Place.vue';
 import Rating from './pages/Rating.vue';
-import Problems from './pages/Problems.vue';
-import Problem from './pages/Problem.vue';
+import Issues from './pages/Issues.vue';
+import Issue from './pages/Issue.vue';
 import Person from '@zubr-life/main/src/pages/Person.vue';
 import Organization from '@zubr-life/main/src/pages/Organization.vue';
 import Activity from './pages/Activity.vue';
@@ -35,15 +35,15 @@ const routes = [
     },
   },
   {
-    path: '/problems',
-    name: 'problems',
+    path: '/issues',
+    name: 'issues',
     label: 'Проблемы',
-    component: Problems,
+    component: Issues,
   },
   {
-    path: '/problems/:id',
-    name: 'problem',
-    component: Problem,
+    path: '/issue/:id',
+    name: 'issue',
+    component: Issue,
   },
   {
     path: '/place/:id',

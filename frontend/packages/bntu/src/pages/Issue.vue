@@ -4,7 +4,7 @@
       <nav class="bntu-article-top">
         <ul>
           <li>
-            <router-link :to="{ name: 'problem' }"> Проблемы </router-link>
+            <router-link :to="{ name: 'issues' }"> Проблемы </router-link>
           </li>
           <li>
             <img src="/imgs/arrow.svg" alt="arrow" />

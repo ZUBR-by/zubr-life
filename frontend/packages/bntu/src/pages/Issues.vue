@@ -57,7 +57,7 @@
               {{ formatDate(item.created_at) }}
             </div>
             <router-link
-              :to="{ name: 'problem', params: { id: item.id } }"
+              :to="{ name: 'issue', params: { id: item.id } }"
               class="bntu-news-bottom-more"
               >Читать подробнее
             </router-link>
