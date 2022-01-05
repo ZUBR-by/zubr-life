@@ -72,7 +72,7 @@
               напишите в наш телеграм-бот.
             </div>
           </router-link>
-          <router-link class="home-box" :to="'/'">
+          <router-link class="home-box" :to="'/problems'">
             <div class="home-box-main-text">Проблемы</div>
             <div class="home-box-background home-box-problems"></div>
             <div class="home-box-main-secondary">
@@ -162,11 +162,8 @@
                 телеграм-боте.</span
               >
             </p>
-            <a
-              href="https://drive.google.com/drive/folders/1J9NNrlqAKeDWA2a0bLqsvDk7nBmTEX-D"
-              target="_blank"
-              class="home-box-mobile-button"
-              >Перейти</a
+            <router-link :to="'/problems'" class="home-box-mobile-button"
+              >Перейти</router-link
             >
           </div>
           <span class="home-box-mobile-span"
@@ -199,12 +196,12 @@
                 </span>
                 <template v-if="!item.attachments.length">
                   <span class="bntu-news-content-description">
-                    {{ item.description.replace(item.title, "") }}
+                    {{ item.description.replace(item.title, '') }}
                   </span>
                 </template>
                 <template v-else>
                   <span class="bntu-news-content-description-img">
-                    {{ item.description.replace(item.title, "") }}
+                    {{ item.description.replace(item.title, '') }}
                   </span>
                 </template>
               </div>
@@ -297,30 +294,30 @@
 </template>
 
 <script>
-import { defineComponent, ref } from "vue";
-import { useQuery } from "@urql/vue";
-import { formatDate } from "@zubr-life/main/src/date";
+import { defineComponent, ref } from 'vue';
+import { useQuery } from '@urql/vue';
+import { formatDate } from '@zubr-life/main/src/date';
 
-const community = typeof slug !== "undefined" ? slug : "unknown";
+const community = typeof slug !== 'undefined' ? slug : 'unknown';
 
 const communityMap = {
   loshitsa: {
-    name: "Лошица",
+    name: 'Лошица',
     zoom: 14.7,
     center: [27.580935, 53.844329],
   },
   vitebsk: {
-    name: "Витебск",
+    name: 'Витебск',
     zoom: 12.7,
     center: [30.2043, 55.1918],
   },
   bntu: {
-    name: "БНТУ",
+    name: 'БНТУ',
     zoom: 15.7,
     center: [27.593069412931786, 53.92111407553088],
   },
   unknown: {
-    name: "Терра Инкогнито",
+    name: 'Терра Инкогнито',
     zoom: 12.7,
     center: [0, 0],
   },
@@ -386,7 +383,7 @@ query ($community: String!) {
   justify-content: center;
   min-height: calc(100vh - 110px);
   height: calc(100vh - 110px);
-  background: url("/imgs/bntu/landing_back.png");
+  background: url('/imgs/bntu/landing_back.png');
   background-size: cover;
   background-repeat: no-repeat;
   background-position: center;
@@ -586,21 +583,21 @@ query ($community: String!) {
 }
 
 .home-box-repository {
-  background: url("/imgs/bntu/repository.png");
+  background: url('/imgs/bntu/repository.png');
   background-size: cover;
   background-repeat: no-repeat;
   background-position: center;
 }
 
 .home-box-people {
-  background: url("/imgs/bntu/people.png");
+  background: url('/imgs/bntu/people.png');
   background-size: cover;
   background-repeat: no-repeat;
   background-position: center;
 }
 
 .home-box-problems {
-  background: url("/imgs/bntu/problems.png");
+  background: url('/imgs/bntu/problems.png');
   background-size: cover;
   background-repeat: no-repeat;
   background-position: center;
@@ -677,6 +674,7 @@ query ($community: String!) {
   align-items: center;
   justify-content: space-between;
   margin-bottom: 60px;
+  flex-wrap: wrap;
 }
 
 .bntu-news-content {
@@ -691,6 +689,7 @@ query ($community: String!) {
   flex-direction: column;
   justify-content: space-between;
   transition: all 0.3s ease;
+  margin-bottom: 40px;
 }
 .bntu-news-content-wrapper {
   max-height: 90%;
@@ -985,21 +984,21 @@ query ($community: String!) {
   }
 
   .home-box-mobile-photo-repository {
-    background: url("/imgs/bntu/repository.png");
+    background: url('/imgs/bntu/repository.png');
     background-size: cover;
     background-repeat: no-repeat;
     background-position: center;
   }
 
   .home-box-mobile-photo-people {
-    background: url("/imgs/bntu/people.png");
+    background: url('/imgs/bntu/people.png');
     background-size: cover;
     background-repeat: no-repeat;
     background-position: center;
   }
 
   .home-box-mobile-photo-problems {
-    background: url("/imgs/bntu/problems.png");
+    background: url('/imgs/bntu/problems.png');
     background-size: cover;
     background-repeat: no-repeat;
     background-position: center;
@@ -1062,7 +1061,7 @@ query ($community: String!) {
   }
 
   .main-content {
-    background: url("/imgs/bntu/people.png");
+    background: url('/imgs/bntu/people.png');
     background-size: cover;
     background-repeat: no-repeat;
     background-position: top;

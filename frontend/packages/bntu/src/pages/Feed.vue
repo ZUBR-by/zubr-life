@@ -24,12 +24,12 @@
             </span>
             <template v-if="!item.attachments.length">
               <span class="bntu-news-content-description">
-                {{ item.description.replace(item.title, "") }}
+                {{ item.description.replace(item.title, '') }}
               </span>
             </template>
             <template v-else>
               <span class="bntu-news-content-description-img">
-                {{ item.description.replace(item.title, "") }}
+                {{ item.description.replace(item.title, '') }}
               </span>
             </template>
           </div>
@@ -110,9 +110,9 @@
 </template>
 
 <script>
-import { useQuery } from "@urql/vue";
-import { defineComponent } from "vue";
-import { formatDate } from "../date";
+import { useQuery } from '@urql/vue';
+import { defineComponent } from 'vue';
+import { formatDate } from '../date';
 
 export default defineComponent({
   setup() {
@@ -158,22 +158,22 @@ query ($community: String!) {
   align-items: center;
 }
 .news-background {
-  position: absolute;
-  top: 0;
+  position: fixed;
+  top: 110px;
   left: 0;
   width: 100%;
   height: 100vh;
   max-height: 100vh;
   object-fit: cover;
   z-index: -1;
-  filter: brightness(77%);
+  filter: brightness(50%);
 }
 .news-content {
   display: flex;
   flex-direction: column;
   align-items: center;
   max-width: 1480px;
-  padding: 120px 20px 180px 20px;
+  padding: 30px 20px 30px 20px;
 }
 .news-content-title {
   font-family: Fira Sans;
@@ -190,6 +190,12 @@ query ($community: String!) {
 @media screen and (max-width: 560px) {
   .news {
     margin-top: 60px;
+  }
+  .news-content {
+    padding: 10px 20px;
+  }
+  .news-background {
+    top: 60px;
   }
 }
 </style>
