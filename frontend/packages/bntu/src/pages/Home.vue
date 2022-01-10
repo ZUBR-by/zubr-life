@@ -696,18 +696,19 @@ query ($community: String!) {
   overflow-y: auto;
 }
 .bntu-news-content-wrapper::-webkit-scrollbar {
-  width: 10px;
+  width: 5px;
   background-color: #f9f9fd;
+  border: none;
 }
 
 .bntu-news-content-wrapper::-webkit-scrollbar-thumb {
-  border-radius: 10px;
-  background-color: #d32121;
+  border: none;
+  background: #d32121;
 }
 
 .bntu-news-content-wrapper::-webkit-scrollbar-track {
   box-shadow: inset 0px 0px 6px rgba(0, 0, 0, 0.2);
-  border-radius: 10px;
+  border: none;
   background-color: #f9f9fd;
 }
 .bntu-news-content-img {
