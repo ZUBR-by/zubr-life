@@ -190,7 +190,7 @@ export default {};
 }
 
 .about-second-content ul li:before {
-  content: '\203A ';
+  content: '\002D';
   padding-right: 6px;
   font-size: 16px;
   color: white;

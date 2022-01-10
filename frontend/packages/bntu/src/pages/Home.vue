@@ -72,7 +72,7 @@
               напишите в наш телеграм-бот.
             </div>
           </router-link>
-          <router-link class="home-box" :to="'/problems'">
+          <router-link class="home-box" :to="'/issues'">
             <div class="home-box-main-text">Проблемы</div>
             <div class="home-box-background home-box-problems"></div>
             <div class="home-box-main-secondary">

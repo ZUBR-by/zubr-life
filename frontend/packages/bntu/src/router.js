@@ -39,6 +39,9 @@ const routes = [
     name: 'issues',
     label: 'Проблемы',
     component: Issues,
+    meta: {
+      title: 'Проблемы',
+    },
   },
   {
     path: '/issue/:id',
@@ -96,9 +99,7 @@ router.beforeEach(function (to, from, next) {
 router.afterEach(async (to, from) => {
   await nextTick();
   let name = 'БНТУ 97%';
-  document.title = to.meta.title
-    ? to.meta.title + ` - ${name} ZUBR.life`
-    : name;
+  document.title = to.meta.title ? to.meta.title + ` - ${name}` : name;
 });
 export default router;
 export { routes };
