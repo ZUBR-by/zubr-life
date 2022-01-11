@@ -247,4 +247,63 @@ export default {};
 .about-button {
   margin-right: 0;
 }
+
+@media screen and (max-width: 1090px) {
+  .about-first {
+    margin-top: 40px;
+  }
+  .about-first-wrapper {
+    flex-direction: column-reverse;
+  }
+  .about-first-img,
+  .about-first-content {
+    width: 80%;
+  }
+  .about-second-wrapper {
+    flex-direction: column;
+  }
+  .about-second-content {
+    width: 540px;
+  }
+}
+@media screen and (max-width: 768px) {
+  .about-first {
+    margin: 20px 0;
+  }
+  .about-first-content,
+  .about-first-img {
+    width: 100%;
+  }
+  .about-second-help {
+    width: 100%;
+    height: auto;
+  }
+  .about-second-help img {
+    display: none;
+  }
+  .about-second-content,
+  .about-second-help {
+    width: 80%;
+  }
+  .about-second-help p {
+    text-align: left;
+    width: 100%;
+  }
+}
+@media screen and (max-width: 480px) {
+  .about-first-content h2 {
+    margin: 10px 0;
+  }
+  .about-second-wrapper {
+    padding-top: 10px;
+    padding-bottom: 10px;
+  }
+  .about-second {
+    margin-bottom: 0;
+  }
+  .about-second-content,
+  .about-second-help {
+    width: 100%;
+  }
+}
 </style>
