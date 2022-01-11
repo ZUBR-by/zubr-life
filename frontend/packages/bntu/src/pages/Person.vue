@@ -26,6 +26,7 @@
               <div class="column pl-5">
                 <div class="person-photo">
                   <el-image
+                    fit="cover"
                     :src="
                       data.person.photo_url
                         ? data.person.photo_url

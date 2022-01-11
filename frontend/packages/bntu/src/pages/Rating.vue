@@ -3,8 +3,8 @@
     <div class="columns is-centered">
       <div class="column is-two-thirds" v-if="data">
         <h3 class="rating-bntu-title">Люди</h3>
-        <TabView ref="tabview2" v-model:activeIndex="active1">
-          <TabPanel :key="item" :header="item.data.name" v-for="item of tree">
+        <el-tabs v-model="active1">
+          <el-tab-pane :key="item" :label="item.data.name" v-for="item of tree">
             <table>
               <tr v-for="node of item.children" :key="node">
                 <td>
@@ -53,20 +53,23 @@
                 </td>
               </tr>
             </table>
-          </TabPanel>
-        </TabView>
+          </el-tab-pane>
+        </el-tabs>
       </div>
     </div>
   </div>
 </template>
 
 <script>
+import { ElTabPane, ElTabs } from 'element-plus';
 import { defineComponent, computed, ref } from 'vue';
 import { useQuery } from '@urql/vue';
 import TreeTable from 'primevue/treetable';
 import TabView from 'primevue/tabview';
 import TabPanel from 'primevue/tabpanel';
 import Column from 'primevue/column';
+
+import 'element-plus/lib/theme-chalk/index.css';
 
 export default defineComponent({
   components: {
@@ -171,6 +174,10 @@ query ($community: String!) {
       active1,
       error: result.error,
     };
+  },
+  components: {
+    ElTabs,
+    ElTabPane,
   },
 });
 </script>
