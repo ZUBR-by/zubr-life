@@ -5,14 +5,23 @@
       <el-card class="box-card mt-2 mb-2" v-for="comment of data.comment">
         <template #header>
           <div class="clearfix pl-2">
-            <el-button class="button" type="text" style="font-size: 14px">
+            <el-button
+              class="button"
+              type="text"
+              style="font-size: 14px; border: none"
+            >
               Анонимный автор
             </el-button>
             <el-button
               class="button"
               v-if="comment.by_current_user"
               @click="archiveComment(comment.id)"
-              style="float: right; padding-left: 10px; padding-right: 10px"
+              style="
+                float: right;
+                padding-left: 10px;
+                padding-right: 10px;
+                border: none;
+              "
               icon="el-icon-close"
               type="text"
             >
@@ -20,7 +29,7 @@
             <el-button
               class="button"
               :title="comment.created_at"
-              style="float: right; padding: 0; font-size: 14px"
+              style="float: right; padding: 0; font-size: 14px; border: none"
               type="text"
               >{{ formatDate(comment.created_at) }}
             </el-button>
@@ -120,16 +129,16 @@ import {
   ElMessage,
   ElIcon,
   ElInput,
-} from "element-plus";
-import linkifyHtml from "linkifyjs/html";
-import { useQuery } from "@urql/vue";
-import { ref } from "vue";
-import { useToast } from "primevue/usetoast";
-import Toast from "primevue/toast";
-import { formatDate } from "../date";
+} from 'element-plus';
+import linkifyHtml from 'linkifyjs/html';
+import { useQuery } from '@urql/vue';
+import { ref } from 'vue';
+import { useToast } from 'primevue/usetoast';
+import Toast from 'primevue/toast';
+import { formatDate } from '../date';
 
 const emptyComment = {
-  text: "",
+  text: '',
   attachments: [],
 };
 
@@ -171,13 +180,13 @@ query($where: comment_bool_exp) {
       variables,
     });
     const form = ref({
-      text: "",
+      text: '',
       attachments: [],
     });
     const isLoading = ref(false);
     const refresh = () => {
       result.executeQuery({
-        requestPolicy: "network-only",
+        requestPolicy: 'network-only',
       });
     };
     const upload = ref(null);
@@ -197,22 +206,22 @@ query($where: comment_bool_exp) {
         return linkifyHtml(text);
       },
       handleExceed(files, fileList) {
-        ElMessage.error("Максимум три файла!");
+        ElMessage.error('Максимум три файла!');
       },
       save() {
         const formData = new FormData();
-        formData.append("text", form.value.text);
-        formData.append("type", props.type);
-        formData.append("id", props.id + "");
+        formData.append('text', form.value.text);
+        formData.append('type', props.type);
+        formData.append('id', props.id + '');
 
         this.form.attachments.forEach((elem, index) => {
-          formData.append("attachment" + index, elem.raw);
+          formData.append('attachment' + index, elem.raw);
         });
         isLoading.value = true;
-        fetch(import.meta.env.VITE_TELEGRAM_API_URL + "/comment", {
-          method: "POST",
+        fetch(import.meta.env.VITE_TELEGRAM_API_URL + '/comment', {
+          method: 'POST',
           body: formData,
-          credentials: "include",
+          credentials: 'include',
         })
           .then((r) => r.json())
           .then((r) => {
@@ -227,7 +236,7 @@ query($where: comment_bool_exp) {
           })
           .catch((e) => {
             isLoading.value = false;
-            ElMessage.error("Произошла ошибка");
+            ElMessage.error('Произошла ошибка');
             throw e;
           });
       },
@@ -240,16 +249,16 @@ query($where: comment_bool_exp) {
         form.value.attachments.push(file);
       },
       archiveComment(id) {
-        fetch(import.meta.env.VITE_TELEGRAM_API_URL + "/comment/" + id, {
-          credentials: "include",
-          method: "DELETE",
+        fetch(import.meta.env.VITE_TELEGRAM_API_URL + '/comment/' + id, {
+          credentials: 'include',
+          method: 'DELETE',
         })
           .then((r) => r.json())
           .then((r) => {
             if (r.errors || r.error) {
               toast.add({
-                severity: "error",
-                summary: "Произошла ошибка",
+                severity: 'error',
+                summary: 'Произошла ошибка',
                 life: 3000,
               });
               return;
@@ -281,7 +290,7 @@ query($where: comment_bool_exp) {
 .clearfix:before,
 .clearfix:after {
   display: table;
-  content: "";
+  content: '';
 }
 
 .clearfix:after {

@@ -4,7 +4,7 @@ import Place from '@zubr-life/main/src/pages/Place.vue';
 import Rating from './pages/Rating.vue';
 import Issues from './pages/Issues.vue';
 import Issue from './pages/Issue.vue';
-import Person from '@zubr-life/main/src/pages/Person.vue';
+import Person from './pages/Person.vue';
 import Organization from '@zubr-life/main/src/pages/Organization.vue';
 import Activity from './pages/Activity.vue';
 import About from './pages/About.vue';
@@ -39,6 +39,9 @@ const routes = [
     name: 'issues',
     label: 'Проблемы',
     component: Issues,
+    meta: {
+      title: 'Проблемы',
+    },
   },
   {
     path: '/issue/:id',
@@ -96,9 +99,7 @@ router.beforeEach(function (to, from, next) {
 router.afterEach(async (to, from) => {
   await nextTick();
   let name = 'БНТУ 97%';
-  document.title = to.meta.title
-    ? to.meta.title + ` - ${name} ZUBR.life`
-    : name;
+  document.title = to.meta.title ? to.meta.title + ` - ${name}` : name;
 });
 export default router;
 export { routes };

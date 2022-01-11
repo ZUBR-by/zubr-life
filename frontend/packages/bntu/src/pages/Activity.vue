@@ -12,8 +12,8 @@
           <template v-if="data && data.activity">
             <li>
               <span v-if="data.activity.description">{{
-                data.activity.description.split(" ").slice(0, 5).join(" ") +
-                "..."
+                data.activity.description.split(' ').slice(0, 5).join(' ') +
+                '...'
               }}</span>
             </li>
           </template>
@@ -165,14 +165,14 @@
 </template>
 
 <script>
-import { ElTabPane, ElTabs, ElImage } from "element-plus";
-import { useRoute } from "vue-router";
-import { defineComponent, watch, ref } from "vue";
-import Map from "../components/place.vue";
-import gallery from "../components/gallery.vue";
-import Comments from "../components/comments.vue";
-import { useQuery } from "@urql/vue";
-import { formatDate } from "../date";
+import { ElTabPane, ElTabs, ElImage } from 'element-plus';
+import { useRoute } from 'vue-router';
+import { defineComponent, watch, ref } from 'vue';
+import Map from '../components/place.vue';
+import gallery from '../components/gallery.vue';
+import Comments from '../components/comments.vue';
+import { useQuery } from '@urql/vue';
+import { formatDate } from '../date';
 
 export default defineComponent({
   components: {
@@ -205,10 +205,10 @@ query ($id: Int!) {
       },
     });
     const map = ref(null);
-    const activeName = ref("comments");
+    const activeName = ref('comments');
     const mapInit = ref(false);
     watch(activeName, () => {
-      if (activeName.value !== "place" && mapInit.value === true) {
+      if (activeName.value !== 'place' && mapInit.value === true) {
         return;
       }
       mapInit.value = true;
@@ -221,11 +221,11 @@ query ($id: Int!) {
         return;
       }
       document.title =
-        (value.activity.category === "AD" ? "Объявление" : "Событие") +
+        (value.activity.category === 'AD' ? 'Объявление' : 'Событие') +
         ' "' +
         value.activity.description +
         '"' +
-        " - Лошица ZUBR.life";
+        ' - Лошица ZUBR.life';
     });
     console.log(result.data);
     return {
@@ -291,9 +291,6 @@ query ($id: Int!) {
   max-height: 400px;
   object-fit: cover;
   object-position: top;
-}
-.wrapper-tabs-bntu {
-  padding: 30px;
 }
 
 @media screen and (max-width: 560px) {

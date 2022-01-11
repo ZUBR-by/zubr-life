@@ -41,6 +41,18 @@ $primary-invert: $pink-invert;
   -ms-user-select: none;
   user-select: none; }
 
+body::-webkit-scrollbar {
+    width: 10px;
+    background-color: #f9f9fd;
+  }
+body::-webkit-scrollbar-thumb {
+  
+    background-color: #d32121;
+  }
+body::-webkit-scrollbar-track {
+  -webkit-box-shadow: 5px 5px 5px -5px rgba(34, 60, 80, 0.2) inset;
+    background-color: #f9f9fd;
+  }
 .select:not(.is-multiple):not(.is-loading)::after, .navbar-link:not(.is-arrowless)::after {
   border: 3px solid transparent;
   border-radius: 2px;
