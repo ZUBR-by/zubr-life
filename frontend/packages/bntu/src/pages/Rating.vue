@@ -2,7 +2,7 @@
   <div class="section zbr-promo">
     <div class="columns is-centered">
       <div class="column is-two-thirds" v-if="data">
-        <h3 class="content has-text-weight-bold is-medium pl-3">Рейтинг</h3>
+        <h3 class="rating-bntu-title">Люди</h3>
         <TabView ref="tabview2" v-model:activeIndex="active1">
           <TabPanel :key="item" :header="item.data.name" v-for="item of tree">
             <table>
@@ -19,7 +19,7 @@
                   </div>
                 </td>
                 <td>
-                  <div class="pl-2 pt-2">
+                  <div class="rating-name">
                     <router-link
                       :to="{ name: 'person', params: { id: node.data.id } }"
                     >
@@ -28,7 +28,7 @@
                   </div>
                 </td>
                 <td style="text-align: center">
-                  <div class="pl-2 pt-3" v-if="!node.type && !node.data.link">
+                  <div class="rating-name" v-if="!node.type && !node.data.link">
                     <span
                       tabindex="0"
                       class="p-rating-icon pi pi-star"
@@ -47,7 +47,7 @@
                   </div>
                 </td>
                 <td>
-                  <div class="pt-3 pl-3" v-if="!node.type && !node.data.link">
+                  <div class="rating-name" v-if="!node.type && !node.data.link">
                     {{ node.data.position }}
                   </div>
                 </td>
@@ -61,12 +61,12 @@
 </template>
 
 <script>
-import { defineComponent, computed, ref } from "vue";
-import { useQuery } from "@urql/vue";
-import TreeTable from "primevue/treetable";
-import TabView from "primevue/tabview";
-import TabPanel from "primevue/tabpanel";
-import Column from "primevue/column";
+import { defineComponent, computed, ref } from 'vue';
+import { useQuery } from '@urql/vue';
+import TreeTable from 'primevue/treetable';
+import TabView from 'primevue/tabview';
+import TabPanel from 'primevue/tabpanel';
+import Column from 'primevue/column';
 
 export default defineComponent({
   components: {
@@ -140,7 +140,7 @@ query ($community: String!) {
       for (let item of result.data.value.organization) {
         let children = item.persons.map((sub) => {
           return {
-            key: item.id + "-" + sub.person.id,
+            key: item.id + '-' + sub.person.id,
             data: {
               id: sub.person.id,
               name: sub.person.name,
@@ -152,7 +152,7 @@ query ($community: String!) {
         });
         tmp.push({
           key: item.id,
-          type: "parent",
+          type: 'parent',
           data: {
             name: item.short_name,
             count: item.persons_aggregate.aggregate.count,
@@ -189,6 +189,37 @@ query ($community: String!) {
 
 .grid-image img {
   width: 40px;
+  height: 40px;
+  object-fit: cover;
   border-radius: 40px;
+}
+.rating-bntu-title {
+  padding-left: 0;
+  margin-top: 0;
+  font-family: Fira Sans;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 34px;
+  line-height: 41px;
+  color: #000000;
+  text-transform: uppercase;
+}
+table {
+  border-collapse: separate;
+  border-spacing: 0 1em;
+}
+.rating-name {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  min-height: 40px;
+  padding-left: 10px;
+}
+
+.rating-name a {
+  color: black;
+}
+.rating-name a:hover {
+  color: #d32121;
 }
 </style>

@@ -4,7 +4,7 @@ import Place from '@zubr-life/main/src/pages/Place.vue';
 import Rating from './pages/Rating.vue';
 import Issues from './pages/Issues.vue';
 import Issue from './pages/Issue.vue';
-import Person from '@zubr-life/main/src/pages/Person.vue';
+import Person from './pages/Person.vue';
 import Organization from '@zubr-life/main/src/pages/Organization.vue';
 import Activity from './pages/Activity.vue';
 import About from './pages/About.vue';
