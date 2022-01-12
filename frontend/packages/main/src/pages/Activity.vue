@@ -39,7 +39,7 @@
                                     <place ref="map" :feature="data.activity.geometry" v-if="mapInit"></place>
                                 </el-tab-pane>
                                 <el-tab-pane label="Комментарии" name="comments" v-if="data.activity">
-                                    <comments :type="'activity'" :id="data.activity.id"></comments>
+                                    <comments :type="'community_activity'" :id="data.activity.id"></comments>
                                 </el-tab-pane>
                             </el-tabs>
                         </div>
