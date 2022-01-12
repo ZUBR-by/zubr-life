@@ -4,7 +4,7 @@
       <a href="/" class="navbar-img-link">
         <img class="navbar-img" src="/imgs/bntu/logo.jpg" alt="bntu-logo" />
       </a>
-
+      <a id="widget" style="float: left;padding-top:20px;padding-left: 5px"></a>
       <div class="navbar-bntu-links">
         <template v-for="(route, i) of routes" :key="route.name">
           <a
@@ -97,7 +97,7 @@ export default {
     telegramScript.setAttribute('async', '');
     telegramScript.setAttribute(
       'data-telegram-login',
-      'zubr_life_' + slug + '_bot'
+      'zubr_life_bntu_bot'
     );
     telegramScript.setAttribute('data-userpic', 'false');
     telegramScript.setAttribute('data-size', 'medium');
@@ -105,7 +105,7 @@ export default {
       'data-auth-url',
       import.meta.env.VITE_TELEGRAM_AUTH_URL
     );
-    // document.getElementById("widget").appendChild(telegramScript)
+    document.getElementById("widget").appendChild(telegramScript)
   },
 };
 </script>

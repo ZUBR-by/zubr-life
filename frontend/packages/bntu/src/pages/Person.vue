@@ -56,6 +56,9 @@
                     </li>
                   </ul>
                 </div>
+                <div class="pt-4">
+                  {{ data.person.description }}
+                </div>
                 <div>
                   <p
                     v-for="item of data.person.organizations"
@@ -118,6 +121,12 @@ query ($id: Int!, $community: String!) {
         photo_url
         description
         extra
+        reviews {
+            info
+            created_at
+            author
+            id
+        }
         rating {
             overall
             downvotes
@@ -203,19 +212,24 @@ query ($id: Int!, $community: String!) {
     border-radius: 150px;
   }
 }
+
 .el-image {
   height: 100%;
   width: 100%;
 }
+
 .person-image {
   object-fit: cover !important;
 }
+
 .nav-person {
   padding-top: 10px !important;
 }
+
 .nav-person ul {
   padding-left: 0 !important;
 }
+
 .card-person {
   border-radius: 30px;
 }
