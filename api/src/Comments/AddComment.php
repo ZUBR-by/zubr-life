@@ -25,7 +25,7 @@ class AddComment extends AbstractController implements ActionRequiresAuthorizati
         if (empty($text)) {
             return new JsonResponse(['error' => 'Текст комментария обязателен']);
         }
-        if (! in_array($type, ['person', 'organization', 'activity'])) {
+        if (! in_array($type, ['person', 'organization', 'activity', 'community_activity'])) {
             return JsonResponse::fromJsonString(encode(['error' => 'Неправильный тип']));
         }
         $attachments = [];
