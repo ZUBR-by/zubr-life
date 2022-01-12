@@ -39,13 +39,14 @@ pipeline {
             GRAPHQL_URL            = credentials('GRAPHQL_URL')
         }
         steps {
+            sh 'rm -rf api/vendor'
+            sh 'make compose-composer-ci'
+            sh 'make compose-down-ci'
             dir("frontend") {
                 sh 'yarn'
                 sh 'yarn build-all'
                 sh 'rm -rf node_modules'
             }
-            sh 'rm -rf api/vendor'
-            sh 'make compose-composer-ci'
             dir('api'){
                 writeFile file: '.env', text: """
 loshitsa_BOT_TOKEN=${LOSHITSA_TOKEN}
@@ -88,7 +89,6 @@ GRAPHQL_URL=${GRAPHQL_URL}
   }
   post {
     always {
-      sh 'make compose-down-ci'
       notifyBuild(currentBuild.result)
     }
   }
