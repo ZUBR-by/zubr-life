@@ -3,7 +3,7 @@
     <div class="bntu-sections">
       <div class="about-first">
         <div class="about-first-wrapper">
-          <img class="about-first-img" src="/about.jpg" />
+          <img class="about-first-img" src="/about.jpeg" />
           <div class="about-first-content">
             <h2>О нас</h2>
             <p>
