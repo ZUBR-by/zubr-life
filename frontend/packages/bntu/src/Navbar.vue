@@ -4,9 +4,9 @@
       <a href="/" class="navbar-img-link">
         <img class="navbar-img" src="/imgs/bntu/logo.jpg" alt="bntu-logo" />
       </a>
-      <a id="widget" style="float: left;padding-top:20px;padding-left: 5px"></a>
       <div class="navbar-bntu-links">
         <template v-for="(route, i) of routes" :key="route.name">
+          <a id="widget"></a>
           <a
             class="navbar-bntu-link"
             target="_blank"
@@ -51,6 +51,7 @@
               {{ route.label }}
             </router-link>
           </template>
+          <a id="widget"></a>
         </div>
       </div>
     </div>
@@ -95,22 +96,22 @@ export default {
       'https://telegram.org/js/telegram-widget.js?14'
     );
     telegramScript.setAttribute('async', '');
-    telegramScript.setAttribute(
-      'data-telegram-login',
-      'zubr_life_bntu_bot'
-    );
+    telegramScript.setAttribute('data-telegram-login', 'zubr_life_bntu_bot');
     telegramScript.setAttribute('data-userpic', 'false');
     telegramScript.setAttribute('data-size', 'medium');
     telegramScript.setAttribute(
       'data-auth-url',
       import.meta.env.VITE_TELEGRAM_AUTH_URL
     );
-    document.getElementById("widget").appendChild(telegramScript)
+    document.getElementById('widget').appendChild(telegramScript);
   },
 };
 </script>
 
 <style>
+#widget {
+  padding: 0 !important;
+}
 .bntu-navbar {
   width: 100%;
   height: 110px;
