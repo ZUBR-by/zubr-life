@@ -59,10 +59,12 @@
                 <div class="pt-4">
                   {{ data.person.description }}
                 </div>
+
                 <div>
                   <p
                     v-for="item of data.person.organizations"
                     :key="item.organization.id"
+                    style="text-transform: uppercase"
                   >
                     {{ item.position }}
                     <template v-if="item.extra.department">
@@ -74,11 +76,28 @@
                         name: 'organization',
                         params: { id: item.organization.id },
                       }"
+                      class="in-organisation"
                     >
                       {{ item.organization.name }}
                     </router-link>
                   </p>
                 </div>
+                <template v-if="!!data.person.reviews.length">
+                  <ul class="pt-4" id="v-for-object" style="padding-left: 0">
+                    <template
+                      v-for="(value, name) in data.person.reviews[0].info"
+                    >
+                      <li
+                        :key="value"
+                        v-if="!!value"
+                        style="margin-bottom: 10px"
+                      >
+                        <span style="font-weight: bold">{{ name }}:</span>
+                        {{ value }}
+                      </li>
+                    </template>
+                  </ul>
+                </template>
               </div>
             </div>
             <div class="pl-5 pt-3 pb-4 pr-5" style="min-height: 300px">
@@ -174,11 +193,13 @@ query ($id: Int!, $community: String!) {
       }
       document.title = value.person.full_name + ' - Лошица ZUBR.life';
     });
+    console.log(result.data);
     return {
       fetching: result.fetching,
       data: result.data,
       error: result.error,
       activeName: 'comments',
+      el: '#v-for-object',
       refresh() {
         result.executeQuery({
           requestPolicy: 'network-only',
@@ -238,6 +259,17 @@ query ($id: Int!, $community: String!) {
   margin: 0 !important;
   padding: 0 !important;
   width: 100%;
+}
+
+.in-organisation {
+  color: #d32121 !important;
+}
+
+.panel {
+  box-shadow: none !important;
+}
+.person-wrapper {
+  padding-top: 0;
 }
 
 @media screen and (max-width: 560px) {

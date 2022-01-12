@@ -1,12 +1,15 @@
 <template>
   <div class="bntu-navbar">
     <div class="bntu-navbar-wrapper">
-      <a href="/" class="navbar-img-link">
-        <img class="navbar-img" src="/imgs/bntu/logo.jpg" alt="bntu-logo" />
-      </a>
+      <div class="bntu-nav-img-wrapper">
+        <a href="/" class="navbar-img-link">
+          <img class="navbar-img" src="/imgs/bntu/logo.jpg" alt="bntu-logo" />
+        </a>
+        <a id="widget"></a>
+      </div>
+
       <div class="navbar-bntu-links">
         <template v-for="(route, i) of routes" :key="route.name">
-          <a id="widget"></a>
           <a
             class="navbar-bntu-link"
             target="_blank"
@@ -51,7 +54,6 @@
               {{ route.label }}
             </router-link>
           </template>
-          <a id="widget"></a>
         </div>
       </div>
     </div>
@@ -97,8 +99,7 @@ export default {
     );
     telegramScript.setAttribute('async', '');
     telegramScript.setAttribute('data-telegram-login', 'zubr_life_bntu_bot');
-    telegramScript.setAttribute('data-userpic', 'false');
-    telegramScript.setAttribute('data-size', 'medium');
+    telegramScript.setAttribute('data-size', 'small');
     telegramScript.setAttribute(
       'data-auth-url',
       import.meta.env.VITE_TELEGRAM_AUTH_URL
@@ -111,6 +112,7 @@ export default {
 <style>
 #widget {
   padding: 0 !important;
+  margin-left: 10px;
 }
 .bntu-navbar {
   width: 100%;
@@ -125,7 +127,11 @@ export default {
   background: #fff;
   z-index: 20;
 }
-
+.bntu-nav-img-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
 .bntu-navbar-wrapper {
   width: 100%;
   height: 100%;
