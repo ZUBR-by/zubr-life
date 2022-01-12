@@ -56,6 +56,9 @@
                                         </li>
                                     </ul>
                                 </div>
+                                <div class="pt-4">
+                                    {{data.person.description}}
+                                </div>
                                 <div>
                                     <p
                                         v-for="item of data.person.organizations"
