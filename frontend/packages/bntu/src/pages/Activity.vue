@@ -261,6 +261,9 @@ query ($id: Int!) {
   display: flex;
   padding: 0;
 }
+.wrapper-tabs-bntu {
+  padding-bottom: 30px;
+}
 .bntu-article-top ul li {
   margin-right: 10px;
 }

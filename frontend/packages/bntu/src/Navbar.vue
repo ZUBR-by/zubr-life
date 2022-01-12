@@ -194,7 +194,7 @@ export default {
 .router-link-active {
   color: #d32121 !important;
 }
-@media screen and (max-width: 992px) {
+@media screen and (max-width: 1080px) {
   .router-link-active {
     color: black !important;
   }

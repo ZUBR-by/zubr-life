@@ -162,7 +162,7 @@
                 телеграм-боте.</span
               >
             </p>
-            <router-link :to="'/problems'" class="home-box-mobile-button"
+            <router-link :to="'/issues'" class="home-box-mobile-button"
               >Перейти</router-link
             >
           </div>
