@@ -1,5 +1,5 @@
 <template>
-  <div class="section zbr-promo">
+  <div class="section zbr-promo person-wrapper">
     <div class="columns is-centered">
       <div class="column is-two-thirds card-person">
         <div class="panel">
@@ -224,5 +224,12 @@ query ($id: Int!, $community: String!) {
   margin: 0 !important;
   padding: 0 !important;
   width: 100%;
+}
+
+@media screen and (max-width: 560px) {
+  .person-wrapper {
+    margin-top: 60px !important;
+    padding: 0 !important;
+  }
 }
 </style>

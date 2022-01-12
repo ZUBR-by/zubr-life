@@ -1059,8 +1059,11 @@ query ($community: String!) {
     background: transparent;
     flex-direction: column;
     justify-content: flex-start;
+    height: auto;
   }
-
+  .main-text {
+    text-shadow: none;
+  }
   .main-content {
     background: url('/imgs/bntu/people.png');
     background-size: cover;
