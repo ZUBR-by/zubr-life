@@ -15,17 +15,18 @@ use function Psl\Json\encode;
 class AddComment extends AbstractController implements ActionRequiresAuthorization
 {
     public function __invoke(
-        User $user,
-        Request $request,
-        FileUploader $fileUploader,
+        User          $user,
+        Request       $request,
+        FileUploader  $fileUploader,
         GraphQLClient $graphQLClient
-    ) : JsonResponse {
+    ): JsonResponse
+    {
         $type = $request->get('type');
         $text = $request->get('text');
         if (empty($text)) {
             return new JsonResponse(['error' => 'Текст комментария обязателен']);
         }
-        if (! in_array($type, ['person', 'organization', 'activity', 'community_activity'])) {
+        if (!in_array($type, ['person', 'organization', 'activity', 'community_activity'])) {
             return JsonResponse::fromJsonString(encode(['error' => 'Неправильный тип']));
         }
         $attachments = [];
@@ -36,7 +37,7 @@ class AddComment extends AbstractController implements ActionRequiresAuthorizati
             if (count($mime) !== 2) {
                 continue;
             }
-            if (! in_array($mime[0], ['image', 'video', 'audio'])
+            if (!in_array($mime[0], ['image', 'video', 'audio'])
                 && $file->getClientMimeType() !== 'application/pdf') {
                 continue;
             }
@@ -47,7 +48,7 @@ class AddComment extends AbstractController implements ActionRequiresAuthorizati
                 'mime' => $file->getClientMimeType(),
             ];
         }
-
+        $type = $type === 'community_activity' ? 'activity' : $type;
         $graphQLClient->requestAuth(/** @lang GraphQL */ <<<'GraphQL'
 mutation($comment: comment_insert_input!) {
     insert_comment_one(object: $comment) {
