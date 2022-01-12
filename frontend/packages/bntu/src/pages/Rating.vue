@@ -169,6 +169,7 @@ query ($community: String!) {
       return tmp;
     });
     const active1 = ref(0);
+
     return {
       fetching: result.fetching,
       data: result.data,
