@@ -1,5 +1,5 @@
 <template>
-  <div class="section zbr-promo">
+  <div class="section zbr-promo rating-wrapper">
     <div class="columns is-centered">
       <div class="column is-two-thirds" v-if="data">
         <h3 class="rating-bntu-title">Люди</h3>
@@ -47,7 +47,10 @@
                   </div>
                 </td>
                 <td>
-                  <div class="rating-name" v-if="!node.type && !node.data.link">
+                  <div
+                    class="rating-name word-break"
+                    v-if="!node.type && !node.data.link"
+                  >
                     {{ node.data.position }}
                   </div>
                 </td>
@@ -166,6 +169,7 @@ query ($community: String!) {
       return tmp;
     });
     const active1 = ref(0);
+
     return {
       fetching: result.fetching,
       data: result.data,
@@ -228,5 +232,27 @@ table {
 }
 .rating-name a:hover {
   color: #d32121;
+}
+
+@media screen and (max-width: 560px) {
+  .rating-bntu-title {
+    margin-left: 10px;
+    margin-bottom: 10px;
+  }
+  .rating-wrapper {
+    margin-top: 60px !important;
+    padding: 10px 0 0 0 !important;
+  }
+  .is-two-thirds {
+    padding: 0 !important;
+  }
+  .columns {
+    margin: 0 !important;
+  }
+}
+@media screen and (max-width: 350px) {
+  .word-break {
+    word-break: break-all;
+  }
 }
 </style>

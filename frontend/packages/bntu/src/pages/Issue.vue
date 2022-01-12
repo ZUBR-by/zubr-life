@@ -227,7 +227,7 @@ query ($id: Int!) {
         '"' +
         ' - Лошица ZUBR.life';
     });
-    console.log(result.data);
+
     return {
       fetching: result.fetching,
       data: result.data,

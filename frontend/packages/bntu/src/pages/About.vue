@@ -3,7 +3,7 @@
     <div class="bntu-sections">
       <div class="about-first">
         <div class="about-first-wrapper">
-          <img class="about-first-img" src="/about.jpg" />
+          <img class="about-first-img" src="/about.jpeg" />
           <div class="about-first-content">
             <h2>О нас</h2>
             <p>
@@ -37,6 +37,7 @@
               <li>умеете или хотите писать тексты</li>
               <li>готовы обновлять информацию на нашем сайте</li>
               <li>у вас есть идеи, как сделать наш сайт лучше</li>
+              <li>гражданских активистов</li>
             </ul>
           </div>
           <div class="about-second-help">
