@@ -60,7 +60,7 @@
               name="comments"
               v-if="data.activity"
             >
-              <comments :type="'activity'" :id="data.activity.id"></comments>
+              <comments :type="'community_activity'" :id="data.activity.id"></comments>
             </el-tab-pane>
             <el-tab-pane
               label="Галерея"
