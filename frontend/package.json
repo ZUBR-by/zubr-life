@@ -6,6 +6,8 @@
         "dev-loshitsa": "cd packages/loshitsa && vite",
         "dev-bntu": "cd packages/bntu && vite",
         "build-bntu": "cd packages/bntu && vite build",
+        "build-loshitsa": "cd packages/loshitsa && vite build",
+        "build-vitebsk": "cd packages/vitebsk && vite build",
         "preview-bntu": "cd packages/bntu && vite preview",
         "build": "vite build",
         "serve": "vite preview",
