@@ -1209,7 +1209,7 @@ query ($community: String!) {
   .bntu-button {
     font-family: Fira Sans;
     font-style: normal;
-    font-weight: 900;
+    font-weight: normal;
     font-size: 16px;
     line-height: 19px;
 
@@ -1257,7 +1257,7 @@ query ($community: String!) {
   .home-box-mobile-button {
     font-family: Fira Sans;
     font-style: normal;
-    font-weight: 900;
+    font-weight: normal;
     font-size: 16px;
     line-height: 19px;
 

@@ -100,7 +100,7 @@
                 </template>
               </div>
             </div>
-            <div class="pl-5 pt-3 pb-4 pr-5" style="min-height: 300px">
+            <div class="pl-5 pt-3 pb-4 pr-5 comments" style="min-height: 300px">
               <el-tabs v-model="activeName">
                 <el-tab-pane
                   label="Комментарии"
@@ -193,7 +193,7 @@ query ($id: Int!, $community: String!) {
       }
       document.title = value.person.full_name + ' - Лошица ZUBR.life';
     });
-    console.log(result.data);
+
     return {
       fetching: result.fetching,
       data: result.data,
@@ -222,6 +222,12 @@ query ($id: Int!, $community: String!) {
 </script>
 
 <style scoped lang="scss">
+.comments {
+  padding: 10px 5px;
+}
+.columns {
+  margin: 0 !important;
+}
 .person-photo {
   width: 150px;
   height: 150px;
@@ -252,7 +258,7 @@ query ($id: Int!, $community: String!) {
 }
 
 .card-person {
-  border-radius: 30px;
+  padding: 0;
 }
 
 .person-info {
