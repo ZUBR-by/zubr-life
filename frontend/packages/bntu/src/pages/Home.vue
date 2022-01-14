@@ -43,7 +43,7 @@
       <div class="home-boxes">
         <div class="home-boxes-wrapper">
           <a
-            href="https://drive.google.com/drive/folders/1J9NNrlqAKeDWA2a0bLqsvDk7nBmTEX-D"
+            href="https://drive.google.com/drive/u/3/folders/1MReZiH6w3LkclE3cK_RhDtI9W7Gx3SG4"
             target="_blank"
             class="home-box home-box-repository"
           >
@@ -105,7 +105,7 @@
               >
             </p>
             <a
-              href="https://drive.google.com/drive/folders/1J9NNrlqAKeDWA2a0bLqsvDk7nBmTEX-D"
+              href="https://drive.google.com/drive/u/3/folders/1MReZiH6w3LkclE3cK_RhDtI9W7Gx3SG4"
               target="_blank"
               class="home-box-mobile-button"
               >Перейти</a

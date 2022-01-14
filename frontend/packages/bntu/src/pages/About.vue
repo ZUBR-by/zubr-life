@@ -46,9 +46,14 @@
               верификации админами вы сможете работать анонимно.
             </p>
             <p>Чтобы присоединиться к нашей команде — заполните форму</p>
-            <button class="bntu-button bntu-button-main about-button">
+            <a
+              class="bntu-button bntu-button-main about-button"
+              target="_blank"
+              style="z-index: 10"
+              href="https://docs.google.com/forms/d/e/1FAIpQLSelsLdyK_FJfUeZkTTJOFZtkIPQh5cEcR5RxXv5Q6caijGIog/viewform?usp=sf_link"
+            >
               Перейти
-            </button>
+            </a>
           </div>
         </div>
       </div>
