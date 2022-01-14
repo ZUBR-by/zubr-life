@@ -13,7 +13,7 @@
           <a
             class="navbar-bntu-link"
             target="_blank"
-            href="https://drive.google.com/drive/folders/1J9NNrlqAKeDWA2a0bLqsvDk7nBmTEX-D"
+            href="https://drive.google.com/drive/folders/1MReZiH6w3LkclE3cK_RhDtI9W7Gx3SG4?usp=sharing"
             v-if="i === routes.length - 2"
           >
             Репозиторий
@@ -194,7 +194,7 @@ export default {
 .router-link-active {
   color: #d32121 !important;
 }
-@media screen and (max-width: 992px) {
+@media screen and (max-width: 1080px) {
   .router-link-active {
     color: black !important;
   }

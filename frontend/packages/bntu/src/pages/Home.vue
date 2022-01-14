@@ -43,7 +43,7 @@
       <div class="home-boxes">
         <div class="home-boxes-wrapper">
           <a
-            href="https://drive.google.com/drive/folders/1J9NNrlqAKeDWA2a0bLqsvDk7nBmTEX-D"
+            href="https://drive.google.com/drive/u/3/folders/1MReZiH6w3LkclE3cK_RhDtI9W7Gx3SG4"
             target="_blank"
             class="home-box home-box-repository"
           >
@@ -54,7 +54,7 @@
               ресурсы, а также готовые контрольные, лабораторные, курсовые
               проекты для студентов всех факультетов.<br /><br />
               Периодически мы будем обновлять репозиторий, для этого нам
-              необходима ваша помощь: если вам есть чем поделиться состудентами
+              необходима ваша помощь: если вам есть чем поделиться со студентами
               своей специальности — присылайте анонимно файл в наш телеграм-бот.
             </div>
           </a>
@@ -99,13 +99,13 @@
               <br /><br />
               <span
                 >Периодически мы будем обновлять репозиторий, для этого нам
-                необходима ваша помощь: если вам есть чем поделиться
-                состудентами своей специальности — присылайте анонимно файл в
-                наш телеграм-бот.</span
+                необходима ваша помощь: если вам есть чем поделиться со
+                студентами своей специальности — присылайте анонимно файл в наш
+                телеграм-бот.</span
               >
             </p>
             <a
-              href="https://drive.google.com/drive/folders/1J9NNrlqAKeDWA2a0bLqsvDk7nBmTEX-D"
+              href="https://drive.google.com/drive/u/3/folders/1MReZiH6w3LkclE3cK_RhDtI9W7Gx3SG4"
               target="_blank"
               class="home-box-mobile-button"
               >Перейти</a
@@ -113,7 +113,7 @@
           </div>
           <span class="home-box-mobile-span"
             >Периодически мы будем обновлять репозиторий, для этого нам
-            необходима ваша помощь: если вам есть чем поделиться состудентами
+            необходима ваша помощь: если вам есть чем поделиться со студентами
             своей специальности — присылайте анонимно файл в наш
             телеграм-бот.</span
           >
@@ -162,7 +162,7 @@
                 телеграм-боте.</span
               >
             </p>
-            <router-link :to="'/problems'" class="home-box-mobile-button"
+            <router-link :to="'/issues'" class="home-box-mobile-button"
               >Перейти</router-link
             >
           </div>
@@ -287,7 +287,7 @@
         </div>
       </div>
       <footer class="bntu-footer">
-        <span class="bntu-footer-text">© 2021 Все права защищены</span>
+        <span class="bntu-footer-text">© 2022 Все права защищены</span>
       </footer>
     </section>
   </div>
@@ -1209,7 +1209,7 @@ query ($community: String!) {
   .bntu-button {
     font-family: Fira Sans;
     font-style: normal;
-    font-weight: 900;
+    font-weight: normal;
     font-size: 16px;
     line-height: 19px;
 
@@ -1257,7 +1257,7 @@ query ($community: String!) {
   .home-box-mobile-button {
     font-family: Fira Sans;
     font-style: normal;
-    font-weight: 900;
+    font-weight: normal;
     font-size: 16px;
     line-height: 19px;
 

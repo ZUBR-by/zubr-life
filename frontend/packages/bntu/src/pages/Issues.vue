@@ -122,7 +122,7 @@
       </div>
     </div>
     <footer class="bntu-footer">
-      <span class="bntu-footer-text">© 2021 Все права защищены</span>
+      <span class="bntu-footer-text">© 2022 Все права защищены</span>
     </footer>
   </div>
 </template>

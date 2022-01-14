@@ -60,7 +60,10 @@
               name="comments"
               v-if="data.activity"
             >
-              <comments :type="'community_activity'" :id="data.activity.id"></comments>
+              <comments
+                :type="'community_activity'"
+                :id="data.activity.id"
+              ></comments>
             </el-tab-pane>
             <el-tab-pane
               label="Галерея"
@@ -147,7 +150,7 @@
       </div>
     </div>
     <footer class="bntu-footer">
-      <span class="bntu-footer-text">© 2021 Все права защищены</span>
+      <span class="bntu-footer-text">© 2022 Все права защищены</span>
     </footer>
     <template v-if="data && data.activity === null">
       <span class="pl-5 pb-5">Активность не найдена</span>
@@ -260,6 +263,9 @@ query ($id: Int!) {
 .bntu-article-top ul {
   display: flex;
   padding: 0;
+}
+.wrapper-tabs-bntu {
+  padding-bottom: 30px;
 }
 .bntu-article-top ul li {
   margin-right: 10px;
