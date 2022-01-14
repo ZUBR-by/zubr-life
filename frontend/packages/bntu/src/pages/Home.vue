@@ -8,11 +8,6 @@
             национального технического университета, которые решили запустить
             альтернативный сайт БНТУ
           </h1>
-          <span class="main-text">
-            Мы отличаемся тем, что публикуем честные новости, размещаем полезную
-            информацию для студентов в разделе «Репозиторий» и неравнодушием к
-            проблемам университета.
-          </span>
           <div class="buttons">
             <a
               href="https://t.me/bntu97_bot"
@@ -24,11 +19,6 @@
           </div>
         </div>
         <div class="main-content-bottom">
-          <span class="main-text">
-            Мы отличаемся тем, что публикуем честные новости, размещаем полезную
-            информацию для студентов в разделе «Репозиторий» и неравнодушием к
-            проблемам университета.
-          </span>
           <div class="buttons">
             <a
               href="https://t.me/bntu97_bot"
@@ -407,7 +397,7 @@ query ($community: String!) {
   line-height: 41px;
   color: #fff;
   text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
-  margin-bottom: 18px;
+  margin-bottom: 60px;
   margin-top: 0;
 }
 
