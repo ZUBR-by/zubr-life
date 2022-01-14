@@ -10,6 +10,7 @@
                 <td>
                   <div class="grid-image">
                     <img
+                      :alt="node.data.name"
                       :src="
                         node.data.photo_url
                           ? node.data.photo_url

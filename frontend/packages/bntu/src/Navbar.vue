@@ -3,7 +3,13 @@
     <div class="bntu-navbar-wrapper">
       <div class="bntu-nav-img-wrapper">
         <a href="/" class="navbar-img-link">
-          <img class="navbar-img" src="/imgs/bntu/logo.jpg" alt="bntu-logo" />
+          <img
+            class="navbar-img"
+            src="/imgs/bntu/logo.jpg"
+            alt="bntu-logo"
+            width="140"
+            height="90"
+          />
         </a>
         <a id="widget"></a>
       </div>
@@ -183,8 +189,6 @@ export default {
 }
 
 .navbar-img {
-  width: 100%;
-  height: 100%;
   object-fit: cover;
 }
 

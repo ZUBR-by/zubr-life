@@ -34,7 +34,11 @@
           <div class="bntu-news-content-wrapper">
             <template v-if="item.attachments">
               <template v-for="src of item.attachments.slice(0, 1)" :key="src">
-                <img :src="src.url" class="bntu-news-content-img" />
+                <img
+                  :src="src.url"
+                  class="bntu-news-content-img"
+                  :alt="item.title"
+                />
               </template>
             </template>
             <span class="bntu-news-content-title">
@@ -102,7 +106,12 @@
                   class="bntu-contacts-social-link"
                   target="_blank"
                 >
-                  <img src="/imgs/bntu/inst.png" alt="instagram bntu97" />
+                  <img
+                    src="/imgs/bntu/inst.png"
+                    alt="instagram bntu97"
+                    width="17"
+                    height="17"
+                  />
                 </a>
                 <a
                   target="_blank"
@@ -113,6 +122,8 @@
                     src="/imgs/bntu/tg.png"
                     alt="telegram bntu97"
                     style="margin-left: -5px"
+                    width="22"
+                    height="18"
                   />
                 </a>
               </div>
