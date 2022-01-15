@@ -61,7 +61,7 @@
                 Связь с редакцией и стачкомом:
               </h4>
               <span class="bntu-contacts-stach-text"
-                >тг
+                >telegram:
                 <a
                   href="https://t.me/bntu97_bot"
                   target="_blank"
