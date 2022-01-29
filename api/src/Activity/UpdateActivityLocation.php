@@ -17,8 +17,8 @@ class UpdateActivityLocation extends AbstractController implements BotAuthentica
     {
         /** @psalm-suppress PossiblyInvalidArgument */
         $payload = decode($request->getContent());
-        if (!isset($payload['uniqueId'])) {
-            return new JsonResponse(['error' => 'provide unique id']);
+        if (!isset($payload['activityData']['uniqueId'])) {
+            return new JsonResponse(['error' => 'provide unique id', 'payload' => $payload]);
         }
         $query = /** @lang GraphQL */
             <<<'GraphQL'
@@ -31,24 +31,24 @@ mutation($point: geometry, $uid: String!, $json: jsonb) {
     }
 }
 GraphQL;
-        if (!isset($payload['lng'], $payload['lat'])) {
+        if (!isset($payload['activityData']['lng'], $payload['activityData']['lat'])) {
             return new JsonResponse(['error' => 'not found lng or lat']);
         }
         $json = [];
-        if ($payload['region'] ?? false) {
-            $json['region'] = $payload['region'];
+        if ($payload['activityData']['region'] ?? false) {
+            $json['region'] = $payload['activityData']['region'];
         }
-        if ($payload['area'] ?? false) {
-            $json['area'] = $payload['area'];
+        if ($payload['activityData']['area'] ?? false) {
+            $json['area'] = $payload['activityData']['area'];
         }
         try {
             $graphQLClient->requestAuth(
                 $query,
                 [
-                    'uid'   => $payload['uniqueId'],
+                    'uid'   => $payload['activityData']['uniqueId'],
                     'point' => [
                         'type'        => 'Point',
-                        'coordinates' => [$payload['lng'], $payload['lat']],
+                        'coordinates' => [$payload['activityData']['lng'], $payload['activityData']['lat']],
                     ],
                     'json'  => $json,
                 ]
