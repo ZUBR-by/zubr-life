@@ -10,6 +10,7 @@
                 <td>
                   <div class="grid-image">
                     <img
+                      :alt="node.data.name"
                       :src="
                         node.data.photo_url
                           ? node.data.photo_url
@@ -236,7 +237,7 @@ table {
 
 @media screen and (max-width: 560px) {
   .rating-bntu-title {
-    margin-left: 10px;
+    margin-left: 0;
     margin-bottom: 10px;
   }
   .rating-wrapper {
@@ -244,7 +245,7 @@ table {
     padding: 10px 0 0 0 !important;
   }
   .is-two-thirds {
-    padding: 0 !important;
+    padding: 0 0 0 10px !important;
   }
   .columns {
     margin: 0 !important;

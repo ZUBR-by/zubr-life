@@ -54,7 +54,7 @@
               ресурсы, а также готовые контрольные, лабораторные, курсовые
               проекты для студентов всех факультетов.<br /><br />
               Периодически мы будем обновлять репозиторий, для этого нам
-              необходима ваша помощь: если вам есть чем поделиться состудентами
+              необходима ваша помощь: если вам есть чем поделиться со студентами
               своей специальности — присылайте анонимно файл в наш телеграм-бот.
             </div>
           </a>
@@ -99,9 +99,9 @@
               <br /><br />
               <span
                 >Периодически мы будем обновлять репозиторий, для этого нам
-                необходима ваша помощь: если вам есть чем поделиться
-                состудентами своей специальности — присылайте анонимно файл в
-                наш телеграм-бот.</span
+                необходима ваша помощь: если вам есть чем поделиться со
+                студентами своей специальности — присылайте анонимно файл в наш
+                телеграм-бот.</span
               >
             </p>
             <a
@@ -113,7 +113,7 @@
           </div>
           <span class="home-box-mobile-span"
             >Периодически мы будем обновлять репозиторий, для этого нам
-            необходима ваша помощь: если вам есть чем поделиться состудентами
+            необходима ваша помощь: если вам есть чем поделиться со студентами
             своей специальности — присылайте анонимно файл в наш
             телеграм-бот.</span
           >
@@ -190,7 +190,7 @@
                   {{ item.title }}
                 </span>
                 <span class="bntu-news-content-description">
-                  {{ item.description.replace(item.title, "") }}
+                  {{ item.description.replace(item.title, '') }}
                 </span>
               </div>
 
@@ -228,7 +228,7 @@
                   Связь с редакцией и стачкомом:
                 </h4>
                 <span class="bntu-contacts-stach-text"
-                  >тг
+                  >telegram:
                   <a
                     href="https://t.me/bntu97_bot"
                     target="_blank"
@@ -275,37 +275,37 @@
         </div>
       </div>
       <footer class="bntu-footer">
-        <span class="bntu-footer-text">© 2021 Все права защищены</span>
+        <span class="bntu-footer-text">© 2022 Все права защищены</span>
       </footer>
     </section>
   </div>
 </template>
 
 <script>
-import { defineComponent, ref } from "vue";
-import { useQuery } from "@urql/vue";
-import { formatDate } from "../../date";
+import { defineComponent, ref } from 'vue';
+import { useQuery } from '@urql/vue';
+import { formatDate } from '../../date';
 
-const community = typeof slug !== "undefined" ? slug : "unknown";
+const community = typeof slug !== 'undefined' ? slug : 'unknown';
 
 const communityMap = {
   loshitsa: {
-    name: "Лошица",
+    name: 'Лошица',
     zoom: 14.7,
     center: [27.580935, 53.844329],
   },
   vitebsk: {
-    name: "Витебск",
+    name: 'Витебск',
     zoom: 12.7,
     center: [30.2043, 55.1918],
   },
   bntu: {
-    name: "БНТУ",
+    name: 'БНТУ',
     zoom: 15.7,
     center: [27.593069412931786, 53.92111407553088],
   },
   unknown: {
-    name: "Терра Инкогнито",
+    name: 'Терра Инкогнито',
     zoom: 12.7,
     center: [0, 0],
   },
@@ -371,7 +371,7 @@ query ($community: String!) {
   justify-content: center;
   min-height: calc(100vh - 110px);
   height: calc(100vh - 110px);
-  background: url("/imgs/bntu/landing_back.png");
+  background: url('/imgs/bntu/landing_back.png');
   background-size: cover;
   background-repeat: no-repeat;
   background-position: center;
@@ -556,19 +556,19 @@ query ($community: String!) {
 }
 
 .home-box-repository {
-  background: url("/imgs/bntu/repository.png");
+  background: url('/imgs/bntu/repository.png');
   background-size: cover;
   background-repeat: no-repeat;
   background-position: center;
 }
 .home-box-people {
-  background: url("/imgs/bntu/people.png");
+  background: url('/imgs/bntu/people.png');
   background-size: cover;
   background-repeat: no-repeat;
   background-position: center;
 }
 .home-box-problems {
-  background: url("/imgs/bntu/problems.png");
+  background: url('/imgs/bntu/problems.png');
   background-size: cover;
   background-repeat: no-repeat;
   background-position: center;
@@ -904,19 +904,19 @@ query ($community: String!) {
     text-align: center;
   }
   .home-box-mobile-photo-repository {
-    background: url("/imgs/bntu/repository.png");
+    background: url('/imgs/bntu/repository.png');
     background-size: cover;
     background-repeat: no-repeat;
     background-position: center;
   }
   .home-box-mobile-photo-people {
-    background: url("/imgs/bntu/people.png");
+    background: url('/imgs/bntu/people.png');
     background-size: cover;
     background-repeat: no-repeat;
     background-position: center;
   }
   .home-box-mobile-photo-problems {
-    background: url("/imgs/bntu/problems.png");
+    background: url('/imgs/bntu/problems.png');
     background-size: cover;
     background-repeat: no-repeat;
     background-position: center;
@@ -970,7 +970,7 @@ query ($community: String!) {
     justify-content: flex-start;
   }
   .main-content {
-    background: url("/imgs/bntu/people.png");
+    background: url('/imgs/bntu/people.png');
     background-size: cover;
     background-repeat: no-repeat;
     background-position: top;

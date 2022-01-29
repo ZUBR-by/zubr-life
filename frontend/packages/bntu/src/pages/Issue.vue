@@ -60,7 +60,10 @@
               name="comments"
               v-if="data.activity"
             >
-              <comments :type="'community_activity'" :id="data.activity.id"></comments>
+              <comments
+                :type="'community_activity'"
+                :id="data.activity.id"
+              ></comments>
             </el-tab-pane>
             <el-tab-pane
               label="Галерея"
@@ -100,7 +103,7 @@
                 Связь с редакцией и стачкомом:
               </h4>
               <span class="bntu-contacts-stach-text"
-                >тг
+                >telegram:
                 <a
                   href="https://t.me/bntu97_bot"
                   target="_blank"
@@ -127,7 +130,12 @@
                   class="bntu-contacts-social-link"
                   target="_blank"
                 >
-                  <img src="/imgs/bntu/inst.png" alt="instagram bntu97" />
+                  <img
+                    src="/imgs/bntu/inst.png"
+                    alt="instagram bntu97"
+                    width="17"
+                    height="17"
+                  />
                 </a>
                 <a
                   target="_blank"
@@ -138,6 +146,8 @@
                     src="/imgs/bntu/tg.png"
                     alt="telegram bntu97"
                     style="margin-left: -5px"
+                    width="22"
+                    height="18"
                   />
                 </a>
               </div>
@@ -147,7 +157,7 @@
       </div>
     </div>
     <footer class="bntu-footer">
-      <span class="bntu-footer-text">© 2021 Все права защищены</span>
+      <span class="bntu-footer-text">© 2022 Все права защищены</span>
     </footer>
     <template v-if="data && data.activity === null">
       <span class="pl-5 pb-5">Активность не найдена</span>

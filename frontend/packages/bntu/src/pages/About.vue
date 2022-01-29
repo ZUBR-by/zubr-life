@@ -13,11 +13,10 @@
               студентам, искать единомышленников и делиться опытом.
             </p>
             <p>
-              На нашем сайте вы можете найти литературу и ресурсы, которые
+              На нашем сайте вы сможете найти литературу и ресурсы, которые
               пригодятся в работе по вашей специальности, выставлять рейтинг
-              преподавателям, комментировать и рассказывать о проблемах, читать
-              честные новости, присоединятся к тем, кто готов бороться с
-              несправедливостью в Беларуси и БНТУ.
+              преподавателям, комментировать, рассказывать о проблемах и читать
+              честные новости.
             </p>
           </div>
         </div>
@@ -27,7 +26,7 @@
           <div class="about-second-content">
             <h3 class="about-second-title">
               Мы всегда нуждаемся в инициативных ребятах, которые готовы
-              работать вместе с нами и разделают наши цели. Пишите нам, если вы:
+              работать вместе с нами и разделяют наши цели. Пишите нам, если вы:
             </h3>
             <ul>
               <li>дизайнер</li>
@@ -36,21 +35,24 @@
               <li>маркетолог и сммщик</li>
               <li>умеете или хотите писать тексты</li>
               <li>готовы обновлять информацию на нашем сайте</li>
-              <li>у вас есть идеи, как сделать наш сайт лучше</li>
-              <li>гражданских активистов</li>
+              <li>гражданский активист</li>
             </ul>
           </div>
           <div class="about-second-help">
             <img src="/mac.png" alt="help" class="about-second-img" />
             <p>
               Присоединиться к команде можно из любой точки мира. После
-              верификации админами вы сможете работать анонимно. Чтобы
-              присоединиться к нашей команде — заполните форму
+              верификации админами вы сможете работать анонимно.
             </p>
             <p>Чтобы присоединиться к нашей команде — заполните форму</p>
-            <button class="bntu-button bntu-button-main about-button">
+            <a
+              class="bntu-button bntu-button-main about-button"
+              target="_blank"
+              style="z-index: 10"
+              href="https://docs.google.com/forms/d/e/1FAIpQLSelsLdyK_FJfUeZkTTJOFZtkIPQh5cEcR5RxXv5Q6caijGIog/viewform?usp=sf_link"
+            >
               Перейти
-            </button>
+            </a>
           </div>
         </div>
       </div>
@@ -64,7 +66,7 @@
                   Связь с редакцией и стачкомом:
                 </h4>
                 <span class="bntu-contacts-stach-text"
-                  >тг
+                  >telegram:
                   <a
                     href="https://t.me/bntu97_bot"
                     target="_blank"
@@ -91,7 +93,12 @@
                     class="bntu-contacts-social-link"
                     target="_blank"
                   >
-                    <img src="/imgs/bntu/inst.png" alt="instagram bntu97" />
+                    <img
+                      src="/imgs/bntu/inst.png"
+                      alt="instagram bntu97"
+                      width="17"
+                      height="17"
+                    />
                   </a>
                   <a
                     target="_blank"
@@ -102,6 +109,8 @@
                       src="/imgs/bntu/tg.png"
                       alt="telegram bntu97"
                       style="margin-left: -5px"
+                      width="22"
+                      height="18"
                     />
                   </a>
                 </div>
@@ -111,7 +120,7 @@
         </div>
       </div>
       <footer class="bntu-footer">
-        <span class="bntu-footer-text">© 2021 Все права защищены</span>
+        <span class="bntu-footer-text">© 2022 Все права защищены</span>
       </footer>
     </div>
   </div>
