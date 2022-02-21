@@ -23,6 +23,7 @@ class AddProtocol extends AbstractController
         string        $uploadPath
     ): JsonResponse
     {
+        syslog(LOG_INFO, encode($request->request->all()));
         /** @var UploadedFile[] $files */
         $files   = $request->files->all();
         $success = 0;
