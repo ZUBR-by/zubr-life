@@ -19,6 +19,7 @@ services:
       $jwtAlgo: '%env(JWT_ALGO)%'
       $graphqlUrl: '%env(GRAPHQL_URL)%'
       $accessToken: '%env(ACCESS_TOKEN)%'
+      $uploadPath: '%env(UPLOAD_PATH)%'
 
   App\:
     resource: '../src/'

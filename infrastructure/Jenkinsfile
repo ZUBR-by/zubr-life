@@ -67,6 +67,7 @@ PRIVATE_KEY=%kernel.project_dir%/config/jwt/private.pem
 PUBLIC_KEY=%kernel.project_dir%/config/jwt/public.pem
 ACCESS_TOKEN=${ACCESS_TOKEN}
 GRAPHQL_URL=${GRAPHQL_URL}
+UPLOAD_PATH=/uploads
 """
             }
         }
