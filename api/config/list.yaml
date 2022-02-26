@@ -116,8 +116,12 @@ person_unrate:
   controller: App\Rating\UnratePerson
   methods: [ POST ]
 
-
 add_protocol:
   path: /protocol
   controller: App\AddProtocol
+  methods: [ POST ]
+
+add_message:
+  path: /violation
+  controller: App\AddMessage
   methods: [ POST ]

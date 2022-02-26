@@ -4,8 +4,7 @@ namespace App;
 
 use App\FileUploader;
 use App\GraphQLClient;
-use App\User;
-use Illuminate\Support\Js;
+use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -20,10 +19,11 @@ class AddProtocol extends AbstractController
         Request       $request,
         FileUploader  $fileUploader,
         GraphQLClient $graphQLClient,
+        LoggerInterface $logger,
         string        $uploadPath
     ): JsonResponse
     {
-        syslog(LOG_INFO, encode($request->request->all()));
+        $message = $request->request->all();
         /** @var UploadedFile[] $files */
         $files   = $request->files->all();
         $success = 0;

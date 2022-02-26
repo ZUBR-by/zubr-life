@@ -85,4 +85,37 @@ class GraphQLClient
         }
         return $raw['data'];
     }
+
+    public function requestObserverBot(string $query, array $variables = []): array
+    {
+        $jwt  = $this->JWTFactory->encode(
+            [
+                'hasura' => [
+                    'x-hasura-allowed-roles' => ['observer_bot'],
+                    'x-hasura-default-role'  => 'observer_bot',
+                ],
+                'exp'    => time() + 38 * 24 * 60 * 60,
+            ]
+        );
+        $body = [
+            'query' => $query,
+        ];
+        if (!empty($variables)) {
+            $body['variables'] = $variables;
+        }
+        $response = (new Client())->post(
+            $this->graphqlUrl,
+            [
+                'headers' => [
+                    'Cookie' => 'AUTH=' . $jwt,
+                ],
+                'json'    => $body,
+            ]
+        );
+        $raw      = decode($response->getBody()->getContents());
+        if (isset($raw['errors'])) {
+            throw new GraphQLRequestError($raw['errors'], $variables);
+        }
+        return $raw['data'];
+    }
 }
