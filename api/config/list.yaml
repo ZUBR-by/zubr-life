@@ -46,6 +46,10 @@ activity_last:
   controller: App\Activity\GetLastActivity
   methods: [ GET ]
 
+activity_add:
+  path: /activity/add
+  controller: App\Activity\AddActivity
+  methods: [ POST ]
 
 activity_create:
   path: /activity

@@ -34,7 +34,10 @@ class CheckUser implements EventSubscriberInterface
         }
         if ($controller instanceof BotAuthentication) {
             $request = $event->getRequest();
-            if ($request->headers->get('Authorization') !== 'Bearer ' . $this->accessToken) {
+            if (
+                $request->headers->get('Authorization') !== 'Bearer ' . $this->accessToken
+                && $request->headers->get('Authorization') !== $this->accessToken
+            ) {
                 throw new NotAuthorized();
             }
         }
