@@ -102,11 +102,12 @@ GraphQL, 'NEWS', strtoupper($payload['direction']));
             ] : null,
             'communities' => ['data' => [['community_id' => $payload['community']]]],
             'extra'       => [
-                'region'       => $payload['region'] ?? '',
-                'area'         => $payload['area'] ?? '',
-                'locked'       => false,
-                'entities'     => $payload['entities'] ?? [],
-                'content_type' => 'html'
+                'region'               => $payload['region'] ?? '',
+                'area'                 => $payload['area'] ?? '',
+                'locked'               => false,
+                'entities'             => $payload['entities'] ?? [],
+                'original_description' => $payload['description'] ?? '',
+                'content_type'         => 'html'
             ],
             'date'        => ($payload['created_at'] ?? null)
                 ? date(DATE_ATOM, (int)$payload['created_at'])
