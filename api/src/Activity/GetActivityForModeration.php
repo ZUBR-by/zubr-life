@@ -38,12 +38,13 @@ GraphQL;
             )['community_activity'][0] ?? null;
         if ($data !== null) {
             $data  = [
-                'id'          => $data['id'],
-                'url'         => $data['attachments'][0]['url'] ?? '',
-                'type'        => $data['attachments'][0]['type'] ?? 'text',
-                'area'        => $data['extra']['area'] ?? '',
-                'region'      => $data['extra']['region'] ?? '',
-                'description' => $data['description'],
+                'id'           => $data['id'],
+                'url'          => $data['attachments'][0]['url'] ?? '',
+                'type'         => $data['attachments'][0]['type'] ?? 'text',
+                'area'         => $data['extra']['area'] ?? '',
+                'region'       => $data['extra']['region'] ?? '',
+                'description'  => $data['description'],
+                'content_type' => $data['extra']['content_type'] ?? 'markdown',
             ];
             $query = /** @lang GraphQL */
                 <<<'GraphQL'
