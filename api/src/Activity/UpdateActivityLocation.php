@@ -34,7 +34,7 @@ GraphQL;
         if (!isset($payload['activityData']['lng'], $payload['activityData']['lat'])) {
             return new JsonResponse(['error' => 'not found lng or lat']);
         }
-        $json = [];
+        $json = ['updated_location' => true];
         if ($payload['activityData']['region'] ?? false) {
             $json['region'] = $payload['activityData']['region'];
         }
