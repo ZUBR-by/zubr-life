@@ -5,12 +5,15 @@ namespace App\Activity;
 use App\Auth\BotAuthentication;
 use App\Errors\GraphQLRequestError;
 use App\GraphQLClient;
+use lucadevelop\TelegramEntitiesDecoder\EntityDecoder;
 use Psr\Log\LoggerInterface;
+use stdClass;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Throwable;
+use function Psl\Dict\map;
 use function Psl\Json\decode;
 use function Psl\Json\encode;
 use function Psl\Str\replace;
@@ -88,24 +91,29 @@ mutation (
 }
 GraphQL, 'NEWS', strtoupper($payload['direction']));
         $payload['community'] ??= 'belarus';
-        $variables            = [
+
+        $message           = new stdClass();
+        $message->text     = $payload['description'] ?? '';
+        $message->entities = (object)(map($payload['entities'] ?? [], fn($item) => (object)$item));
+        $variables         = [
             'point'       => ($payload['lng'] ?? false) ? [
                 'type'        => 'Point',
                 'coordinates' => [$payload['lng'], $payload['lat']],
             ] : null,
             'communities' => ['data' => [['community_id' => $payload['community']]]],
             'extra'       => [
-                'region'   => $payload['region'] ?? '',
-                'area'     => $payload['area'] ?? '',
-                'locked'   => false,
-                'entities' => $payload['entities'] ?? []
+                'region'       => $payload['region'] ?? '',
+                'area'         => $payload['area'] ?? '',
+                'locked'       => false,
+                'entities'     => $payload['entities'] ?? [],
+                'content_type' => 'html'
             ],
             'date'        => ($payload['created_at'] ?? null)
                 ? date(DATE_ATOM, (int)$payload['created_at'])
                 : date(DATE_ATOM),
             'user'        => $payload['botId'],
             'uniqueId'    => $payload['unique_id'] ?? null,
-            'description' => $payload['description'] ?? '',
+            'description' => (new EntityDecoder())->decode($message),
             'attachments' => $payload['attachments'] ?? [],
         ];
         try {
