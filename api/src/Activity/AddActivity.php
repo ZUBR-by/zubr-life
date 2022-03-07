@@ -92,10 +92,16 @@ mutation (
 GraphQL, 'NEWS', strtoupper($payload['direction']));
         $payload['community'] ??= 'belarus';
 
-        $message           = new stdClass();
-        $message->text     = $payload['description'] ?? '';
-        $message->entities = (object)(map($payload['entities'] ?? [], fn($item) => (object)$item));
-        $variables         = [
+        $entities      = $payload['entities'] ?? [];
+        $description   = $payload['description'] ?? '';
+        $message       = new stdClass();
+        $message->text = $payload['description'] ?? '';
+        if (count($entities) > 0) {
+            $message->entities = (object)(map($entities, fn($item) => (object)$item));
+            $description       = (new EntityDecoder())->decode($message);
+        }
+        $description = replace($description, "\n", '<br>');
+        $variables   = [
             'point'       => ($payload['lng'] ?? false) ? [
                 'type'        => 'Point',
                 'coordinates' => [$payload['lng'], $payload['lat']],
@@ -105,8 +111,8 @@ GraphQL, 'NEWS', strtoupper($payload['direction']));
                 'region'               => $payload['region'] ?? '',
                 'area'                 => $payload['area'] ?? '',
                 'locked'               => false,
-                'entities'             => $payload['entities'] ?? [],
-                'original_description' => $payload['description'] ?? '',
+                'entities'             => $entities,
+                'original_description' => $message->text,
                 'content_type'         => 'html'
             ],
             'date'        => ($payload['created_at'] ?? null)
@@ -114,7 +120,7 @@ GraphQL, 'NEWS', strtoupper($payload['direction']));
                 : date(DATE_ATOM),
             'user'        => $payload['botId'],
             'uniqueId'    => $payload['unique_id'] ?? null,
-            'description' => (new EntityDecoder())->decode($message),
+            'description' => $description,
             'attachments' => $payload['attachments'] ?? [],
         ];
         try {
