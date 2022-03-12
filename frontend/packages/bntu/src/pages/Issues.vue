@@ -41,9 +41,7 @@
                 />
               </template>
             </template>
-            <span class="bntu-news-content-title">
-              {{ item.title }}
-            </span>
+            <span class="bntu-news-content-title" v-html="item.title"></span>
             <template v-if="!item.attachments.length">
               <span class="bntu-news-content-description">
                 {{ item.description.replace(item.title, '') }}
