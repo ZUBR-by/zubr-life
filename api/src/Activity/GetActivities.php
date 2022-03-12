@@ -31,7 +31,8 @@ query($timestamp: timestamp!)  {
             {status: {_eq: "APPROVED"}}, 
             {geometry: {_is_null: false}},
             {validated_at: {_gte: $timestamp}},
-            {category: {_in: ["PROTEST","EVENT","ART"]}}
+            {category: {_in: ["PROTEST","EVENT","ART"]}},
+            {communities: {community_id: {_is_null: true}}}
         ]
         },
         order_by: [{validated_at: desc}]
