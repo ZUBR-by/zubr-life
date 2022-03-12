@@ -32,8 +32,8 @@
               class="bntu-article-first-img"
             />
           </template>
-          <h3 class="is-size-4" v-if="data.activity.extra.name">
-            {{ data.activity.extra.name }}
+          <h3 class="is-size-4" v-if="data.activity.title">
+            {{ data.activity.title }}
           </h3>
           <p>{{ formatDate(data.activity.created_at) }}</p>
           <p
@@ -203,7 +203,7 @@ query ($id: Int!) {
         id
         description
         content
-        extra
+        title
         category
         geometry
         created_at

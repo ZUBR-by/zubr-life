@@ -8,7 +8,7 @@ use Symfony\Component\HttpFoundation\Request;
 
 class HomePageAction extends AbstractController
 {
-    public function __invoke(Request $request, GraphQLClient $graphQLClient) : JsonResponse
+    public function __invoke(Request $request, GraphQLClient $graphQLClient): JsonResponse
     {
         $community = $request->get('community');
         $query     = /** @lang GraphQL */
@@ -25,7 +25,7 @@ query($community: String!)  {
         id
         attachments
         description
-        extra
+        title
         category
         geometry
         created_at
@@ -60,11 +60,11 @@ GraphQL;
                         'id'         => 'activity' . $activity['id'],
                         'properties' => [
                             'id'         => $activity['id'],
-                            'name'       => $activity['extra']['name'] ?? $activity['description'],
+                            'name'       => $activity['title'] ?? $activity['description'],
                             'type'       => $activity['category'],
                             'created_at' => $activity['created_at'],
                         ],
-                        'geometry' => $activity['geometry']
+                        'geometry'   => $activity['geometry']
                     ];
                 }
                 foreach ($data['organization'] as $organization) {
@@ -72,11 +72,11 @@ GraphQL;
                         'type'       => 'Feature',
                         'id'         => 'activity' . $organization['id'],
                         'properties' => [
-                            'id'         => $organization['id'],
-                            'name'       => $organization['name'],
-                            'type'       => 'organization'
+                            'id'   => $organization['id'],
+                            'name' => $organization['name'],
+                            'type' => 'organization'
                         ],
-                        'geometry' => $organization['geometry']
+                        'geometry'   => $organization['geometry']
                     ];
                 }
 
