@@ -32,7 +32,7 @@ query($timestamp: timestamp!)  {
             {geometry: {_is_null: false}},
             {validated_at: {_gte: $timestamp}},
             {category: {_in: ["PROTEST","EVENT","ART"]}},
-            {communities: {community_id: {_is_null: true}}}
+            {communities: {community_id: {_eq: "belarus"}}}
         ]
         },
         order_by: [{validated_at: desc}]
