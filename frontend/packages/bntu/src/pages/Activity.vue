@@ -38,7 +38,7 @@
           <p>{{ formatDate(data.activity.created_at) }}</p>
           <p
             style="white-space: pre-wrap; font-size: 18px"
-            v-html="data.activity.content"
+            v-html="data.activity.description"
           ></p>
           <ul>
             <li
