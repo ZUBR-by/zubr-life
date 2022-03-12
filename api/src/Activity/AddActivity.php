@@ -17,6 +17,7 @@ use function Psl\Dict\map;
 use function Psl\Json\decode;
 use function Psl\Json\encode;
 use function Psl\Str\replace;
+use function Psl\Str\slice;
 
 class AddActivity extends AbstractController implements BotAuthentication
 {
@@ -64,6 +65,7 @@ mutation (
     $extra: jsonb, 
     $date: timestamp, 
     $description: String,
+    $title: String,
     $user: Int,
     $attachments: jsonb,
     $uniqueId: String
@@ -72,6 +74,7 @@ mutation (
         objects: {
             category: NEWS,
             extra: $extra,
+            title: $title,
             created_at: $date,
             geometry: $point,
             description: $description,
@@ -100,6 +103,15 @@ GraphQL, 'NEWS', strtoupper($payload['direction']));
             $message->entities = (object)(map($entities, fn($item) => (object)$item));
             $description       = (new EntityDecoder())->decode($message);
         }
+        $title       = (function (string $raw) {
+            foreach ([PHP_EOL, '.', '!', '?'] as $break) {
+                if (!str_contains($raw, $break)) {
+                    continue;
+                }
+                return \Psl\Str\split($raw, $break)[0];
+            }
+            return slice($raw, 0, 50);
+        })($message->text);
         $description = replace($description, "\n", '<br>');
         $variables   = [
             'point'       => ($payload['lng'] ?? false) ? [
@@ -115,6 +127,7 @@ GraphQL, 'NEWS', strtoupper($payload['direction']));
                 'original_description' => $message->text,
                 'content_type'         => 'html'
             ],
+            'title'       => $title,
             'date'        => ($payload['created_at'] ?? null)
                 ? date(DATE_ATOM, (int)$payload['created_at'])
                 : date(DATE_ATOM),
