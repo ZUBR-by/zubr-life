@@ -47,6 +47,7 @@ query($timestamp: timestamp!)  {
             community_id
         }
         files {
+            extra
             attachment {
                 url
                 content_type
@@ -74,7 +75,7 @@ GraphQL;
                         fn(array $raw): array => [
                             'url'   => $raw['attachment']['url'],
                             'type'  => $formatAttachmentType($raw['attachment']['content_type']),
-                            'thumb' => $raw['extra']['thumb'] ?? ''
+                            'thumb' => $raw['extra']['thumb'] ?? $raw['attachment']['thumb'] ?? ''
                         ]
                     ),
                     'geometry'    => $item['geometry'],

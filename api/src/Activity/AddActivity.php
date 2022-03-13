@@ -134,7 +134,12 @@ GraphQL, 'NEWS', strtoupper($payload['direction']));
             'user'        => $payload['botId'],
             'uniqueId'    => $payload['unique_id'] ?? null,
             'description' => $description,
-            'attachments' => \Psl\Vec\map($payload['attachments'] ?? [], fn(array $item) => ['attachment_id' => $item['id']]),
+            'attachments' => \Psl\Vec\map($payload['attachments'] ?? [], fn(array $item) => [
+                'attachment_id' => $item['id'],
+                'extra'         => [
+                    'thumb' => $item['thumb'] ?? ''
+                ]
+            ]),
         ];
         try {
             $data = $graphQLClient->requestAuth($query, $variables)['insert_community_activity']['returning'][0];
