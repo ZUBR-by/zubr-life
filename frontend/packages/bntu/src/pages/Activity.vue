@@ -204,6 +204,7 @@ query ($id: Int!) {
         title
         category
         geometry
+        extra
         created_at
     }
 }
