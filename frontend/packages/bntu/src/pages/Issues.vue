@@ -32,17 +32,17 @@
           v-bind:key="item.id"
         >
           <div class="bntu-news-content-wrapper">
-            <template v-if="item.attachments">
-              <template v-for="src of item.attachments.slice(0, 1)" :key="src">
+            <template v-if="item.files">
+              <template v-for="src of item.files.slice(0, 1)" :key="src">
                 <img
-                  :src="src.url"
+                  :src="src.attachment.url"
                   class="bntu-news-content-img"
                   :alt="item.title"
                 />
               </template>
             </template>
             <span class="bntu-news-content-title" v-html="item.title"></span>
-            <template v-if="!item.attachments.length">
+            <template v-if="!item.files.length">
               <span class="bntu-news-content-description">
                 {{ item.description.replace(item.title, '') }}
               </span>
@@ -144,7 +144,8 @@ import { formatDate } from '../date';
 export default defineComponent({
   setup() {
     const result = useQuery({
-      query: `
+        // language=GraphQL
+        query: `
 query ($community: String!) {
     community_activity(
         where: {
@@ -153,7 +154,12 @@ query ($community: String!) {
         },
         order_by: [{created_at: desc}]
     ) {
-        attachments
+        files {
+            attachment {
+                url
+                type: content_type
+            }
+        }
         id
         title
         description

@@ -173,13 +173,13 @@
               v-bind:key="item"
             >
               <div class="bntu-news-content-wrapper">
-                <template v-if="item.attachments">
+                <template v-if="item.files.length > 0">
                   <template
-                    v-for="src of item.attachments.slice(0, 1)"
+                    v-for="src of item.files.slice(0, 1)"
                     :key="src"
                   >
                     <img
-                      :src="src.url"
+                      :src="src.attachment.url"
                       class="bntu-news-content-img"
                       :alt="item.title"
                     />
@@ -188,7 +188,7 @@
                 <span class="bntu-news-content-title">
                   {{ item.title }}
                 </span>
-                <template v-if="!item.attachments.length">
+                <template v-if="!item.files.length">
                   <span class="bntu-news-content-description">
                     {{ item.description.replace(item.title, '') }}
                   </span>
@@ -343,7 +343,12 @@ query ($community: String!) {
         description
         extra
         created_at
-        attachments
+        files {
+            attachment {
+                url
+                type: content_type
+            }
+        }
     }
 }
       `,

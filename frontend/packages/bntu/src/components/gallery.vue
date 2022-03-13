@@ -1,12 +1,12 @@
 <template>
     <lightgallery :settings="{ speed: 500, plugins: plugins }">
         <template v-for="(item, index) of collection">
-            <a v-if="item.type === 'image' || item.type === 'photo'" :data-lg-size="item.size"
+            <a v-if="item.type === 'image' || item.type === 'photo' || item.type.substr(0, 5) === 'image'" :data-lg-size="item.size"
                class="gallery-item pl-1"
                :data-src="item.url ? item.url : item.value">
                 <img :src="item.url ? item.url : item.value">
             </a>
-            <a  v-if="item.type === 'video'"
+            <a  v-if="item.type === 'video' || item.type.substr(0, 5) === 'video'"
                 data-lg-size="1280-720"
                 :data-video='JSON.stringify(
                     {

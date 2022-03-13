@@ -21,11 +21,11 @@
       </nav>
       <template v-if="data && data.activity">
         <article class="bntu-article">
-          <template v-if="!!data.activity.attachments.length">
+          <template v-if="!!data.activity.files.length">
             <img
               :src="
-                data.activity.attachments.filter(
-                  (item) => item.type !== 'link'
+                data.activity.files.filter(
+                  (item) => item.attachment.type !== 'link'
                 )[0].url
               "
               alt=""
@@ -40,11 +40,9 @@
             style="white-space: pre-wrap; font-size: 18px"
             v-html="data.activity.content"
           ></p>
-          <ul>
+          <ul v-if="data.activity.extra.links">
             <li
-              v-for="link of data.activity.attachments.filter(
-                (item) => item.type === 'link'
-              )"
+              v-for="link of data.activity.extra.links"
               :key="link.url ? link.url : link.value"
             >
               <a :href="link.url ? link.url : link.value">{{
@@ -68,15 +66,9 @@
             <el-tab-pane
               label="Галерея"
               name="media"
-              v-if="!!data.activity.attachments.length"
+              v-if="!!data.activity.files.length"
             >
-              <gallery
-                :collection="
-                  data.activity.attachments.filter(
-                    (item) => item.type !== 'link'
-                  )
-                "
-              ></gallery>
+              <gallery :collection="data.activity.files.map(i => {return i.attachment})"></gallery>
             </el-tab-pane>
             <el-tab-pane
               label="Место"
@@ -199,7 +191,12 @@ export default defineComponent({
       query: `
 query ($id: Int!) {
     activity: community_activity_by_pk(id: $id){
-        attachments
+        files {
+            attachment {
+                url
+                type: content_type
+            }
+        }
         id
         description
         content
