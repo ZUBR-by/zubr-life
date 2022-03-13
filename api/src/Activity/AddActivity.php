@@ -67,7 +67,7 @@ mutation (
     $description: String,
     $title: String,
     $user: Int,
-    $attachments: jsonb,
+    $attachments: [community_activity_attachment_insert_input!]!,
     $uniqueId: String
 ) {
     insert_community_activity(
@@ -80,8 +80,8 @@ mutation (
             description: $description,
             user_id: $user,
             communities: $communities,
-            attachments: $attachments,
-            unique_id: $uniqueId
+            unique_id: $uniqueId,
+            files: {data: $attachments}
         }
     ) {
         returning {
@@ -134,7 +134,7 @@ GraphQL, 'NEWS', strtoupper($payload['direction']));
             'user'        => $payload['botId'],
             'uniqueId'    => $payload['unique_id'] ?? null,
             'description' => $description,
-            'attachments' => $payload['attachments'] ?? [],
+            'attachments' => \Psl\Vec\map($payload['attachments'] ?? [], fn(array $item) => ['attachment_id' => $item['id']]),
         ];
         try {
             $data = $graphQLClient->requestAuth($query, $variables)['insert_community_activity']['returning'][0];
