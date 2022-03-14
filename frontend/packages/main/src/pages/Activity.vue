@@ -25,15 +25,19 @@
                             <p style="white-space: pre-wrap;font-size: 18px" v-html="data.activity.content">
                             </p>
                             <ul>
-                                <li v-for="link of data.activity.attachments.filter(item => item.type === 'link')" :key="link.url ? link.url : link.value">
-                                    <a :href="link.url ? link.url : link.value">{{ link.name ? link.name : link.url }}</a>
+                                <li v-for="link of data.activity.attachments.filter(item => item.type === 'link')"
+                                    :key="link.url ? link.url : link.value">
+                                    <a :href="link.url ? link.url : link.value">{{
+                                            link.name ? link.name : link.url
+                                        }}</a>
                                 </li>
                             </ul>
                         </article>
                         <div class="pl-5 pt-3 pb-4 pr-5" style="min-height: 300px;">
                             <el-tabs v-model="activeName">
                                 <el-tab-pane label="Галерея" name="media">
-                                    <gallery :collection="data.activity.attachments.filter(item => item.type !== 'link')"></gallery>
+                                    <gallery
+                                        :collection="data.activity.attachments.filter(item => item.type !== 'link')"></gallery>
                                 </el-tab-pane>
                                 <el-tab-pane label="Место" name="place" v-if="data.activity.geometry">
                                     <place ref="map" :feature="data.activity.geometry" v-if="mapInit"></place>
@@ -65,12 +69,12 @@
 <script>
 
 import {ElTabPane, ElTabs, ElImage} from "element-plus";
-import {useRoute}                   from "vue-router";
-import {defineComponent, watch, ref}     from "vue";
-import Map                          from "../components/place.vue";
-import gallery                      from "../components/gallery.vue";
-import Comments                     from "../components/comments.vue";
-import {useQuery}                   from "@urql/vue";
+import {useRoute} from "vue-router";
+import {defineComponent, watch, ref} from "vue";
+import Map from "../components/place.vue";
+import gallery from "../components/gallery.vue";
+import Comments from "../components/comments.vue";
+import {useQuery} from "@urql/vue";
 import {formatDate} from "../date";
 
 export default defineComponent({
@@ -85,7 +89,7 @@ export default defineComponent({
     setup() {
         const result = useQuery({
                 // language=GraphQL
-                query    : `
+                query: `
 query ($id: Int!) {
     activity: community_activity_by_pk(id: $id){
         attachments
@@ -108,13 +112,16 @@ query ($id: Int!) {
         const activeName = ref('media')
         const mapInit = ref(false)
         watch(activeName, () => {
-          if (activeName.value !== 'place' && mapInit.value === true){
-            return
-          }
-          mapInit.value = true;
-          setTimeout(() => {
-            map.value.refresh()
-          }, 20)
+            if (activeName.value !== 'place' && mapInit.value === true) {
+                return
+            }
+            mapInit.value = true;
+            setTimeout(() => {
+                if (!map.value) {
+                    return
+                }
+                map.value.refresh()
+            }, 20)
 
         });
         watch(result.data, (value) => {
@@ -127,9 +134,9 @@ query ($id: Int!) {
         })
 
         return {
-            fetching  : result.fetching,
-            data      : result.data,
-            error     : result.error,
+            fetching: result.fetching,
+            data: result.data,
+            error: result.error,
             activeName,
             formatDate,
             mapInit,

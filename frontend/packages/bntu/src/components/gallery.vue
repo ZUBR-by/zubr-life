@@ -1,16 +1,17 @@
 <template>
     <lightgallery :settings="{ speed: 500, plugins: plugins }">
         <template v-for="(item, index) of collection">
-            <a v-if="item.type === 'image' || item.type === 'photo' || item.type.substr(0, 5) === 'image'" :data-lg-size="item.size"
+            <a v-if="item.type === 'image' || item.type === 'photo' || item.type.substr(0, 5) === 'image'"
+               :data-lg-size="item.size"
                class="gallery-item pl-1"
-               :data-src="item.url ? item.url : item.value">
-                <img :src="item.url ? item.url : item.value">
+               :data-src="item.url || item.value">
+                <img :src="item.url || item.value">
             </a>
             <a  v-if="item.type === 'video' || item.type.substr(0, 5) === 'video'"
                 data-lg-size="1280-720"
                 :data-video='JSON.stringify(
                     {
-                        "source": [{"src": item.url ? item.url : item.value, "type":"video/mp4"}],
+                        "source": [{"src": item.url || item.value, "type":"video/mp4"}],
                         "attributes": {"preload": false, "controls": true}
                     })'
             >
@@ -21,7 +22,7 @@
             </a>
             <a v-if="item.type === 'youtube'"
                 data-lg-size="1280-720"
-                :data-src="item.url ? item.url : item.value"
+                :data-src="item.url || item.value"
             >
                 <img src="/imgs/video-thumb.jpg"
                      class="pl-1"
