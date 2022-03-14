@@ -222,6 +222,9 @@ query ($id: Int!) {
       }
       mapInit.value = true;
       setTimeout(() => {
+        if (! map.value) {
+            return
+        }
         map.value.refresh();
       }, 20);
     });
