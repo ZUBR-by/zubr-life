@@ -174,10 +174,7 @@
             >
               <div class="bntu-news-content-wrapper">
                 <template v-if="item.files.length > 0">
-                  <template
-                    v-for="src of item.files.slice(0, 1)"
-                    :key="src"
-                  >
+                  <template v-for="src of item.files.slice(0, 1)" :key="src">
                     <img
                       :src="src.attachment.url"
                       class="bntu-news-content-img"
@@ -189,13 +186,17 @@
                   {{ item.title }}
                 </span>
                 <template v-if="!item.files.length">
-                  <span class="bntu-news-content-description">
-                    {{ item.description.replace(item.title, '') }}
+                  <span
+                    class="bntu-news-content-description"
+                    v-html="item.description"
+                  >
                   </span>
                 </template>
                 <template v-else>
-                  <span class="bntu-news-content-description-img">
-                    {{ item.description.replace(item.title, '') }}
+                  <span
+                    class="bntu-news-content-description"
+                    v-html="item.description"
+                  >
                   </span>
                 </template>
               </div>
@@ -723,7 +724,7 @@ query ($community: String!) {
   object-fit: cover;
   object-position: top;
   border-radius: 10px;
-  margin-bottom: 20px;
+  margin-bottom: 10px;
 }
 
 .bntu-news-content:hover {
@@ -746,14 +747,33 @@ query ($community: String!) {
   display: -webkit-box;
   -webkit-line-clamp: 6;
   -webkit-box-orient: vertical;
-  margin-top: 20px;
+  margin-top: 10px;
 }
-.bntu-news-content-description-img {
+
+.bntu-news-content-description header,
+.bntu-news-content-description br {
+  display: none;
+}
+
+.bntu-description-router {
   overflow: hidden;
   display: -webkit-box;
-  -webkit-line-clamp: 2;
+  -webkit-line-clamp: 1;
   -webkit-box-orient: vertical;
-  margin-top: 20px;
+}
+
+.bntu-description-activity p,
+.bntu-description-activity blockquote {
+  margin: 0;
+}
+
+.bntu-description-activity header {
+  display: none;
+}
+
+.bntu-description-router header,
+.bntu-description-router br {
+  display: none;
 }
 
 .bntu-news-bottom {
