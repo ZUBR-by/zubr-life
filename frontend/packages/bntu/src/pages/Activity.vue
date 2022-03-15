@@ -11,10 +11,11 @@
           </li>
           <template v-if="data && data.activity">
             <li>
-              <span v-if="data.activity.description">{{
-                data.activity.description.split(' ').slice(0, 5).join(' ') +
-                '...'
-              }}</span>
+              <span
+                class="bntu-description-router"
+                v-if="data.activity.title"
+                v-html="data.activity.title"
+              ></span>
             </li>
           </template>
         </ul>
@@ -26,7 +27,7 @@
               :src="
                 data.activity.files.filter(
                   (item) => item.attachment.type !== 'link'
-                )[0].url
+                )[0].attachment.url
               "
               alt=""
               class="bntu-article-first-img"
@@ -38,6 +39,7 @@
           <p>{{ formatDate(data.activity.created_at) }}</p>
           <p
             style="white-space: pre-wrap; font-size: 18px"
+            class="bntu-description-activity"
             v-html="data.activity.description"
           ></p>
           <ul v-if="data.activity.extra.links">
@@ -68,7 +70,12 @@
               name="media"
               v-if="!!data.activity.files.length"
             >
-              <gallery :collection="data.activity.files.map(i => {return i.attachment})"
+              <gallery
+                :collection="
+                  data.activity.files.map((i) => {
+                    return i.attachment;
+                  })
+                "
               ></gallery>
             </el-tab-pane>
             <el-tab-pane
@@ -222,8 +229,8 @@ query ($id: Int!) {
       }
       mapInit.value = true;
       setTimeout(() => {
-        if (! map.value) {
-            return
+        if (!map.value) {
+          return;
         }
         map.value.refresh();
       }, 20);

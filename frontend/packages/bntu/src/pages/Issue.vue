@@ -11,10 +11,11 @@
           </li>
           <template v-if="data && data.activity">
             <li>
-              <span v-if="data.activity.description">{{
-                data.activity.description.split(' ').slice(0, 5).join(' ') +
-                '...'
-              }}</span>
+              <span
+                class="bntu-description-router"
+                v-if="data.activity.title"
+                v-html="data.activity.title"
+              ></span>
             </li>
           </template>
         </ul>
@@ -26,7 +27,7 @@
               :src="
                 data.activity.files.filter(
                   (item) => item.attachment.type !== 'link'
-                )[0].url
+                )[0].attachment.url
               "
               alt=""
               class="bntu-article-first-img"
@@ -68,7 +69,13 @@
               name="media"
               v-if="!!data.activity.files.length"
             >
-              <gallery :collection="data.activity.files.map(i => {return i.attachment})"></gallery>
+              <gallery
+                :collection="
+                  data.activity.files.map((i) => {
+                    return i.attachment;
+                  })
+                "
+              ></gallery>
             </el-tab-pane>
             <el-tab-pane
               label="Место"
@@ -204,6 +211,7 @@ query ($id: Int!) {
         category
         geometry
         created_at
+        title
     }
 }
       `,
