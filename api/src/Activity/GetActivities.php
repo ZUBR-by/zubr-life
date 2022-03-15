@@ -43,6 +43,7 @@ query($timestamp: timestamp!)  {
         extra
         category
         geometry
+        title
         communities {
             community_id
         }
@@ -80,6 +81,7 @@ GraphQL;
                     ),
                     'geometry'    => $item['geometry'],
                     'description' => $item['description'],
+                    'title'       => $item['title'],
                     'area'        => $item['extra']['area'] ?? '',
                     'region'      => $item['extra']['region'] ?? '',
                     'community'   => $item['communities']['community_id'] ?? 'belarus',
