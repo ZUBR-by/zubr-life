@@ -17,6 +17,7 @@ export default defineConfig({
   css: {
     preprocessorOptions: {
       scss: {
+        charset: false,
         additionalData: `
 $--color-primary: #da1039;
 $--color-success: #da1039;
