@@ -24,11 +24,25 @@ class LoginAction extends AbstractController
     ): Response
     {
         $credentials = $request->query->all();
-        $response    = $this->redirect((string) $request->headers->get('referer'));
+        $response    = $this->redirect((string)$request->headers->get('referer'));
         $error       = $this->checkCredentials($credentials, $botTokenFactory->current());
         if ($error) {
-            $logger->error($error->__toString(), ['slug' => $slug, 'token' => $botTokenFactory->current(), $credentials]);
-            $response->setTargetUrl($response->getTargetUrl() . '?error=auth');
+            $logger->error(
+                $error->__toString(),
+                [
+                    'slug'  => $slug,
+                    'token' => $botTokenFactory->current(),
+                    'query' => $credentials
+                ]
+            );
+            $url   = $response->getTargetUrl();
+            $query = parse_url($url, PHP_URL_QUERY);
+            if ($query) {
+                $url .= '&error=auth';
+            } else {
+                $url .= '?error=auth';
+            }
+            $response->setTargetUrl($url);
             return $response;
         }
         $id          = $credentials['id'];
