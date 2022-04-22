@@ -207,7 +207,6 @@ query ($id: Int!) {
         }
         id
         description
-        content
         title
         category
         geometry
