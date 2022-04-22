@@ -27,7 +27,7 @@ class LoginAction extends AbstractController
         $response    = $this->redirect((string) $request->headers->get('referer'));
         $error       = $this->checkCredentials($credentials, $botTokenFactory->current());
         if ($error) {
-            $logger->error($error->__toString(), ['slug' => $slug, 'token' => $botTokenFactory->current()]);
+            $logger->error($error->__toString(), ['slug' => $slug, 'token' => $botTokenFactory->current(), $credentials]);
             $response->setTargetUrl($response->getTargetUrl() . '?error=auth');
             return $response;
         }
