@@ -42,13 +42,13 @@ pipeline {
             sh 'rm -rf api/vendor'
             sh 'make compose-composer-ci'
             sh 'make compose-down-ci'
-            dir("frontend") {
-                sh 'yarn'
-                sh 'yarn build-bntu'
-                sh 'yarn build-loshitsa'
-                sh 'yarn build-vitebsk'
-                sh 'rm -rf node_modules'
-            }
+//             dir("frontend") {
+//                 sh 'yarn'
+//                 sh 'yarn build-bntu'
+//                 sh 'yarn build-loshitsa'
+//                 sh 'yarn build-vitebsk'
+//                 sh 'rm -rf node_modules'
+//             }
             dir('api'){
                 writeFile file: '.env', text: """
 loshitsa_BOT_TOKEN=${LOSHITSA_TOKEN}
