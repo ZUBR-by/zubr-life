@@ -43,13 +43,17 @@
             </template>
             <span class="bntu-news-content-title" v-html="item.title"></span>
             <template v-if="!item.files.length">
-              <span class="bntu-news-content-description">
-                {{ item.description.replace(item.title, '') }}
+              <span
+                class="bntu-news-content-description"
+                v-html="item.description"
+              >
               </span>
             </template>
             <template v-else>
-              <span class="bntu-news-content-description-img">
-                {{ item.description.replace(item.title, '') }}
+              <span
+                class="bntu-news-content-description"
+                v-html="item.description"
+              >
               </span>
             </template>
           </div>
@@ -144,8 +148,8 @@ import { formatDate } from '../date';
 export default defineComponent({
   setup() {
     const result = useQuery({
-        // language=GraphQL
-        query: `
+      // language=GraphQL
+      query: `
 query ($community: String!) {
     community_activity(
         where: {
