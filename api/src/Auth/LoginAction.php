@@ -25,7 +25,8 @@ class LoginAction extends AbstractController
     {
         $credentials = $request->query->all();
         $response    = $this->redirect((string)$request->headers->get('referer'));
-        $error       = $this->checkCredentials($credentials, $botTokenFactory->current());
+        syslog(LOG_INFO, (string)$request->headers->get('referer'));
+        $error = $this->checkCredentials($credentials, $botTokenFactory->current());
         if ($error) {
             $logger->error(
                 $error->__toString(),
