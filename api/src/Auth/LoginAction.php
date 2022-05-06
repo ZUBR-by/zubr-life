@@ -26,15 +26,9 @@ class LoginAction extends AbstractController
     ): Response
     {
         $credentials = $request->query->all();
-        $referer     = (string)$request->headers->get('referer');
-        $url         = parse_url($referer);
+        $error       = $this->checkCredentials($credentials, $botTokenFactory->current());
         $path        = sprintf('https://%s.zubr.life/', $community);
-        if (isset($url['scheme'], $url['host'], $url['path'])) {
-            $path = $url['scheme'] . '://' . $url['host'] . $url['path'];
-            syslog(LOG_INFO, $path);
-        }
-        $response = $this->redirect($path);
-        $error    = $this->checkCredentials($credentials, $botTokenFactory->current());
+        $response    = $this->redirect($path);
         if ($error) {
             $logger->error(
                 $error->__toString(),
@@ -44,16 +38,16 @@ class LoginAction extends AbstractController
                     'query' => $credentials
                 ]
             );
-            $url   = $response->getTargetUrl();
-            $query = parse_url($url, PHP_URL_QUERY);
-            if ($query) {
-                $url .= '&error=auth';
-            } else {
-                $url .= '?error=auth';
-            }
-            $response->setTargetUrl($url);
+            $response->setTargetUrl($path . '?error=auth');
             return $response;
         }
+        $referer = (string)$request->headers->get('referer');
+        $url     = parse_url($referer);
+        if (isset($url['scheme'], $url['host'], $url['path'])) {
+            $path = $url['scheme'] . '://' . $url['host'] . $url['path'] . '?';
+            syslog(LOG_INFO, $path);
+        }
+        $response    = $this->redirect($path);
         $id          = $credentials['id'];
         $credentials = [
             'id'     => $id,
