@@ -24,9 +24,13 @@ class LoginAction extends AbstractController
     ): Response
     {
         $credentials = $request->query->all();
-        $response    = $this->redirect((string)$request->headers->get('referer'));
-        syslog(LOG_INFO, (string)$request->headers->get('referer'));
-        $error = $this->checkCredentials($credentials, $botTokenFactory->current());
+        $url         = parse_url((string)$request->headers->get('referer'));
+        $path        = 'https://bntu.zubr.life/';
+        if (isset($url['scheme'], $url['host'], $url['path'])) {
+            $path = $url['scheme'] . $url['host'] . $url['path'];
+        }
+        $response = $this->redirect($path);
+        $error    = $this->checkCredentials($credentials, $botTokenFactory->current());
         if ($error) {
             $logger->error(
                 $error->__toString(),
