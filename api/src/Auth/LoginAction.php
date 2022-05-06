@@ -30,8 +30,8 @@ class LoginAction extends AbstractController
         $url         = parse_url($referer);
         $path        = sprintf('https://%s.zubr.life/', $community);
         if (isset($url['scheme'], $url['host'], $url['path'])) {
-            $path = $url['scheme'] . ':' . $url['host'] . $url['path'];
-            syslog(LOG_INFO, encode(array_merge($url, ['referer' => $referer])));
+            $path = $url['scheme'] . '://' . $url['host'] . $url['path'];
+            syslog(LOG_INFO, $path);
         }
         $response = $this->redirect($path);
         $error    = $this->checkCredentials($credentials, $botTokenFactory->current());
