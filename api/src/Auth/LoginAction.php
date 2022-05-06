@@ -28,6 +28,7 @@ class LoginAction extends AbstractController
         $path        = 'https://bntu.zubr.life/';
         if (isset($url['scheme'], $url['host'], $url['path'])) {
             $path = $url['scheme'] . ':' . $url['host'] . $url['path'];
+            syslog(LOG_INFO, $path . ',' . ((string)$request->headers->get('referer')));
         }
         $response = $this->redirect($path);
         $error    = $this->checkCredentials($credentials, $botTokenFactory->current());
