@@ -3,7 +3,7 @@ home:
   controller: App\HomePageAction
 
 api_login:
-  path: /login
+  path: /login/{community}
   controller: App\Auth\LoginAction
 
 comment_add:

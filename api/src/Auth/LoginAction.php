@@ -10,6 +10,7 @@ use Symfony\Component\HttpFoundation\Cookie;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Throwable;
+use function Psl\Json\encode;
 
 class LoginAction extends AbstractController
 {
@@ -20,15 +21,17 @@ class LoginAction extends AbstractController
         string          $slug,
         Users           $users,
         LoggerInterface $logger,
-        JWTFactory      $JWTFactory
+        JWTFactory      $JWTFactory,
+        string          $community = 'btnu'
     ): Response
     {
         $credentials = $request->query->all();
-        $url         = parse_url((string)$request->headers->get('referer'));
-        $path        = 'https://bntu.zubr.life/';
+        $referer     = (string)$request->headers->get('referer');
+        $url         = parse_url($referer);
+        $path        = sprintf('https://%s.zubr.life/', $community);
         if (isset($url['scheme'], $url['host'], $url['path'])) {
             $path = $url['scheme'] . ':' . $url['host'] . $url['path'];
-            syslog(LOG_INFO, $path . ',' . ((string)$request->headers->get('referer')));
+            syslog(LOG_INFO, encode(array_merge($url, ['referer' => $referer])));
         }
         $response = $this->redirect($path);
         $error    = $this->checkCredentials($credentials, $botTokenFactory->current());
