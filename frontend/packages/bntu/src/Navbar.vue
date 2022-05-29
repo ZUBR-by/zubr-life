@@ -104,7 +104,7 @@ export default {
       'https://telegram.org/js/telegram-widget.js?14'
     );
     telegramScript.setAttribute('async', '');
-    telegramScript.setAttribute('data-telegram-login', 'zubr_life_bntu_bot');
+    telegramScript.setAttribute('data-telegram-login', import.meta.env.VITE_TELEGRAM_BOT_NAME);
     telegramScript.setAttribute('data-size', 'small');
     telegramScript.setAttribute(
       'data-auth-url',
