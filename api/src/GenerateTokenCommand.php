@@ -23,25 +23,36 @@ class GenerateTokenCommand extends Command
     {
         $this->addArgument('role', InputArgument::REQUIRED);
         $this->addArgument(
+            'user_id',
+            InputArgument::OPTIONAL,
+            'user_id'
+        );
+        $this->addArgument(
             'count_days',
             InputArgument::OPTIONAL,
             'token lifetime',
-            38
+            1
         );
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        if (!is_numeric($input->getArgument('count_days'))) {
-            throw new InvalidArgumentException('Provide correct number for count_days');
-        }
-        $output->writeln($this->JWTFactory->encode([
+        $payload = [
             'hasura' => [
                 'x-hasura-allowed-roles' => [$input->getArgument('role')],
                 'x-hasura-default-role'  => $input->getArgument('role'),
             ],
             'exp'    => time() + ((int)$input->getArgument('count_days')) * 24 * 60 * 60,
-        ]));
+        ];
+        if (!is_numeric($input->getArgument('count_days'))) {
+            throw new InvalidArgumentException('Provide correct number for count_days');
+        }
+        if ($input->getArgument('user_id') !== null && !is_numeric($input->getArgument('user_id'))) {
+            throw new InvalidArgumentException('Provide correct number for count_days');
+        } else {
+            $payload['hasura']['x-hasura-user-id'] = $input->getArgument('user_id');
+        }
+        $output->writeln($this->JWTFactory->encode($payload));
 
         return 0;
     }
