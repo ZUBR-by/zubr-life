@@ -131,7 +131,7 @@ import {
   ElInput,
 } from 'element-plus';
 import linkifyHtml from 'linkifyjs/html';
-import { useQuery } from '@urql/vue';
+import {useMutation, useQuery} from '@urql/vue';
 import { ref } from 'vue';
 import { useToast } from 'primevue/usetoast';
 import Toast from 'primevue/toast';
@@ -164,6 +164,14 @@ export default {
         },
       },
     };
+    const archiveComment = useMutation(// language=GraphQL
+        `
+mutation($id: Int!, $date: timestamp) {
+    update_comment_by_pk(pk_columns: {id: $id}, _set: {hidden_at: $date}) {
+        id
+    }
+}`
+    );
     const result = useQuery({
       // language=GraphQL
       query: `
@@ -249,22 +257,27 @@ query($where: comment_bool_exp) {
         form.value.attachments.push(file);
       },
       archiveComment(id) {
-        fetch(import.meta.env.VITE_TELEGRAM_API_URL + '/comment/' + id, {
-          credentials: 'include',
-          method: 'DELETE',
-        })
-          .then((r) => r.json())
-          .then((r) => {
-            if (r.errors || r.error) {
-              toast.add({
+        archiveComment.executeMutation({
+            id,
+            date: (new Date()).toISOString()
+        }).catch((e) => {
+            toast.add({
                 severity: 'error',
                 summary: 'Произошла ошибка',
                 life: 3000,
-              });
-              return;
+            });
+            throw e;
+        }).then((payload) => {
+            if (payload.error) {
+                toast.add({
+                    severity: 'error',
+                    summary: 'Произошла ошибка',
+                    life: 3000,
+                });
+                throw payload.error;
             }
             refresh();
-          });
+        })
       },
     };
   },

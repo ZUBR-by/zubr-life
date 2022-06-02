@@ -11,29 +11,9 @@ comment_add:
   controller: App\Comments\AddComment
   methods: [ POST ]
 
-comment_archive:
-  path: /comment/{id}
-  controller: App\Comments\ArchiveComment
-  methods: [ DELETE ]
-
-comment_list:
-  path: /comment/{type}/{id}
-  controller: App\Comments\GetCommentsAction
-  methods: [ GET ]
-
 feed_add:
   path: /feed
   controller: App\AddFeedItemAction
-  methods: [ POST ]
-
-rate:
-  path: /rate/{type}/{entity}/{id}
-  controller: App\Rating\RateAction
-  methods: [ POST ]
-
-unrate:
-  path: /unrate/{entity}/{id}
-  controller: App\Rating\UnrateAction
   methods: [ POST ]
 
 activity_list:
@@ -90,10 +70,6 @@ register_admin:
   path: /auth/admin
   controller: App\User\RegisterUser
   methods: [ POST ]
-
-activity_comments:
-  path: /comments
-  controller: App\Comments\GetListAction
 
 get_communites:
   path: /communities
