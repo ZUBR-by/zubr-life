@@ -76,21 +76,6 @@ get_communites:
   controller: App\Community\GetCommunities
   methods: [ GET ]
 
-person_upvote:
-  path: /person/upvote
-  controller: App\Rating\UpvotePerson
-  methods: [ POST ]
-
-person_downvote:
-  path: /person/downvote
-  controller: App\Rating\DownvotePerson
-  methods: [ POST ]
-
-person_unrate:
-  path: /person/unrate
-  controller: App\Rating\UnratePerson
-  methods: [ POST ]
-
 add_message:
   path: /violation
   controller: App\AddMessage

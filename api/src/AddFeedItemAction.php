@@ -3,9 +3,6 @@
 namespace App;
 
 use App\Auth\ActionRequiresAuthorization;
-use App\Entity\Ad;
-use App\Entity\Event;
-use App\Entity\User;
 use App\Errors\InvalidField;
 use DateTime;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
