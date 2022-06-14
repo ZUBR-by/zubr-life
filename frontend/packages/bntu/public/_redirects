@@ -1,2 +1,3 @@
+/comment /.netlify/functions/comment 200
 /api/* https://api.zubr.life/api/:splat 200
 /* /index.html 200

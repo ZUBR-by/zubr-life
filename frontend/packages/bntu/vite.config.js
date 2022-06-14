@@ -8,6 +8,9 @@ export default defineConfig({
             '^/telegram_auth': {
                 target: 'http://localhost:9999/.netlify/functions'
             },
+            '^/comment': {
+                target: 'http://localhost:9999/.netlify/functions'
+            },
         },
     },
     resolve: {

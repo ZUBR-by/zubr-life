@@ -222,11 +222,11 @@ query($where: comment_bool_exp) {
         formData.append('type', props.type);
         formData.append('id', props.id + '');
 
-        this.form.attachments.forEach((elem, index) => {
+        form.value.attachments.forEach((elem, index) => {
           formData.append('attachment' + index, elem.raw);
         });
         isLoading.value = true;
-        fetch(import.meta.env.VITE_TELEGRAM_API_URL + '/comment', {
+        fetch( '/comment', {
           method: 'POST',
           body: formData,
           credentials: 'include',

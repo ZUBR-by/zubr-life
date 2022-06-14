@@ -12,3 +12,4 @@ api/config/credentials/*.key
 frontend/.env
 .env
 openapi.json
+frontend/netlify/out
