@@ -84,7 +84,7 @@ UPLOAD_PATH=/uploads
             ansiblePlaybook(
                   playbook: 'infrastructure/deploy.yml',
                   inventory: "$HOSTS",
-                  credentialsId: "CURRENT_DEPLOY_KEY",
+                  credentialsId: "GRAPH_SSH_KEY",
                   hostKeyChecking: false
             )
         }
