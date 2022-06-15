@@ -6,11 +6,6 @@ api_login:
   path: /login/{community}
   controller: App\Auth\LoginAction
 
-comment_add:
-  path: /comment
-  controller: App\Comments\AddComment
-  methods: [ POST ]
-
 feed_add:
   path: /feed
   controller: App\AddFeedItemAction
