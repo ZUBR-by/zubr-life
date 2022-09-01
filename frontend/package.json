@@ -10,7 +10,7 @@
         "preview-bntu": "cd packages/bntu && vite preview",
         "build": "vite build",
         "serve": "vite preview",
-        "build-": "lerna run build --scope @zubr-life/loshitsa",
+        "build-loshitsa": "lerna run build --scope @zubr-life/loshitsa",
         "dev-functions": "netlify functions:serve --functions backend/functions",
         "tsc-build": "tsc"
     },
